@@ -169,11 +169,11 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.slide1{background: linear-gradient(to right, #1f1d1da9,#1f1d1da9), url(../assets/images/slide/planning2.jpg) no-repeat center/cover;}
+/*.slide1{background: linear-gradient(to right, #1f1d1da9,#1f1d1da9), url(../assets/images/slide/planning2.jpg) no-repeat center/cover;}
 .slide2{background: linear-gradient(to right, #1f1d1da9,#1f1d1da9), url(../assets/images/slide/slide_3-1x.jpg) no-repeat center/cover;}
 .slide3{background: linear-gradient(to right, #1f1d1da9,#1f1d1da9), url(../assets/images/slide/slide_2-2x.jpg) no-repeat center/cover;}
 .slide4{background: linear-gradient(to right, #1f1d1da9,#1f1d1da9), url(../assets/images/slide/hotel-in-smartphone.jpg) no-repeat center/cover;}
 .slide5{background: linear-gradient(to right, #1f1d1da9,#1f1d1da9), url(../assets/images/slide/doctors.jpg) no-repeat center/cover;}
-.slide6{background: linear-gradient(to right, #1f1d1da9,#1f1d1da9), url(../assets/images/slide/family.jpg) no-repeat center/cover;}
+.slide6{background: linear-gradient(to right, #1f1d1da9,#1f1d1da9), url(../assets/images/slide/family.jpg) no-repeat center/cover;}*/
 
 </style>
