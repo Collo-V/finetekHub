@@ -84,7 +84,7 @@ let colors = {
   'pink-lighter': '#ffbbca',
   'pink-lightest': '#ffebef',
   'third': '#006600',
-  'primary': '#98CB00',
+  'primary': '#1476f2',
   'secondary':'#E2EED8',
   'primary-dark':'#649A00',
   'modal':'#5757585A',
@@ -158,9 +158,8 @@ module.exports = {
     'sm': '576px',
     'md': '768px',
     'lg': '992px',
-    'xl': '1200px',
+    'xl': '1220px',
   },
-
   fonts: {
     'sans': [
       'system-ui',
@@ -212,6 +211,13 @@ module.exports = {
     'extrabold': 800,
     'black': 900,
   },
+  listStyle: {
+    none: 'none',
+    disc: 'disc',
+    decimal: 'decimal',
+    square: 'square',
+    roman: 'upper-roman',
+  },
 
 
   leading: {
@@ -247,10 +253,7 @@ module.exports = {
 
   borderRadius: {
     'none': '0',
-    // sm': '.125rem',
     default: '.25rem',
-    // 'lg': '.5rem',
-    // 'full': '9999px',
     'full':'50%',
     'sm':'4px',
     'md':'8px',
@@ -262,22 +265,23 @@ module.exports = {
 
   height: measurements,
 
-
   minWidth: measurements,
 
   minHeight: measurements,
 
   maxWidth: measurements,
 
-
   maxHeight:measurements,
-
 
   padding: measurements,
 
   margin: measurements,
 
   negativeMargin: measurements,
+  left:measurements,
+  right:measurements,
+  top:measurements,
+  bottom:measurements,
 
   shadows: {
     default: '0 2px 4px 0 rgba(0,0,0,0.10)',
@@ -321,6 +325,9 @@ module.exports = {
     '50': '.5',
     '75': '.75',
     '100': '1',
+  },
+  whiteSpace: {
+    'none':'nowrap'
   },
 
 
