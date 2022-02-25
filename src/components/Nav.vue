@@ -574,8 +574,8 @@
 </script>
 
 <style scoped>
-    .logo-div{background: url(../assets/images/logo-white.svg) no-repeat center/cover}
-    nav:hover .logo-div,.nav.fixed .logo-div{background: url(../assets/images/logo-blue.svg) no-repeat center/cover}
+    .logo-div{background: url(@/assets/images/logo-white.svg) no-repeat center/cover}
+    nav:hover .logo-div,.nav.fixed .logo-div{background: url(@/assets/images/logo-blue.svg) no-repeat center/cover}
 
     .dropdown-cont:hover .dropdown{display: block}
     .dropdown-cont:hover .dropdown.flex{display: flex}
