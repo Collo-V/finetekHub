@@ -110,6 +110,6 @@ a{color: inherit;text-decoration: none}
 .whitespace-wrap{white-space: normal}
 
   .leading-10{line-height: 30px}
-.alice{background: linear-gradient(to right, #1f1d1da9,#1f1d1da9), url(assets/images/slide/family.jpg) no-repeat center/cover;}
+/* .alice{background: linear-gradient(to right, #1f1d1da9,#1f1d1da9), url(assets/images/slide/family.jpg) no-repeat center/cover;} */
 
 </style>
