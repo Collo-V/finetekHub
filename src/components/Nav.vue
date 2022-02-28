@@ -546,7 +546,7 @@
                     </div>
                 </li>
 
-                <button class="h-10 w-32 bg-primary uppercase self-center text-white">Get in touch</button>
+                <button class="h-10 w-32 bg-primary uppercase self-center text-white font-bold">Get in touch</button>
             </ul>
         </div>
     </nav>
@@ -574,8 +574,8 @@
 </script>
 
 <style scoped>
-    .logo-div{background: url(assets/images/logo-white.svg) no-repeat center/cover}
-    nav:hover .logo-div,.nav.fixed .logo-div{background: url(assets/images/logo-blue.svg) no-repeat center/cover}
+    .logo-div{background: url(../assets/images/logo-white.svg) no-repeat center/cover}
+    nav:hover .logo-div,.nav.fixed .logo-div{background: url(../assets/images/logo-blue.svg) no-repeat center/cover}
 
     .dropdown-cont:hover .dropdown{display: block}
     .dropdown-cont:hover .dropdown.flex{display: flex}
