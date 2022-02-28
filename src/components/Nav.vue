@@ -1,9 +1,8 @@
 <template>
-    <nav class="nav h-80px absolute top-0 w-full z-2 flex items-center justify-center hover:bg-white text-black justify-center text-white hover:text-black" id="nav">
+    <nav class="nav h-80px absolute top-0 w-full z-3 flex items-center justify-center hover:bg-white text-black justify-center text-white hover:text-black" id="nav">
         <div class="flex w-4/5  h-full items-center">
             <div class="w-full">
                 <div class="w-170px h-46px mx-auto logo-div">
-                    <img src="../assets/images/logo-white.svg" alt="">
                 </div>
             </div>
             <ul class="list-none h-full flex">
@@ -576,8 +575,8 @@
 </script>
 
 <style scoped>
-    /* .logo-div{background: url(../assets/images/logo-white.svg) no-repeat center/cover} */
-    /* nav:hover .logo-div,.nav.fixed .logo-div{background: url(../assets/images/logo-blue.svg) no-repeat center/cover} */
+    .logo-div{background: url(~@/assets/images/logo-white.svg) no-repeat center/cover}
+    nav:hover .logo-div,.nav.fixed .logo-div{background: url(~@/assets/images/logo-blue.svg) no-repeat center/cover}
 
     .dropdown-cont:hover .dropdown{display: block}
     .dropdown-cont:hover .dropdown.flex{display: flex}
