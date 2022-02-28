@@ -11,7 +11,7 @@
         </div>
         <div class="mt-10 bg-secondary">
             <div class="w-3/4 flex mx-auto">
-          <div class="flex flex-col">
+          <div class="flex flex-col om">
             <img src="assets/images/clientLogos/universal.svg" class = "bg-white">
             <img src="assets/images/clientLogos/griffins.svg" class = "bg-white">
             <img src="assets/images/clientLogos/hoosbaa.svg" class = "bg-white">
