@@ -1,24 +1,27 @@
 <template>
   <div class="relative">
-    <div class="absolute top-0 h-full w-full flex items-center justify-between z-1">
-      <span class="opacity-100 hover:opacity-25 px-2 py-4" @click="SlideNav(-1)">
+    <div class="absolute top-0 h-full w-full flex items-center justify-between">
+      <span class="opacity-100 hover:opacity-25 px-2 py-4 z-2" @click="SlideNav(-1)">
         <img src="../assets/images/icons/arrow-left-dark.svg" alt="">
       </span>
-      <span class="hover:opacity-25 px-2 py-4" @click="SlideNav(1)">
+      <span class="hover:opacity-25 px-2 py-4 z-2" @click="SlideNav(1)">
         <img src="../assets/images/icons/arrow-right-light.svg" alt="">
       </span>
       <div class="absolute btm-1/10 w-full text-white flex justify-center">
-        <div v-for="n in 6" class="h-10px w-10px mr-2 flex items-center justify-center" @click="CurrentSlide(n)">
-          <div class="h-full w-full bg-white border-1 border-white h-full w-full" v-if="n==carIndx"></div>
-          <div class="h-2 w-2 bg-grey-dark hover:bg-white hover hover:h-full hover:w-full" v-else></div>
+        <div class="w-1/2 flex z-1">
+          <div v-for="n in 6" class="h-10px w-10px mr-8 flex items-center justify-center" @click="CurrentSlide(n)">
+            <div class="h-full w-full bg-white border-1 border-white h-full w-full" v-if="n==carIndx"></div>
+            <div class="h-2 w-2 bg-grey-dark hover:bg-white hover hover:h-full hover:w-full" v-else></div>
+          </div>
         </div>
       </div>
-
     </div>
-    <div class="">
-      <div class=" slide slide1 h-700px w-full  animate__animated ">
+
+
+    <div class="whitespace-nowrap overflow-auto z-1">
+      <div class=" slide slide1 h-700px inline-block w-full  animate__animated ">
         <div class="h-full w-full flex items-center text-white justify-center" >
-          <div class="z-2">
+          <div class="">
             <h1 class="font-extrabold mb-10">ENTERPRISE SOFTWARE DEVELOPMENT</h1>
             <p class="mb-10">
               Leverage our ten-year expertise to create a solid software foundation for your business.
@@ -31,9 +34,9 @@
 
       </div>
 
-      <div class="slide slide2 h-700px w-full  animate__animated ">
+      <div class="slide slide2 h-700px w-full inline-block animate__animated ">
         <div class="h-full w-full flex items-center text-white justify-center" >
-          <div class="z-2">
+          <div class="">
             <h1 class="font-extrabold mb-10">DEDICATED DEVELOPMENT TEAMS</h1>
             <p class="mb-10">
               Hire top tech talent and quickly scale your delivery capacity. Our engineers have the necessary niche skills, deep expertise, and are highly loyal.
@@ -45,9 +48,9 @@
         </div>
 
       </div>
-      <div class="slide slide3 h-700px w-full  animate__animated ">
+      <div class="slide slide3 h-700px w-full inline-block animate__animated ">
         <div class="h-full w-full flex items-center text-white justify-center" >
-          <div class="z-2">
+          <div class="">
             <h1 class="font-extrabold mb-10">MOBILE APP DEVELOPMENT</h1>
             <p class="mb-10">
               Delivering on-demand mobile app experiences for startups and enterprise clients by leveraging the latest technologies.
@@ -59,9 +62,9 @@
         </div>
 
       </div>
-      <div class="slide slide4 h-700px w-full  animate__animated ">
+      <div class="slide slide4 h-700px w-full inline-block animate__animated ">
         <div class="h-full w-full flex items-center text-white justify-center" >
-          <div class="z-2">
+          <div class="">
             <h1 class="font-extrabold mb-10">DRIVE DIGITAL DISRUPTION IN HOSPITALITY</h1>
             <p class="mb-10">
 
@@ -75,9 +78,9 @@
         </div>
 
       </div>
-      <div class="slide slide5 h-700px w-full  animate__animated ">
+      <div class="slide slide5 h-700px w-full inline-block animate__animated ">
         <div class="h-full w-full flex items-center text-white justify-center" >
-          <div class="z-2">
+          <div class="">
             <h1 class="font-extrabold mb-10">SMART HEALTHCARE SOLUTIONS</h1>
             <p class="mb-10">
               Leverage the power of digital solutions to provide more effective treatments and care.
@@ -89,9 +92,9 @@
         </div>
 
       </div>
-      <div class="slide slide6 h-700px w-full  animate__animated ">
+      <div class="slide slide6 h-700px w-full inline-block animate__animated ">
         <div class="h-full w-full flex items-center text-white justify-center" >
-          <div class="z-2">
+          <div class="">
             <h1 class="font-extrabold mb-10">INTELLIGENT INSURANCE</h1>
             <p class="mb-10">
               A strategic roadmap for insurers to enhance revenue streams, time-to-market, and profitability.
@@ -109,6 +112,7 @@
 </template>
 
 <script>
+  // import Swiper from
 export default {
   name: 'HelloWorld',
   props: {
@@ -126,16 +130,17 @@ export default {
       var slide=document.getElementsByClassName("slide");
       for(var i=0;i<slide.length;i++){
         try{
-          slide[i].classList.add('hidden')
-          slide[i].classList.remove("animate__fslideInLeft1fsdfaf")
+          // slide[i].classList.add('hidden')
+          slide[i].classList.remove("animate__slideInRight")
         }
         catch{}
       }
       if(n>slide.length){this.carIndx=1;}
       if(n<=0){this.carIndx=slide.length;}
       try{
-        slide[this.carIndx-1].classList.remove('hidden');
-        slide[this.carIndx-1].classList.add("animate__erslideIntLeft1dfsf")
+        // slide[this.carIndx-1].classList.remove('hidden');
+        slide[this.carIndx-1].scrollIntoView()
+        slide[this.carIndx-1].classList.add("animate__slideInRight")
 
       }
       catch{}
@@ -158,7 +163,8 @@ export default {
         this.SlideNav(1)
       },6000)
       return
-    }
+    },
+    //  npm i swiper
 
   },
   mounted(){
