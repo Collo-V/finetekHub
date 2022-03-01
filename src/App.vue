@@ -2,14 +2,24 @@
     <div class="relative text-14px">
         <Nav/>
         <Slide/>
-        <div class="mt-10 w-full">
-            <div class="w-1/4 max-w-400px text-center mx-auto leading-10">
-              We are a digital transformation consultancy and software development company that provides cutting edge engineering solutions,
-              helping Fortune 500 companies and enterprise clients untangle complex issues that always emerge during their digital evolution journey.
-              Since 2007 we have been a visionary and a reliable software engineering partner for world-class brands.
+        <div class="mt-18 w-full">
+            <div class="w-ful max-w-800px text-center mx-auto leading-10">
+                <h2 class="uppercase text-8 mb-5">who we are</h2>
+                <div class="text-5">
+                  We are a digital transformation consultancy and software development company that provides cutting edge engineering solutions,
+                  helping Fortune 500 companies and enterprise clients untangle complex issues that always emerge during their digital evolution journey.
+                  Since 2007 we have been a visionary and a reliable software engineering partner for world-class brands.
+                </div>
             </div>
         </div>
-        <div class="mt-10 bg-secondary">
+        
+        <Clients/>
+        <Offers/>
+        <div class="mt-10">
+           <Other/>
+        </div>
+
+        <div class="mt-16 bg-secondary">
             <div class="w-3/4 flex mx-auto">
           <div class="flex flex-col om">
             <img src="assets/images/clientLogos/universal.svg" class = "bg-white">
@@ -43,24 +53,22 @@
           </div>
         </div>
         </div>
-        <div class="mt-10">
-            <Clients/>
-        </div>
 
     </div>
 </template>
 
 <script>
 import Slide from './components/Slide.vue'
-import Clients from './components/Clients.vue'
+import Clients from './components/Clients'
+import Other from './components/Other.vue'
 import Nav from "@/components/Nav";
+import Offers from './components/Offers'
 
 export default {
   name: 'App',
   components: {
       Nav,
-    Clients,
-    Slide
+    Clients,Other,Slide,Offers
   }
 }
 </script>

@@ -1,153 +1,110 @@
 <template>
-   <div class="w-3/5 mx-auto">-->
-       <h1>Client Success</h1>
-       <span class="block">All cases</span>
-        <div class="w-full overflow-hidden relative h-500px">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi, nulla?
-            <div class="w-full overflow-x-scroll absolute top-0 left-0 right-0 swipe-cont " @drag.prevent="Swipe">
-                <div class="inline-flex w-full" id="swipe-window1">
-                    <img src="../assets/images/clients-Success/cirrus-2x.jpg" alt="" class="w-600px">
-                    <div class="ml-10">
-                        <h3 class="mb-6 text-5">Cirrus Path</h3>
-                        <p>Cirruspath was behind the highest-rated app for integrating Salesforce with a user’s email inbox. Cirrus
-                            Insight Mobile helps you leverage your sales data to gain valuable insights and uncover new...
-                        </p>
-                    </div>
+    <div class="w-full">
+        <div class="w-full block">
+            <div class="flex mx-auto w-fit">
+                <div class="w-48 h-32 flex items-center justify-center">
+                    <img src="../assets/images/clientLogos/universal.svg" alt="">
                 </div>
-                <div class="inline-flex w-full" id="swipe1">
-                    <img src="../assets/images/clients-Success/cirrus-2x.jpg" alt="" class="w-600px">
-                    <div class="ml-10">
-                        <h3 class="mb-6 text-5">Aprakumbem</h3>
-                        <p>A high-speed railway pioneer gains a series of automated solutions
-                            to process passenger information, improve on-board services, and report critical information to passengers.
-                        </p>
-                    </div>
+                <div class="w-48 h-32 flex items-center justify-center">
+                    <img src="../assets/images/clientLogos/nhs.svg" alt="">
                 </div>
-                <div class="inline-flex w-full" id="swipe2">
-                    <img src="../assets/images/clients-Success/cirrus-2x.jpg" alt="" class="w-600px">
-                    <div class="ml-10">
-                        <h3 class="mb-6 text-5">dsfgsdfv</h3>
-                        <p>A high-speed railway pioneer gains a series of automated solutions
-                            to process passenger information, improve on-board services, and report critical information to passengers.
-                        </p>
-                    </div>
+                <div class="w-48 h-32 flex items-center justify-center">
+                    <img src="../assets/images/clientLogos/guinness.svg" alt="">
                 </div>
-                <div class="inline-flex w-full" id="swipe3">
-                    <img src="../assets/images/clients-Success/cirrus-2x.jpg" alt="" class="w-600px">
-                    <div class="ml-10">
-                        <h3 class="mb-6 text-5">gdfsg</h3>
-                        <p>A high-speed railway pioneer gains a series of automated solutions
-                            to process passenger information, improve on-board services, and report critical information to passengers.
-                        </p>
-                    </div>
+                <div class="w-48 h-32 flex items-center justify-center">
+                    <img src="../assets/images/clientLogos/eurostar.svg" alt="">
+                </div>
+                <div class="w-48 h-32 flex items-center justify-center">
+                    <img src="../assets/images/clientLogos/ernst-young.svg" alt="">
+                </div>
+                <div class="w-48 h-32 flex items-center justify-center">
+                    <img src="../assets/images/clientLogos/kjk.svg" alt="">
+                </div>
+            </div>
+            
+            <div class="flex mx-auto w-fit">
+                <div class="w-48 h-32 flex items-center justify-center">
+                    <img src="../assets/images/clientLogos/griffins.svg" alt="">
+                </div>
+                <div class="w-48 h-32 flex items-center justify-center">
+                    <img src="../assets/images/clientLogos/land-rover.svg" alt="">
+                </div>
+                <div class="w-48 h-32 flex items-center justify-center">
+                    <img src="../assets/images/clientLogos/jaguar-talk.svg" alt="">
+                </div>
+                <div class="w-48 h-32 flex items-center justify-center">
+                    <img src="../assets/images/clientLogos/walt-disney.svg" alt="">
+                </div>
+                <div class="w-48 h-32 flex items-center justify-center">
+                    <img src="../assets/images/clientLogos/guest-services.svg" alt="">
+                </div>
+                <div class="w-48 h-32 flex items-center justify-center">
+                    <img src="../assets/images/clientLogos/cirrus.svg" alt="">
+                </div>
+            </div>
+
+            <div class="flex mx-auto w-fit">
+                <div class="w-48 h-32 flex items-center justify-center">
+                    <img src="../assets/images/clientLogos/hoosbaa.svg" alt="">
+                </div>
+                <div class="w-48 h-32 flex items-center justify-center">
+                    <img src="../assets/images/clientLogos/af-gruppen.svg" alt="">
+                </div>
+                <div class="w-48 h-32 flex items-center justify-center">
+                    <img src="../assets/images/clientLogos/wynn.svg" alt="">
+                </div>
+                <div class="w-48 h-32 flex items-center justify-center">
+                    <img src="../assets/images/clientLogos/melco.svg" alt="">
+                </div>
+                <div class="w-48 h-32 flex items-center justify-center">
+                    <img src="../assets/images/clientLogos/eurostar.svg" alt="">
+                </div>
+                <div class="w-48 h-32 flex items-center justify-center">
+                    <img src="../assets/images/clientLogos/bombardier.svg" alt="">
+                </div>    
+            </div>
+
+            <div class="flex mx-auto w-fit">
+                <div class="w-48 h-32 flex items-center justify-center">
+                    <img src="../assets/images/clientLogos/nestle.svg" alt="">
+                </div>
+                <div class="w-48 h-32 flex items-center justify-center">
+                    <img src="../assets/images/clientLogos/clinique.svg" alt="">
+                </div>
+                <div class="w-48 h-32 flex items-center justify-center">
+                    <img src="../assets/images/clientLogos/harley-davidson.svg" alt="">
+                </div>
+                <div class="w-48 h-32 flex items-center justify-center">
+                    <img src="../assets/images/clientLogos/gulls.svg" alt="">
+                </div>
+                <div class="w-48 h-32 flex items-center justify-center">
+                    <img src="../assets/images/clientLogos/audi.svg" alt="">
+                </div>
+                <div class="w-48 h-32 flex items-center justify-center">
+                    <img src="../assets/images/clientLogos/giant.svg" alt="">
                 </div>
             </div>
         </div>
-   </div>
-    <div>
-        <!-- <swiper
-                :slides-per-view="3"
-                :space-between="50"
-                @swiper="onSwiper"
-                @slideChange="onSlideChange"
-        >
+        <div class="mt-10 flex items-center justify-center">
+            <button href="#" class="border-2px border-primary h-12 uppercase flex items-center justify-center w-48 
+            hover:bg-primary hover:text-white active:bg-black active:text-white focus:outline-none active:border-black">
+                talk to our team <span class="ml-2"><i class="fa-solid fa-angle-right"></i></span>
+            </button>
+        </div>
 
-            <swiper-slide>
-                <div class="inline-flex w-full" id="swipe-window1">
-                    <img src="../assets/images/clients-Success/cirrus-2x.jpg" alt="" class="w-600px">
-                    <div class="ml-10">
-                        <h3 class="mb-6 text-5">Cirrus Path</h3>
-                        <p>Cirruspath was behind the highest-rated app for integrating Salesforce with a user’s email inbox. Cirrus
-                            Insight Mobile helps you leverage your sales data to gain valuable insights and uncover new...
-                        </p>
-                    </div>
-                </div>
-            </swiper-slide>
-
-
-            <swiper-slide>
-                <div class="inline-flex w-full" id="swipe1">
-                    <img src="../assets/images/clients-Success/cirrus-2x.jpg" alt="" class="w-600px">
-                    <div class="ml-10">
-                        <h3 class="mb-6 text-5">Aprakumbem</h3>
-                        <p>A high-speed railway pioneer gains a series of automated solutions
-                            to process passenger information, improve on-board services, and report critical information to passengers.
-                        </p>
-                    </div>
-                </div>
-            </swiper-slide>
-
-
-            <swiper-slide>
-                <div class="inline-flex w-full" id="swipe2">
-                    <img src="../assets/images/clients-Success/cirrus-2x.jpg" alt="" class="w-600px">
-                    <div class="ml-10">
-                        <h3 class="mb-6 text-5">dsfgsdfv</h3>
-                        <p>A high-speed railway pioneer gains a series of automated solutions
-                            to process passenger information, improve on-board services, and report critical information to passengers.
-                        </p>
-                    </div>
-                </div>
-            </swiper-slide>
-
-            <swiper-slide>
-                <div class="inline-flex w-full" id="swipe3">
-                    <img src="../assets/images/clients-Success/cirrus-2x.jpg" alt="" class="w-600px">
-                    <div class="ml-10">
-                        <h3 class="mb-6 text-5">gdfsg</h3>
-                        <p>A high-speed railway pioneer gains a series of automated solutions
-                            to process passenger information, improve on-board services, and report critical information to passengers.
-                        </p>
-                    </div>
-                </div>
-
-            </swiper-slide>
-
-
-
-        </swiper> -->
     </div>
 </template>
-
 <script>
-    // import {Swiper} from 'swiper'
-    // import {SwiperSlide} from 'swiper/vue'
-    export default {
-        name: "Clients.vue",
-        components:{
-            // Swiper
-        },
-        methods:{
-            Swipe(event){
-                    document.getElementById('swipe1').scrollIntoView()
-                // $(".swipe-cont").on("swipe",function(){
-                //     alert()
-                //     document.getElementById('swipe1').scrollIntoView()
-                // });
-                // $(document).ready(function(){
-                // });
-                // $('.swipe-cont').on("swipe",function () {
-                // })
 
-            }
+    export default {
+        name:'Clients',
+        components: {
         },
-        // setup() {
-        //     const onSwiper = (swiper) => {
-        //         console.log(swiper);
-        //     };
-        //     const onSlideChange = () => {
-        //         console.log('slide change');
-        //     };
-        //     return {
-        //         onSwiper,
-        //         onSlideChange,
-        //     };
-        // },
-    }
+       
+    };
 </script>
 
 <style scoped>
-    .swipe-cont{white-space: nowrap;bottom:-10%}
-    .swipe-cont div{white-space: initial}
+    
 
 </style>
