@@ -102,20 +102,16 @@
         </div>
       </div>
     </div>
-    <!-- If we need pagination -->
+
     <div class="swiper-pagination flex justify-center items-center mb-20px w-1/2 mx-auto">
 
     </div>
 
-    <!-- If we need navigation buttons -->
     <div class="swiper-button-prev h-16">
-      <!-- <img src="../assets/images/icons/arrow-left-dark.svg"> -->
     </div>
     <div class="swiper-button-next h-16">
-      <!-- <img src="../assets/images/icons/arrow-right-light.svg"> -->
     </div>
 
-    <!-- If we need scrollbar -->
     <div class="swiper-scrollbar"></div>
   </div>
 </template>

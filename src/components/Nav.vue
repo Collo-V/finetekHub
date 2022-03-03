@@ -9,6 +9,7 @@
                 <li class=" menu-item services h-full inline-flex items-center">
                     <button class="w-32 focus:outline-none mr-2 uppercase font-bold hover:text-primary">Services</button>
                     <div class="menu-dropdown shadow-lg hidden absolute w-full right-0 top-full bg-white p-10 h-450px">
+                        <div class="absolute w-full bg-white btm-full left-0 h-4"></div>
                         <div class="4/5 mx-auto flex">
                             <div class="flex">
                                 <a href="#" class="w-1/3 block mr-12">
@@ -93,6 +94,7 @@
                 <li class="menu-item tech h-full inline-flex items-center">
                     <button class="w-32 focus:outline-none mr-2 uppercase font-bold hover:text-primary">Technologies</button>
                     <div class="menu-dropdown shadow-lg hidden absolute w-full right-0 top-full bg-white p-10 h-350px">
+                        <div class="absolute w-full bg-white btm-full left-0 h-4"></div>
                         <div class="mx-auto w-max flex justify-cente">
                             <div class="w-550px h-10 bg-secondary relative block invisible"></div>
                             <div class=" flex h-full items-center ml-8 hidden">
@@ -224,6 +226,7 @@
                 <li class="menu-item industries h-full inline-flex items-center">
                     <button class="w-32 focus:outline-none mr-2 uppercase font-bold hover:text-primary">industries</button>
                     <div class="menu-dropdown shadow-lg hidden absolute w-full right-0 top-full bg-white p-10 h-450px">
+                        <div class="absolute w-full bg-white btm-full left-0 h-4"></div>
                         <div class="mx-auto w-max flex justify-cente">
                             <div class="w-550px h-10 bg-secondary relative block invisible"></div>
                             <div class=" flex h-full items-center ml-8 hidden">
@@ -365,6 +368,7 @@
                 <li class="menu-item clients h-full inline-flex items-center">
                     <button class="w-32 focus:outline-none mr-2 uppercase font-bold hover:text-primary">clients</button>
                     <div class="menu-dropdown shadow-lg hidden absolute w-full right-0 top-full bg-white p-10 h-350px">
+                        <div class="absolute w-full bg-white btm-full left-0 h-4"></div>
                         <div class="mx-auto w-max flex justify-cente">
                             <div class="w-550px h-10 bg-secondary relative block invisible"></div>
                             <div class=" flex h-full items-center ml-8 hidden">
@@ -421,6 +425,7 @@
                 <li class="menu-item company h-full inline-flex items-center">
                     <button class="w-32 focus:outline-none mr-2 uppercase font-bold hover:text-primary">company</button>
                     <div class="menu-dropdown shadow-lg hidden absolute w-full right-0 top-full bg-white p-10 h-450px">
+                        <div class="absolute w-full bg-white btm-full left-0 h-4"></div>
                         <div class="mx-auto w-max flex justify-cente">
                             <div class="w-550px h-10 bg-secondary relative block invisible"></div>
                             <div class=" flex h-full items-center ml-8 hidden">

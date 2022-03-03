@@ -13,46 +13,15 @@
             </div>
         </div>
         
-        <Clients/>
-        <Offers/>
+      <Clients/>
+      <Offers/>
+       <ClientSuccess/>
+
         <div class="mt-10">
            <Other/>
         </div>
 
-        <div class="mt-16 bg-secondary">
-            <div class="w-3/4 flex mx-auto">
-          <div class="flex flex-col om">
-            <img src="assets/images/clientLogos/universal.svg" class = "bg-white">
-            <img src="assets/images/clientLogos/griffins.svg" class = "bg-white">
-            <img src="assets/images/clientLogos/hoosbaa.svg" class = "bg-white">
-            <img src="assets/images/clientLogos/nestle.svg" class = "bg-white">
-          </div>
-          <div class="flex flex-col">
-            <img src="assets/images/clientLogos/nhs.svg" class = "bg-white">
-            <img src="assets/images/clientLogos/land-rover.svg" class = "bg-white">
-            <img src="assets/images/clientLogos/af-gruppen.svg" class = "bg-white">
-            <img src="assets/images/clientLogos/clinique.svg" class = "bg-white">
-          </div>
-          <div class="flex flex-col">
-            <img src="assets/images/clientLogos/guinness.svg" class = "bg-white">
-            <img src="assets/images/clientLogos/jaguar-talk.svg" class = "bg-white">
-            <img src="assets/images/clientLogos/wynn.svg" class = "bg-white">
-            <img src="assets/images/clientLogos/harley-davidson.svg" class = "bg-white">
-          </div>
-          <div class="flex flex-col">
-            <img src="assets/images/clientLogos/eurostar.svg" class = "bg-white">
-            <img src="assets/images/clientLogos/walt-disney.svg" class = "bg-white">
-            <img src="assets/images/clientLogos/melco.svg" class = "bg-white">
-            <img src="assets/images/clientLogos/gulls.svg" class = "bg-white">
-          </div>
-          <div class="flex flex-col">
-            <img src="assets/images/clientLogos/ey.svg" class = "bg-white">
-            <img src="assets/images/clientLogos/guest-services.svg" class = "bg-white">
-            <img src="assets/images/clientLogos/eurostar.svg" class = "bg-white">
-            <img src="assets/images/clientLogos/audi.svg" class = "bg-white">
-          </div>
-        </div>
-        </div>
+
 
     </div>
 </template>
@@ -63,10 +32,12 @@ import Clients from './components/Clients'
 import Other from './components/Other.vue'
 import Nav from "@/components/Nav";
 import Offers from './components/Offers'
+import ClientSuccess from "@/components/ClientsSuccess";
 
 export default {
   name: 'App',
   components: {
+    ClientSuccess,
       Nav,
     Clients,Other,Slide,Offers
   }
@@ -79,6 +50,7 @@ export default {
   font-family: 'Montserrat', sans-serif;box-sizing: border-box;
 }
 a{color: inherit;text-decoration: none}
+button:focus{outline: none;}
 /**top and right**/
 .top-0{top: 0px}
 .top-10{top:10%}
