@@ -86,7 +86,7 @@
         </div>
       </div>
       <div thumbsSlider="" class="swiper mySwiper">
-        <div class="swiper-wrapper">
+        <div class="swiper-wrapper cursor-pointer">
           <div class="swiper-slide">
             <img src="../assets/images/clientLogos/cirrus.png" />
           </div>
@@ -121,7 +121,9 @@ export default {
       spaceBetween: 10,
       slidesPerView: 6,
       loop:true,
-      autoplay:6000,
+      autoplay: {
+        delay:6000
+      },
       // auto?
       freeMode: true,
       watchSlidesProgress: true,
@@ -129,7 +131,9 @@ export default {
     var swiper2 = new Swiper(".mySwiper2", {
       spaceBetween: 10,
       loop:true,
-      autoplay:6000,
+      autoplay: {
+        delay:6000
+      },
       thumbs: {
         swiper: swiper,
       },
@@ -141,7 +145,7 @@ export default {
 
 <style>
 .swiper-slide-thumb-active{
-  padding-bottom: 10px;border-bottom: solid 2px blue;
+  padding-bottom:0PX;border-bottom: solid 2px blue;
 }
 
 </style>

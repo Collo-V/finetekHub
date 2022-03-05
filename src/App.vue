@@ -17,10 +17,6 @@
       <Offers/>
        <ClientSuccess/>
 
-        <div class="mt-10">
-           <Other/>
-        </div>
-
 
 
     </div>
