@@ -15,7 +15,8 @@
         
       <Clients/>
       <Offers/>
-       <ClientSuccess/>
+      <ClientSuccess/>
+      <Awards/>
 
 
 
@@ -29,10 +30,12 @@ import Other from './components/Other.vue'
 import Nav from "@/components/Nav";
 import Offers from './components/Offers'
 import ClientSuccess from "@/components/ClientsSuccess";
+import Awards from "@/components/Awards";
 
 export default {
   name: 'App',
   components: {
+    Awards,
     ClientSuccess,
       Nav,
     Clients,Other,Slide,Offers
