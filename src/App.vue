@@ -17,6 +17,7 @@
       <Offers/>
       <ClientSuccess/>
       <Awards/>
+      <Contact/>
 
 
 
@@ -31,10 +32,12 @@ import Nav from "@/components/Nav";
 import Offers from './components/Offers'
 import ClientSuccess from "@/components/ClientsSuccess";
 import Awards from "@/components/Awards";
+import Contact from "@/components/Contact";
 
 export default {
   name: 'App',
   components: {
+    Contact,
     Awards,
     ClientSuccess,
       Nav,
@@ -54,7 +57,7 @@ button:focus{outline: none;}
 .top-0{top: 0px}
 .top-10{top:10%}
 .top-quarter{top: 25%}
-.top-half{top: 50%}
+.top-1\/2{top: 50%}
 .top-3\/4{bottom:100%}
 .top-full{top:100%}
 
@@ -62,7 +65,7 @@ button:focus{outline: none;}
 .btm-1\/4{bottom: 25%}
 .btm-1\/10{bottom: 10%}
 .btm-1\/5{bottom: 20%}
-.btm-half{bottom: 50%}
+.btm-1\/2{bottom: 50%}
 .btm-full{bottom:100%}
 .btm-3\/4{bottom:75%}
 .btm-90{bottom: 90%}
