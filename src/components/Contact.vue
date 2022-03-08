@@ -1,5 +1,5 @@
 <template>
-  <section class="contact ">
+  <section class="contact " id="contacts-section">
     <div class="h-700px flex items-center justify-center">
       <div class="form px-50px py-33px bg-white w-500px shadow-lg rounded-lg">
         <h2 class="text-36px">Contact me</h2>
@@ -130,9 +130,10 @@ export default {
   data(){},
   methods:{
     Validate(id){
+      console.log(id)
       let inp = document.getElementById(id)
       let val = inp.value
-      if(id='FirstName'){
+      if(id=='FirstName'){
         if(val=='' || val.length<2){
           inp.classList.add('input-invalid')
           inp.classList.remove('input-valid')
@@ -178,7 +179,6 @@ export default {
       }
       inp.classList.add('input-valid')
       inp.classList.remove('input-invalid')
-      console.log(inp.classList)
       function ValidateEmail(mail) {
         console.log("here")
         if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(mail))

@@ -552,7 +552,7 @@
                     </div>
                 </li>
 
-                <button class="h-10 w-32 bg-primary uppercase self-center text-white font-bold">Get in touch</button>
+                <a href="#contacts-section" class="h-10 w-32 bg-primary uppercase self-center text-white font-bold flex items-center justify-center">Get in touch</a>
             </ul>
         </div>
     </nav>

@@ -18,6 +18,7 @@
       <ClientSuccess/>
       <Awards/>
       <Contact/>
+      <News/>
 
 
 
@@ -33,6 +34,7 @@ import Offers from './components/Offers'
 import ClientSuccess from "@/components/ClientsSuccess";
 import Awards from "@/components/Awards";
 import Contact from "@/components/Contact";
+import News from "@/components/News";
 
 export default {
   name: 'App',
@@ -41,7 +43,7 @@ export default {
     Awards,
     ClientSuccess,
       Nav,
-    Clients,Other,Slide,Offers
+    Clients,Other,Slide,Offers,News
   }
 }
 </script>
