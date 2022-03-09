@@ -7,14 +7,14 @@
       All posts <span class="ml-1"><i class="fa-solid fa-angle-right"></i></span>
     </a>
     <div class="flex">
-      <div class="w-1/2 mr-5 shadow-md">
+      <div class="w-1/2 mr-3 shadow-md">
         <div>
           <img src="../assets/images/news/code.jpg" alt="">
         </div>
-        <div class="p-5">
+        <div class="p-3">
           <p class="uppercase mb-5 opacity-25">development</p>
-          <h1>A Complete Guide to NOde.js: 2022 and beyond</h1>
-          <p class="text-grey-dark mt-5">
+          <h1 class="text-24px font-bold">A Complete Guide to NOde.js: 2022 and beyond</h1>
+          <p class="text-grey-dark mt-3">
             Selecting the right languages, tools and platforms have a huge impact on the software’s functioning
             – from the simplicity of its creation to the perfo...
           </p>
@@ -35,9 +35,10 @@
             </p>
           </div>
         </div>
-        <div class="flex mt-5 shadow-md">
-          <div class="w-600px">
-            <img src="../assets/images/news/Improve-Quality-in-Construction-Cover-600x252.jpg" class="w-600px h-257px">
+        <div class="flex mt-3 shadow-md">
+          <div class="w-600px relative">
+            <img src="../assets/images/news/Improve-Quality-in-Construction-Cover-600x252.jpg"
+                 class="absolute top-1/2">
           </div>
           <div class="p-8">
             <p class="uppercase mb-3  text-grey-dark">construction</p>

@@ -17,8 +17,10 @@
       <Offers/>
       <ClientSuccess/>
       <Awards/>
-      <Contact/>
+      <Contact/> -->
       <News/>
+      <Offices/>
+      <Footer/>
 
 
 
@@ -35,15 +37,20 @@ import ClientSuccess from "@/components/ClientsSuccess";
 import Awards from "@/components/Awards";
 import Contact from "@/components/Contact";
 import News from "@/components/News";
+import Offices from "@/components/Offices";
+import Footer from "@/components/Footer";
 
 export default {
   name: 'App',
   components: {
+    Footer,
+    Offices,
     Contact,
     Awards,
     ClientSuccess,
       Nav,
-    Clients,Other,Slide,Offers,News
+    Clients,Other,Slide,Offers,
+    News
   }
 }
 </script>
@@ -53,7 +60,7 @@ export default {
 * {
   font-family: 'Montserrat', sans-serif;box-sizing: border-box;
 }
-a{color: inherit;text-decoration: none}
+ a{color: inherit;text-decoration: none}
 button:focus{outline: none;}
 /**top and right**/
 .top-0{top: 0px}
@@ -94,6 +101,5 @@ button:focus{outline: none;}
 .whitespace-wrap{white-space: normal}
 
   .leading-10{line-height: 30px}
-/* .alice{background: linear-gradient(to right, #1f1d1da9,#1f1d1da9), url(assets/images/slide/family.jpg) no-repeat center/cover;} */
-
+  .list-none{list-style: none;}
 </style>

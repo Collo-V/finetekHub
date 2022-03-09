@@ -600,7 +600,7 @@
     .menu-item:hover .menu-dropdown{display: flex}
     .nav-hovered{background: red}
 
-    .list-none{list-style: none;}
+    
     .nav-hovered{
         background: red;
     }
