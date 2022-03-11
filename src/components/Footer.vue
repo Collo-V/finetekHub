@@ -1,39 +1,39 @@
 <template>
   <footer class="mt-5 w-4/5 mx-auto text-grey-dark">
-    <div class="flex justify-between">
+    <div class="flex justify-between flex-wrap">
       <div>
         <ul class="list-none ">
-          <li class="whitespace-nowrap mb-2 hover:text-primary">
-            <a href="#ej" class="font-bold uppercase">Services</a>
+          <li class="whitespace-nowrap mb-3 hover:text-primary">
+            <a href="#ej" class="font-bold uppercase text-black">Services</a>
           </li>
-          <li class="whitespace-nowrap mb-2 hover:text-primary">
+          <li class="whitespace-nowrap mb-3 hover:text-primary">
             <a href="#ej" class="capitalize">dedicated teams</a>
           </li>
-          <li class="whitespace-nowrap mb-2 hover:text-primary">
+          <li class="whitespace-nowrap mb-3 hover:text-primary">
             <a href="#ej" class="capitalize">product strategy</a>
           </li>
-          <li class="whitespace-nowrap mb-2 hover:text-primary">
+          <li class="whitespace-nowrap mb-3 hover:text-primary">
             <a href="#ej" class="capitalize">product engineering</a>
           </li>
-          <li class="whitespace-nowrap mb-2 hover:text-primary">
+          <li class="whitespace-nowrap mb-3 hover:text-primary">
             <a href="#ej" class="capitalize">architecture</a>
           </li>
-          <li class="whitespace-nowrap mb-2 hover:text-primary">
+          <li class="whitespace-nowrap mb-3 hover:text-primary">
             <a href="#ej" class="capitalize">UX/UI design</a>
           </li>
-          <li class="whitespace-nowrap mb-2 hover:text-primary">
+          <li class="whitespace-nowrap mb-3 hover:text-primary">
             <a href="#ej" class="capitalize">app developers</a>
           </li>
-          <li class="whitespace-nowrap mb-2 hover:text-primary">
+          <li class="whitespace-nowrap mb-3 hover:text-primary">
             <a href="#ej" class="capitalize">QA & testing</a>
           </li>
-          <li class="whitespace-nowrap mb-2 hover:text-primary">
+          <li class="whitespace-nowrap mb-3 hover:text-primary">
             <a href="#ej" class="capitalize">cyber security</a>
           </li>
-          <li class="whitespace-nowrap mb-2 hover:text-primary">
+          <li class="whitespace-nowrap mb-3 hover:text-primary">
             <a href="#ej" class="capitalize">web development</a>
           </li>
-          <li class="whitespace-nowrap mb-2 hover:text-primary">
+          <li class="whitespace-nowrap mb-3 hover:text-primary">
             <a href="#ej" class="capitalize">custom software development</a>
           </li>
         </ul>
@@ -43,16 +43,16 @@
 
       <div>
         <ul class="list-none ">
-          <li class="whitespace-nowrap mb-2 hover:text-primary">
-            <a href="#ej" class="font-bold uppercase">technologies</a>
+          <li class="whitespace-nowrap mb-3 hover:text-primary">
+            <a href="#ej" class="font-bold uppercase text-black">technologies</a>
           </li>
-          <li class="whitespace-nowrap mb-2 hover:text-primary">
+          <li class="whitespace-nowrap mb-3 hover:text-primary">
             <a href="#ej" class="capitalize">Internet of Things</a>
           </li>
-          <li class="whitespace-nowrap mb-2 hover:text-primary">
+          <li class="whitespace-nowrap mb-3 hover:text-primary">
             <a href="#ej" class="capitalize">Blockchain</a>
           </li>
-          <li class="whitespace-nowrap mb-2 hover:text-primary">
+          <li class="whitespace-nowrap mb-3 hover:text-primary">
             <a href="#ej" class="capitalize">Cloud Computing</a>
           </li>
           
@@ -60,22 +60,22 @@
       </div>
       <div>
         <ul class="list-none ">
-          <li class="whitespace-nowrap mb-2 hover:text-primary">
-            <a href="#ej" class="font-bold uppercase">platforms</a>
+          <li class="whitespace-nowrap mb-3 hover:text-primary">
+            <a href="#ej" class="font-bold uppercase text-black">platforms</a>
           </li>
-          <li class="whitespace-nowrap mb-2 hover:text-primary">
+          <li class="whitespace-nowrap mb-3 hover:text-primary">
             <a href="#ej" class="capitalize">IoS</a>
           </li>
-          <li class="whitespace-nowrap mb-2 hover:text-primary">
+          <li class="whitespace-nowrap mb-3 hover:text-primary">
             <a href="#ej" class="capitalize">Android</a>
           </li>
-          <li class="whitespace-nowrap mb-2 hover:text-primary">
+          <li class="whitespace-nowrap mb-3 hover:text-primary">
             <a href="#ej" class="capitalize">windows</a>
           </li>
-          <li class="whitespace-nowrap mb-2 hover:text-primary">
+          <li class="whitespace-nowrap mb-3 hover:text-primary">
             <a href="#ej" class="capitalize">hybrid platform</a>
           </li>
-          <li class="whitespace-nowrap mb-2 hover:text-primary">
+          <li class="whitespace-nowrap mb-3 hover:text-primary">
             <a href="#ej" class="capitalize">azure</a>
           </li>
           
@@ -84,25 +84,25 @@
 
       <div>
         <ul class="list-none ">
-          <li class="whitespace-nowrap mb-2 hover:text-primary">
-            <a href="#ej" class="font-bold uppercase">company</a>
+          <li class="whitespace-nowrap mb-3 hover:text-primary">
+            <a href="#ej" class="font-bold uppercase text-black">company</a>
           </li>
-          <li class="whitespace-nowrap mb-2 hover:text-primary">
+          <li class="whitespace-nowrap mb-3 hover:text-primary">
             <a href="#ej" class="capitalize">about</a>
           </li>
-          <li class="whitespace-nowrap mb-2 hover:text-primary">
+          <li class="whitespace-nowrap mb-3 hover:text-primary">
             <a href="#ej" class="capitalize">team</a>
           </li>
-          <li class="whitespace-nowrap mb-2 hover:text-primary">
+          <li class="whitespace-nowrap mb-3 hover:text-primary">
             <a href="#ej" class="capitalize">careers</a>
           </li>
-          <li class="whitespace-nowrap mb-2 hover:text-primary">
+          <li class="whitespace-nowrap mb-3 hover:text-primary">
             <a href="#ej" class="capitalize">clients</a>
           </li>
-          <li class="whitespace-nowrap mb-2 hover:text-primary">
+          <li class="whitespace-nowrap mb-3 hover:text-primary">
             <a href="#ej" class="capitalize">blog</a>
           </li>
-          <li class="whitespace-nowrap mb-2 hover:text-primary">
+          <li class="whitespace-nowrap mb-3 hover:text-primary">
             <a href="#ej" class="capitalize">news</a>
           </li>
         </ul>
@@ -110,19 +110,19 @@
 
       <div>
         <ul class="list-none ">
-          <li class="whitespace-nowrap mb-2 hover:text-primary">
-            <a href="#ej" class="font-bold uppercase">contacts</a>
+          <li class="whitespace-nowrap mb-3 hover:text-primary">
+            <a href="#ej" class="font-bold uppercase text-black">contacts</a>
           </li>
-          <li class="whitespace-nowrap mb-2 hover:text-primary">
+          <li class="whitespace-nowrap mb-3 hover:text-primary">
             <a href="mailto:info@intellectsoft.net" class="capitalize text-primary font-bold">info@intellectsoft.net</a>
           </li>
-          <li class="whitespace-nowrap mb-2 hover:text-primary">
+          <li class="whitespace-nowrap mb-3 hover:text-primary">
             <a href="#ej" class="capitalize">+1 855 TOP DEVS</a>
           </li>
-          <li class="whitespace-nowrap mb-2 hover:text-primary">
+          <li class="whitespace-nowrap mb-3 hover:text-primary">
             <a href="#ej" class="capitalize">+1 650 300 4335</a>
           </li>
-          <li class="whitespace-nowrap mb-2 hover:text-primary">
+          <li class="whitespace-nowrap mb-3 hover:text-primary">
             <a href="#ej" class="capitalize">+44 20 3887 0078</a>
           </li>
           <li class="whitespace-nowrap mb-3 hover:text-primary">

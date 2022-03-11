@@ -1,7 +1,7 @@
 <template>
-  <section class="contact " id="contacts-section">
-    <div class="h-700px flex items-center justify-center">
-      <div class="form px-50px py-33px bg-white w-500px shadow-lg rounded-lg">
+  <section class="contact py-8 lg:py-0 " id="contacts-section">
+    <div class="h-fit lg:h-700px flex flex-col lg:flex-row  items-center justify-center">
+      <div class="form px-50px py-33px bg-white w-9/10 max-w-500px shadow-lg lg:rounded-lg">
         <h2 class="text-36px">Contact me</h2>
         <form action="" class="mt-8">
           <fieldset class="h-36px w-full relative mb-3">
@@ -87,7 +87,7 @@
         </form>
 
       </div>
-      <div class="bg-primary w-400px rounded-sm py-124px px-10 text-white">
+      <div class="bg-primary w-9/10 max-w-500px lg:w-400px rounded-sm  py-8 lg:py-124px px-10 text-white">
         <div>
           <h2 class="text-center">What happens next</h2>
           <div class="mt-3">
@@ -194,6 +194,10 @@ export default {
 
 <style scoped>
 .contact{background: url(~@/assets/images/contact-form-background.jpg) no-repeat top}
+@media (max-width: 992px) {
+  .contact{background: url(~@/assets/images/contact-form-background.jpg) no-repeat center/cover}
+
+}
 .form-label{transform: translateY(-50%)}
 .form-input:focus + .form-label,.input-valid + .form-label,
 .input-invalid + .form-label{top: 0;color: #1476f2;font-size: smaller}

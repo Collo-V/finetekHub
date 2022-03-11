@@ -1,6 +1,6 @@
 <template>
   <section class="offices pt-16">
-    <div class="w-4/5 mx-auto">
+    <div class="w-full lg:w-4/5 mx-auto">
       <h1 class="uppercase text-center">our offices</h1>
       <p class="block my-5 text-18px text-center">
         Intellectsoft operates in multiple offices and development centers across the globe.
@@ -8,7 +8,7 @@
 
       </p>
 
-      <div class="office-swiper swiper max-w-1000px">
+      <div class="office-swiper swiper max-w-1000px hidden lg:initial">
 
         <!-- Additional required wrapper -->
         <div class="swiper-wrapper">
@@ -103,6 +103,101 @@
         </div>
 
       </div>
+      <div class="mob-office-swiper swiper lg:hidden ">
+
+        <!-- Additional required wrapper -->
+        <div class="swiper-wrapper">
+          <!-- Slides -->
+          <div class="swiper-slide">
+            <div class="slide1 inline-block border-r-2px overflow-hidden border-white animate__animated w-full h-360px relative" >
+              <div class="absolute h-full left-full w-2px bg-white top-0"></div>
+              <div class="office-details h-full w-full relative text-white">
+                <div class="pb-2 w-full text-center font-bold absolute btm-0">
+                  <p class="uppercase">norway</p>
+                  <p class="uppercase">oslo</p>
+                  <div class="office-contact pb-10 hidden animate__animated animate__slideInUp">
+                    <p>+47 21 08 18 50</p>
+                    <p><a href="mailto:info@intellectsoft.no" class="hover:text-white underline">info@intellectsoft.no</a></p>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+          <div class="swiper-slide">
+            <div class="slide2 inline-block border-r-2px overflow-hidden border-white animate__a w-full h-360px relative">
+              <div class="absolute h-full left-full w-2px bg-white top-0"></div>
+              <div class="office-details h-full w-full relative text-white">
+                <div class="pb-2 w-full text-center font-bold absolute btm-0">
+                  <p class="uppercase">USA</p>
+                  <p class="uppercase">new york</p>
+                  <div class="office-contact pb-10 hidden animate__animated animate__slideInUp">
+                    <p>+1 (855) TOP DEVS</p>
+                    <p><a href="mailto:info@intellectsoft.net" class="hover:text-white underline">info@intellectsoft.net</a></p>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+          <div class="swiper-slide">
+            <div class="slide3 inline-block border-r-2px overflow-hidden border-white animate__an w-full h-360px relative" >
+              <div class="absolute h-full left-full w-2px bg-white top-0"></div>
+              <div class="office-details h-full w-full relative text-white">
+                <div class="pb-2 w-full text-center font-bold absolute btm-0">
+                  <p class="uppercase">USA</p>
+                  <p class="]">Miami</p>
+                  <div class="office-contact pb-10 hidden animate__animated animate__slideInUp">
+                    <p>+1 (650) 300 4335</p>
+                    <p><a href="mailto:info@intellectsoft.net" class="hover:text-white underline">info@intellectsoft.net</a></p>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+          <div class="swiper-slide">
+            <div class="slide4 inline-block border-r-2px overflow-hidden border-white animate__an w-full h-360px relative">
+              <div class="absolute h-full left-full w-2px bg-white top-0"></div>
+              <div class="office-details h-full w-full relative text-white">
+                <div class="pb-2 w-full text-center font-bold absolute btm-0">
+                  <p class="uppercase">ukraine</p>
+                  <p class="uppercase">kyiv</p>
+                  <div class="office-contact pb-10 hidden animate__animated animate__slideInUp">
+                    <p>+380 (44) 332-24-36</p>
+                    <p><a href="mailto:info@intellectsoft.net" class="hover:text-white underline">info@intellectsoft.net</a></p>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+          <div class="swiper-slide">
+            <div class="slide5 inline-block border-r-2px overflow-hidden border-white animate__an w-full h-360px relative">
+              <div class="absolute h-full left-full w-2px bg-white top-0"></div>
+              <div class="office-details h-full w-full relative text-white">
+                <div class="pb-2 w-full text-center font-bold absolute btm-0">
+                  <p class="uppercase">united kingdom</p>
+                  <p class="uppercase">london</p>
+                  <div class="office-contact pb-10 hidden animate__animated animate__slideInUp">
+                    <p>+44 20 3887 0078</p>
+                    <p><a href="mailto:info@intellectsoft.uk" class="hover:text-white underline">info@intellectsoft.uk</a></p>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+
+
+        <div class="swiper-button-prev h-16">
+        </div>
+        <div class="swiper-button-next h-16">
+        </div>
+
+      </div>
 
     </div>
   </section>
@@ -120,6 +215,24 @@
         loop: true,
         // grabCursor:true,
         slidesPerView:4,
+
+
+        // Navigation arrows
+        navigation: {
+          nextEl: '.swiper-button-next',
+          prevEl: '.swiper-button-prev',
+        },
+
+       autoplay:{
+          delay:6000
+        }
+      });
+      const swiperMob = new Swiper('.mob-office-swiper', {
+        // Optional parameters
+        // direction: 'vertical',
+        loop: true,
+        // grabCursor:true,
+        slidesPerView:1,
 
 
         // Navigation arrows
@@ -155,5 +268,8 @@
   .swiper-button-prev{background:url(~@/assets/images/icons/arrow-left-dark.svg) no-repeat center;transform: none;}
   .swiper-button-next{background:url(~@/assets/images/icons/arrow-left-dark.svg) no-repeat center;transform: rotate(180deg);}
   /* .swiper-button-next:hover{transform: translateY(-50%) rotate(180deg);background: #7976769c;} */
+  @media (max-width: 758px) {
+    .swiper-slide{width: 100%}
+  }
 
 </style>

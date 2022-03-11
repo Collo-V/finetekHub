@@ -1,13 +1,13 @@
 <template>
 
   <section class="client-success w-full p-16">
-    <div class="client-success-cont w-4/5 mx-auto">
+    <div class="client-success-cont w-9/10 lg:w-4/5 mx-auto">
     <h1 class="uppercase text-center">Latest news and insights</h1>
     <a href="#cases" class="text-primary block my-5 text-18pxhh text-center font-bold uppercase">
       All posts <span class="ml-1"><i class="fa-solid fa-angle-right"></i></span>
     </a>
-    <div class="flex">
-      <div class="w-1/2 mr-3 shadow-md">
+    <div class="flex flex-col lg:flex-row">
+      <div class="w-full lg:w-1/2 mr-3 shadow-md">
         <div>
           <img src="../assets/images/news/code.jpg" alt="">
         </div>
@@ -21,9 +21,9 @@
           <a href="" class="text-primary uppercase animate__animated slideInUp block mt-5"></a>
         </div>
       </div>
-      <div class="w-1/2">
-        <div class="flex shadow-md">
-          <div class="w-600px">
+      <div class="w-full lg:w-1/2 mt-3 lg:mt-0">
+        <div class="flex shadow-md flex-col lg:flex-row">
+          <div class="lg:w-600px">
             <img src="../assets/images/news/Modernizing-legacy-systems-in-banking-Cover-600x252.jpg" class="w-600px">
           </div>
           <div class="p-8">
@@ -35,10 +35,10 @@
             </p>
           </div>
         </div>
-        <div class="flex mt-3 shadow-md">
-          <div class="w-600px relative">
+        <div class="flex mt-3 shadow-md flex-col lg:flex-row">
+          <div class="lg:w-600px">
             <img src="../assets/images/news/Improve-Quality-in-Construction-Cover-600x252.jpg"
-                 class="absolute top-1/2">
+                 class="w-600px">
           </div>
           <div class="p-8">
             <p class="uppercase mb-3  text-grey-dark">construction</p>

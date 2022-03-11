@@ -61,7 +61,7 @@ export default {
   font-family: 'Montserrat', sans-serif;box-sizing: border-box;
 }
  a{color: inherit;text-decoration: none}
-button:focus{outline: none;}
+button:focus,button:active{outline: none;}
 /**top and right**/
 .top-0{top: 0px}
 .top-10{top:10%}

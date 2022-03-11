@@ -81,7 +81,12 @@
             <div class="flex flex-wrap" v-else-if="activeTab=='technologies'">
                 <div class="svc-item w-1/3 h-190px w-300px mb-2min-px mr-2pmax-w-372px x bg-white flepx-4 x justify-center items-center">
                     <div class="mr-4">1</div>
-                    <div class="max-w-260px">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Omnis, voluptatum.</div>
+                    <div class="max-w-260px">
+                      e Development
+
+                      Create complex enterprise software, ensure reliable software integration, modernise your legacy system.
+                      view more
+                    </div>
                 </div>
                 <div class="svc-item w-1/3 h-190px w-300px mb-2min-px mr-2pmax-w-372px x bg-white flepx-4 x justify-center items-center">
                     <div class="mr-4">2</div>
