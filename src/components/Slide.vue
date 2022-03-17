@@ -6,8 +6,8 @@
       <div class="swiper-slide">
         <div class=" slide1 h-700px w-full inline-block w-full  animate__animated w">
           <div class="h-full w-full flex items-center text-white justify-center" >
-            <div class="w-1/2">
-              <h1 class="font-extrabold mb-10 text-10">ENTERPRISE SOFTWARE DEVELOPMENT</h1>
+            <div class="w-4/5 lg:w-1/2">
+              <h1 class="font-extrabold mb-10 text-6 lg:text-10">ENTERPRISE SOFTWARE DEVELOPMENT</h1>
               <p class="mb-10">
                 Leverage our ten-year expertise to create a solid software foundation for your business.
               </p>
@@ -23,8 +23,8 @@
       <div class="swiper-slide">
         <div class="slide2 h-700px w-full inline-block animate__animated ">
           <div class="h-full w-full flex items-center text-white justify-center" >
-            <div class="w-1/2">
-              <h1 class="font-extrabold mb-10 text-10">DEDICATED DEVELOPMENT TEAMS</h1>
+            <div class="w-4/5 lg:w-1/2">
+              <h1 class="font-extrabold mb-10 text-6 lg:text-10">DEDICATED DEVELOPMENT TEAMS</h1>
               <p class="mb-10">
                 Hire top tech talent and quickly scale your delivery capacity. Our engineers have the necessary niche skills, deep expertise, and are highly loyal.
               </p>
@@ -39,8 +39,8 @@
       <div class="swiper-slide">
         <div class="slide3 h-700px w-full inline-block animate__animated ">
           <div class="h-full w-full flex items-center text-white justify-center" >
-            <div class="w-1/2">
-              <h1 class="font-extrabold mb-10 text-10">MOBILE APP DEVELOPMENT</h1>
+            <div class="w-4/5 lg:w-1/2">
+              <h1 class="font-extrabold mb-10 text-6 lg:text-10">MOBILE APP DEVELOPMENT</h1>
               <p class="mb-10">
                 Delivering on-demand mobile app experiences for startups and enterprise clients by leveraging the latest technologies.
               </p>
@@ -55,8 +55,8 @@
       <div class="swiper-slide">
         <div class="slide4 h-700px w-full inline-block animate__animated ">
           <div class="h-full w-full flex items-center text-white justify-center" >
-            <div class="w-1/2">
-              <h1 class="font-extrabold mb-10 text-10">DRIVE DIGITAL DISRUPTION IN HOSPITALITY</h1>
+            <div class="w-4/5 lg:w-1/2">
+              <h1 class="font-extrabold mb-10 text-6 lg:text-10">DRIVE DIGITAL DISRUPTION IN HOSPITALITY</h1>
               <p class="mb-10">
 
                 Check out the potential of digital transformation in the hospitality industry as well as ways
@@ -73,8 +73,8 @@
       <div class="swiper-slide">
         <div class="slide5 h-700px w-full inline-block animate__animated ">
           <div class="h-full w-full flex items-center text-white justify-center" >
-            <div class="w-1/2">
-              <h1 class="font-extrabold mb-10 text-10">SMART HEALTHCARE SOLUTIONS</h1>
+            <div class="w-4/5 lg:w-1/2">
+              <h1 class="font-extrabold mb-10 text-6 lg:text-10">SMART HEALTHCARE SOLUTIONS</h1>
               <p class="mb-10">
                 Leverage the power of digital solutions to provide more effective treatments and care.
               </p>
@@ -89,8 +89,8 @@
       <div class="swiper-slide">
         <div class="slide6 h-700px w-full inline-block animate__animated ">
           <div class="h-full w-full flex items-center text-white justify-center" >
-            <div class="w-1/2">
-              <h1 class="font-extrabold mb-10 text-10">INTELLIGENT INSURANCE</h1>
+            <div class="w-4/5 lg:w-1/2">
+              <h1 class="font-extrabold mb-10 text-6 lg:text-10">INTELLIGENT INSURANCE</h1>
               <p class="mb-10">
                 A strategic roadmap for insurers to enhance revenue streams, time-to-market, and profitability.
               </p>

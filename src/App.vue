@@ -84,8 +84,19 @@ button:focus,button:active{outline: none;}
 .-btm-20px{}
 
 .left-0{left:0px}
-.left-10{left:10%}
-.left-full{left:100%}
+    .left-1\/10{left: 10%}
+    .left-1\/5{left: 20%}
+    .left-1\/4{left: 25%}
+    .left-1\/3{left: 33.3%}
+    .left-1\/2{left: 50%}
+    .left-2\/3{left: 66.6%}
+    .left-full{left:100%}
+    .left-3\/4{left:75%}
+    .left-90{left: 90%}
+    .left-1\/10{left:10%}
+    .left-3\/4{left:75%}
+    .left-90{bottom: 90%}
+    .-btm-20px{}
 
 
 .right-0{right:0px}

@@ -23,8 +23,7 @@
       </div>
       <div class="w-full lg:w-1/2 mt-3 lg:mt-0">
         <div class="flex shadow-md flex-col lg:flex-row">
-          <div class="lg:w-600px">
-            <img src="../assets/images/news/Modernizing-legacy-systems-in-banking-Cover-600x252.jpg" class="w-600px">
+          <div class="lg:w-600px development-div h-200px">
           </div>
           <div class="p-8">
             <p class="uppercase mb-3 text-grey-dark">development</p>
@@ -36,9 +35,8 @@
           </div>
         </div>
         <div class="flex mt-3 shadow-md flex-col lg:flex-row">
-          <div class="lg:w-600px">
-            <img src="../assets/images/news/Improve-Quality-in-Construction-Cover-600x252.jpg"
-                 class="w-600px">
+          <div class="lg:w-600px construction-div h-200px">
+
           </div>
           <div class="p-8">
             <p class="uppercase mb-3  text-grey-dark">construction</p>
@@ -95,5 +93,7 @@ export default {
 .swiper-slide-thumb-active{
   padding-bottom:0PX;border-bottom: solid 2px blue;
 }
-
+.development-div{background: url(../assets/images/news/Modernizing-legacy-systems-in-banking-Cover-600x252.jpg) no-repeat  center/cover}
+.construction-div{background: url(../assets/images/news/Improve-Quality-in-Construction-Cover-600x252.jpg) no-repeat center/cover}
+.development-div:hover,.construction-div:hover{background-size: 800px 400px}
 </style>

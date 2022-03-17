@@ -14,7 +14,7 @@
             </div>
         </div>
         <div class="w-full">
-            <div class="flex flex-wrap rounded-lg w-full overflow-hidden" v-if="activeTab=='services'"> 
+            <div class="flex flex-wrap justify-center rounded-lg w-full overflow-hidden" v-if="activeTab=='services'"> 
                 <div class="svc-item w-1/3 inline-flex h-190px min-w-300px max-w-372px mb-2px mr-2px px-4 bg-white justify-center items-center hover:bg-primary hover:text-white">
                     <div class="mr-4">2</div>
                     <div class="max-w-260px">
@@ -22,7 +22,7 @@
                         <p class="mt-3">
                             Create complex enterprise software, ensure reliable software integration, modernise your legacy system.
                         </p>
-                        <a href="herer" class="block mt-3 uppercase svc-dropdown">view more</a>
+                        <a href="#herer" class="offer-more-link hidden mt-3 uppercase svc-dropdown">view more</a>
                     </div>
                 </div>
                 <div class="svc-item w-1/3 inline-flex h-190px min-w-300px max-w-372px mb-2px mr-2px px-4 bg-white justify-center items-center hover:bg-primary hover:text-white">
@@ -32,7 +32,7 @@
                         <p class="mt-3">
                             Create complex enterprise software, ensure reliable software integration, modernise your legacy system.
                         </p>
-                        <a href="herer" class="block mt-3 uppercase svc-dropdown">view more</a>
+                        <a href="#herer" class="offer-more-link hidden mt-3 uppercase svc-dropdown">view more</a>
                     </div>
                 </div>
                 <div class="svc-item w-1/3 inline-flex h-190px min-w-300px max-w-372px mb-2px mr-2px px-4 bg-white justify-center items-center hover:bg-primary hover:text-white">
@@ -42,7 +42,7 @@
                         <p class="mt-3">
                             Create complex enterprise software, ensure reliable software integration, modernise your legacy system.
                         </p>
-                        <a href="herer" class="block mt-3 uppercase svc-dropdown">view more</a>
+                        <a href="#herer" class="offer-more-link hidden mt-3 uppercase svc-dropdown">view more</a>
                     </div>
                 </div>
                 <div class="svc-item w-1/3 inline-flex h-190px min-w-300px max-w-372px mb-2px mr-2px px-4 bg-white justify-center items-center hover:bg-primary hover:text-white">
@@ -52,7 +52,7 @@
                         <p class="mt-3">
                             Create complex enterprise software, ensure reliable software integration, modernise your legacy system.
                         </p>
-                        <a href="herer" class="block mt-3 uppercase svc-dropdown">view more</a>
+                        <a href="#herer" class="offer-more-link hidden mt-3 uppercase svc-dropdown">view more</a>
                     </div>
                 </div>
                 <div class="svc-item w-1/3 inline-flex h-190px min-w-300px max-w-372px mb-2px mr-2px px-4 bg-white justify-center items-center hover:bg-primary hover:text-white">
@@ -62,7 +62,7 @@
                         <p class="mt-3">
                             Create complex enterprise software, ensure reliable software integration, modernise your legacy system.
                         </p>
-                        <a href="herer" class="block mt-3 uppercase svc-dropdown">view more</a>
+                        <a href="#herer" class="offer-more-link hidden mt-3 uppercase svc-dropdown">view more</a>
                     </div>
                 </div>
                 <div class="svc-item w-1/3 inline-flex h-190px min-w-300px max-w-372px mb-2px mr-2px px-4 bg-white justify-center items-center hover:bg-primary hover:text-white">
@@ -72,66 +72,65 @@
                         <p class="mt-3">
                             Create complex enterprise software, ensure reliable software integration, modernise your legacy system.
                         </p>
-                        <a href="herer" class="block mt-3 uppercase svc-dropdown">view more</a>
+                        <a href="#herer" class="offer-more-link hidden mt-3 uppercase svc-dropdown">view more</a>
                     </div>
                 </div>
                 
                 
             </div>
-            <div class="flex flex-wrap" v-else-if="activeTab=='technologies'">
-                <div class="svc-item w-1/3 h-190px w-300px mb-2min-px mr-2pmax-w-372px x bg-white flepx-4 x justify-center items-center">
+            <div class="flex flex-wrap justify-center" v-else-if="activeTab=='technologies'">
+                <div class="svc-item w-1/2 h-190px w-300px mb-2px  min-px mr-2px ma-w-372px x bg-white flex justify-center items-center">
                     <div class="mr-4">1</div>
                     <div class="max-w-260px">
                       e Development
-
                       Create complex enterprise software, ensure reliable software integration, modernise your legacy system.
                       view more
                     </div>
                 </div>
-                <div class="svc-item w-1/3 h-190px w-300px mb-2min-px mr-2pmax-w-372px x bg-white flepx-4 x justify-center items-center">
+                <div class="svc-item w-1/2 h-190px w-300px mb-2px  min-px mr-2px ma-w-372px x bg-white flex justify-center items-center">
                     <div class="mr-4">2</div>
                     <div class="max-w-260px">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Omnis, voluptatum.</div>
                 </div>
-                <div class="svc-item w-1/3 h-190px w-300px mb-2min-px mr-2pmax-w-372px x bg-white flepx-4 x justify-center items-center">
+                <div class="svc-item w-1/2 h-190px w-300px mb-2px  min-px mr-2px ma-w-372px x bg-white flex justify-center items-center">
                     <div class="mr-4">3</div>
                     <div class="max-w-260px">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Omnis, voluptatum.</div>
                 </div>
-                <div class="svc-item w-1/3 h-190px w-300px mb-2min-px mr-2pmax-w-372px x bg-white flepx-4 x justify-center items-center">
+                <div class="svc-item w-1/2 h-190px w-300px mb-2px  min-px mr-2px ma-w-372px x bg-white flex justify-center items-center">
                     <div class="mr-4">4</div>
                     <div class="max-w-260px">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Omnis, voluptatum.</div>
                 </div>
-                <div class="svc-item w-1/3 h-190px w-300px mb-2min-px mr-2pmax-w-372px x bg-white flepx-4 x justify-center items-center">
+                <div class="svc-item w-1/2 h-190px w-300px mb-2px  min-px mr-2px ma-w-372px x bg-white flex justify-center items-center">
                     <div class="mr-4">5</div>
                     <div class="max-w-260px">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Omnis, voluptatum.</div>
                 </div>
-                <div class="svc-item w-1/3 h-190px w-300px mb-2min-px mr-2pmax-w-372px x bg-white flepx-4 x justify-center items-center">
+                <div class="svc-item w-1/2 h-190px w-300px mb-2px  min-px mr-2px ma-w-372px x bg-white flex justify-center items-center">
                     <div class="mr-4">6</div>
                     <div class="max-w-260px">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Omnis, voluptatum.</div>
                 </div>
                 
             </div>
-            <div class="flex flex-wrap" v-else>
-                <div class="svc-item w-1/3 h-190px w-300px mb-2min-px mr-2pmax-w-372px x bg-white flepx-4 x justify-center items-center">
+            <div class="flex flex-wrap justify-center" v-else>
+                <div class="svc-item w-1/3 h-190px w-300px mb-2px  min-px mr-2px max-w-372px x bg-white flex justify-center items-center">
                     <div class="mr-4">1</div>
                     <div class="max-w-260px">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Omnis, voluptatum.</div>
                 </div>
-                <div class="svc-item w-1/3 h-190px w-300px mb-2min-px mr-2pmax-w-372px x bg-white flepx-4 x justify-center items-center">
+                <div class="svc-item w-1/3 h-190px w-300px mb-2px  min-px mr-2px max-w-372px x bg-white flex justify-center items-center">
                     <div class="mr-4">2</div>
                     <div class="max-w-260px">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Omnis, voluptatum.</div>
                 </div>
-                <div class="svc-item w-1/3 h-190px w-300px mb-2min-px mr-2pmax-w-372px x bg-white flepx-4 x justify-center items-center">
+                <div class="svc-item w-1/3 h-190px w-300px mb-2px  min-px mr-2px max-w-372px x bg-white flex justify-center items-center">
                     <div class="mr-4">3</div>
                     <div class="max-w-260px">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Omnis, voluptatum.</div>
                 </div>
-                <div class="svc-item w-1/3 h-190px w-300px mb-2min-px mr-2pmax-w-372px x bg-white flepx-4 x justify-center items-center">
+                <div class="svc-item w-1/3 h-190px w-300px mb-2px  min-px mr-2px max-w-372px x bg-white flex justify-center items-center">
                     <div class="mr-4">4</div>
                     <div class="max-w-260px">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Omnis, voluptatum.</div>
                 </div>
-                <div class="svc-item w-1/3 h-190px w-300px mb-2min-px mr-2pmax-w-372px x bg-white flepx-4 x justify-center items-center">
+                <div class="svc-item w-1/3 h-190px w-300px mb-2px  min-px mr-2px max-w-372px x bg-white flex justify-center items-center">
                     <div class="mr-4">5</div>
                     <div class="max-w-260px">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Omnis, voluptatum.</div>
                 </div>
-                <div class="svc-item w-1/3 h-190px w-300px mb-2min-px mr-2pmax-w-372px x bg-white flepx-4 x justify-center items-center">
+                <div class="svc-item w-1/3 h-190px w-300px mb-2px  min-px mr-2px max-w-372px x bg-white flex justify-center items-center">
                     <div class="mr-4">6</div>
                     <div class="max-w-260px">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Omnis,.</div>
                 </div>
@@ -158,5 +157,6 @@
 
 <style scoped>
     .offers-section{background: url(../assets/images/bg-offers.webp) no-repeat center/cover}
+    .svc-item:hover .offer-more-link{display: block;}
 
 </style>
