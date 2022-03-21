@@ -267,9 +267,7 @@
                   </div>
                   <div class="page-border1 h1 absolute top-0 bg-white w-25px z-20 block">l</div>
                   <div class="page-border2 h1 absolute top-0 bg-white w-25px z-20 block">l</div>
-
                 </div>
-
               </div>
 
 

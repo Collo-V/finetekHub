@@ -8,7 +8,7 @@
 
       </p>
 
-      <div class="office-swiper swiper max-w-1000px hidden lg:initial">
+      <div class="office-swiper swiper max-w-1000px hidden lg:block">
 
         <!-- Additional required wrapper -->
         <div class="swiper-wrapper">

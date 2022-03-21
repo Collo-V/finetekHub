@@ -143,12 +143,18 @@ const measurements={
 
 }
 
-function others(){
+function Px(){
   for (let i = 0; i < 1000; i++) {
     measurements[`${i}px`]=`${i}px`
   }
 }
-others()
+Px()
+function Percent(){
+  for (let i = 0; i < 100; i++) {
+    measurements[`${i}%`]=`${i}%`
+  }
+}
+Percent()
 
 module.exports = {
 
@@ -359,14 +365,14 @@ module.exports = {
     float: ['responsive'],
     fonts: ['responsive'],
     fontWeights: ['responsive', 'hover', 'focus','active'],
-    height: ['responsive'],
+    height: ['responsive', 'hover'],
     leading: ['responsive'],
     lists: ['responsive'],
     margin: ['responsive'],
-    maxHeight: ['responsive'],
-    maxWidth: ['responsive'],
-    minHeight: ['responsive'],
-    minWidth: ['responsive'],
+    maxHeight: ['responsive', 'hover'],
+    maxWidth: ['responsive', 'hover'],
+    minHeight: ['responsive', 'hover'],
+    minWidth: ['responsive', 'hover'],
     negativeMargin: ['responsive'],
     opacity: ['responsive'],
     outline: ['focus','active'],
@@ -387,7 +393,7 @@ module.exports = {
     verticalAlign: ['responsive'],
     visibility: ['responsive'],
     whitespace: ['responsive'],
-    width: ['responsive'],
+    width: ['responsive', 'hover'],
     zIndex: ['responsive'],
   },
 

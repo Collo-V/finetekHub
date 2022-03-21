@@ -1,5 +1,5 @@
 <template>
-  <section class="contact py-8 lg:py-0 " id="contacts-section">
+  <section class="contact py-8 lg:py-0 mt-16" id="contacts-section">
     <div class="h-fit lg:h-700px flex flex-col lg:flex-row  items-center justify-center">
       <div class="form px-50px py-33px bg-white w-9/10 max-w-500px shadow-lg lg:rounded-lg">
         <h2 class="text-36px">Contact me</h2>

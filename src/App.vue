@@ -4,8 +4,8 @@
         <Slide/>
         <div class="mt-18 w-full">
             <div class="w-ful max-w-800px text-center mx-auto leading-10">
-                <h2 class="uppercase text-8 mb-5">who we are</h2>
-                <div class="text-5">
+                <h2 class="uppercase text-24px lg:text-8 mb-5">who we are</h2>
+                <div class="lg:text-5 text-grey-dark">
                   We are a digital transformation consultancy and software development company that provides cutting edge engineering solutions,
                   helping Fortune 500 companies and enterprise clients untangle complex issues that always emerge during their digital evolution journey.
                   Since 2007 we have been a visionary and a reliable software engineering partner for world-class brands.
