@@ -84,7 +84,7 @@ let colors = {
   'pink-lighter': '#ffbbca',
   'pink-lightest': '#ffebef',
   'third': '#006600',
-  'primary': '#1476f2',
+  'primary': '#00afee',
   'secondary':'#E2EED8',
   'primary-dark':'#649A00',
   'modal':'#5757585A',
@@ -144,7 +144,7 @@ const measurements={
 }
 
 function Px(){
-  for (let i = 0; i < 1000; i++) {
+  for (let i = 0; i < 1500; i++) {
     measurements[`${i}px`]=`${i}px`
   }
 }

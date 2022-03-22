@@ -3,7 +3,15 @@
   <nav class="nav hidden lg:flex h-80px absolute top-0 w-full z-3 items-center justify-center hover:bg-white text-black justify-center text-white hover:text-black" id="nav">
       <div class="flex w-4/5  h-full items-center">
           <div class="sub-menu-title w-full">
-              <div class="w-170px h-46px mx-auto logo-div">
+              <div class="w-240px h-46px mx-auto logo-div">
+                <div class="main-logo flex hidden">
+                  <img src="../assets/images/logos/logoFwhite.png" class="w-46px h-46px">
+<!--                  <img src="../assets/images/logos/finetelWhiteText@2x.png" class="w-100px h-46px">-->
+                </div>
+                <div class="hover-logo flex hidden">
+                  <img src="../assets/images/logos/iconColored@2x.png" class="w-46px h-46px">
+<!--                  <img src="../assets/images/logos/textColored@2x.png" class="w-170px h-46px">-->
+                </div>
               </div>
           </div>
           <ul class="list-none h-full flex">
@@ -576,6 +584,10 @@
         </button>
       </div>
       <div class="mb-3 ml-3 w-170px h-46px mob-logo-div">
+        <div class="hover-logo flex">
+          <img src="../assets/images/logos/iconColored@2x.png" class="w-46px h-46px">
+          <img src="../assets/images/logos/textColored@2x.png" class="w-170px h-46px">
+        </div>
       </div>
       <div class="menu">
         <ul class="list-none p-0">
@@ -845,8 +857,13 @@
 </script>
 
 <style scoped>
-    .logo-div{background: url(~@/assets/images/logo-white.svg) no-repeat center/cover}
-    nav:hover .logo-div,.nav.fixed .logo-div,.mob-logo-div{background: url(~@/assets/images/logo-blue.svg) no-repeat center/cover}
+    /*.logo-div{background: url(~@/assets/images/logos/iconLessWhite@2x.png) no-repeat left center,url(~@/assets/images/logos/finetelWhiteText@2x.png) no-repeat right center;background-size: 170px}*/
+    /*nav:hover .logo-div,.nav.fixed .logo-div,.mob-logo-div{background: url(~@/assets/images/finetekLogoSmall.svg) no-repeat center/cover;background-size: 170px 46px}*/
+    .logo-div .hover-logo{display: none}
+    /*.logo-div .hover-logo{display: none}*/
+    nav:hover .logo-div .main-logo,.nav.fixed .logo-div .main-logo{display: none}
+    nav:hover .logo-div .hover-logo,.nav.fixed .logo-div .hover-logo{display: flex}
+
 
     .dropdown-cont:hover .dropdown{display: block}
     .dropdown-cont:hover .dropdown.flex{display: flex}

@@ -1,0 +1,54 @@
+<svg id="logo" xmlns="http://www.w3.org/2000/svg" width="506.624" height="550.406" viewBox="0 0 337.75 366.938">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #f6ed31;
+      }
+
+      .cls-1, .cls-2, .cls-3, .cls-4, .cls-5 {
+        fill-rule: evenodd;
+      }
+
+      .cls-2, .cls-7 {
+        fill: #262162;
+      }
+
+      .cls-3, .cls-6 {
+        fill: #00afee;
+      }
+
+      .cls-4 {
+        fill: #ea1c23;
+      }
+
+      .cls-6 {
+        font-size: 8px;
+        text-anchor: middle;
+        font-family: Roboto;
+        font-weight: 500;
+      }
+    </style>
+  </defs>
+  <g id="yellow">
+    <path id="Rectangle_1_copy" data-name="Rectangle 1 copy" class="cls-1" d="M386.245,69.07l35.568,0L421.755,219.93l-35.568,0Z" transform="translate(-85.063 -69.063)"/>
+    <path id="Rectangle_1_copy_2" data-name="Rectangle 1 copy 2" class="cls-1" d="M421.93,69.245l0,35.568-150.865-.058,0-35.568Z" transform="translate(-85.063 -69.063)"/>
+  </g>
+  <g id="purple">
+    <path id="Rectangle_1_copy-2" data-name="Rectangle 1 copy" class="cls-2" d="M421.93,370.245l0,35.568-150.865-.058,0-35.568Z" transform="translate(-85.063 -69.063)"/>
+    <path id="Rectangle_1_copy_2-2" data-name="Rectangle 1 copy 2" class="cls-2" d="M422.755,404.93l-35.568,0,0.058-150.865,35.568,0Z" transform="translate(-85.063 -69.063)"/>
+  </g>
+  <g id="skyBlue">
+    <path id="Rectangle_1_copy-3" data-name="Rectangle 1 copy" class="cls-3" d="M120.755,404.93l-35.568,0L85.245,254.07l35.568,0Z" transform="translate(-85.063 -69.063)"/>
+    <path id="Rectangle_1_copy_2-3" data-name="Rectangle 1 copy 2" class="cls-3" d="M85.07,404.755l0-35.568,150.865,0.058,0,35.568Z" transform="translate(-85.063 -69.063)"/>
+  </g>
+  <g id="red_" data-name="red ">
+    <path id="Rectangle_1_copy-4" data-name="Rectangle 1 copy" class="cls-4" d="M85.07,104.755l0-35.568L235.93,69.245l0,35.568Z" transform="translate(-85.063 -69.063)"/>
+    <path id="Rectangle_1_copy_2-4" data-name="Rectangle 1 copy 2" class="cls-4" d="M85.245,69.07l35.568,0L120.755,219.93l-35.568,0Z" transform="translate(-85.063 -69.063)"/>
+  </g>
+  <g id="fBack">
+    <path class="cls-5" d="M301,130v22H206V130h95Z" transform="translate(-85.063 -69.063)"/>
+    <path id="Rectangle_1_copy_6" data-name="Rectangle 1 copy 6" class="cls-5" d="M292,228v22H206V228h86Z" transform="translate(-85.063 -69.063)"/>
+    <rect id="Rectangle_1_copy_5" data-name="Rectangle 1 copy 5" x="120.938" y="64.938" width="22" height="210"/>
+  </g>
+  <text id="Endless_Possibilities" data-name="Endless Possibilities" class="cls-6" transform="translate(168.167 366.852) scale(3.065)">Endless <tspan class="cls-7">Possibilities</tspan></text>
+</svg>
