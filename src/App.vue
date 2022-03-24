@@ -1,26 +1,8 @@
 <template>
     <div class="relative text-14px">
         <Nav/>
-      <Team/>
-<!--        <Slide/>-->
-<!--        <div class="mt-18 w-full">-->
-<!--            <div class="w-ful max-w-800px text-center mx-auto leading-10">-->
-<!--                <h2 class="uppercase text-24px lg:text-8 mb-5">who we are</h2>-->
-<!--                <div class="lg:text-5 text-grey-dark">-->
-<!--                  We are a digital transformation consultancy and software development company that provides cutting edge engineering solutions,-->
-<!--                  helping Fortune 500 companies and enterprise clients untangle complex issues that always emerge during their digital evolution journey.-->
-<!--                  Since 2007 we have been a visionary and a reliable software engineering partner for world-class brands.-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--        -->
-<!--      <Clients/>-->
-<!--      <Offers/>-->
-<!--      <ClientSuccess/>-->
-<!--      <Awards/>-->
-<!--      <Contact/>-->
-<!--      <News/>-->
-<!--      <Offices/>-->
+      <router-view></router-view>
+
       <Footer/>
 
 
@@ -40,7 +22,7 @@ import Contact from "@/components/Contact";
 import News from "@/components/News";
 import Offices from "@/components/Offices";
 import Footer from "@/components/Footer";
-import Team from "@/components/Team";
+import Team from "@/views/Team";
 
 export default {
   name: 'App',

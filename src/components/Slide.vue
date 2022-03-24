@@ -7,7 +7,7 @@
         <div class=" slide1 h-700px w-full inline-block w-full  animate__animated w">
           <div class="h-full w-full flex items-center text-white justify-center" >
             <div class="w-4/5 lg:w-1/2">
-              <h1 class="font-extrabold mb-10 text-6 lg:text-10">ENTERPRISE SOFTWARE DEVELOPMENT</h1>
+              <h1 class="font-extrabold text-primary mb-10 text-6 lg:text-10">ENTERPRISE SOFTWARE DEVELOPMENT</h1>
               <p class="mb-10">
                 Leverage our ten-year expertise to create a solid software foundation for your business.
               </p>
@@ -24,7 +24,7 @@
         <div class="slide2 h-700px w-full inline-block animate__animated ">
           <div class="h-full w-full flex items-center text-white justify-center" >
             <div class="w-4/5 lg:w-1/2">
-              <h1 class="font-extrabold mb-10 text-6 lg:text-10">DEDICATED DEVELOPMENT TEAMS</h1>
+              <h1 class="font-extrabold text-primary mb-10 text-6 lg:text-10">DEDICATED DEVELOPMENT TEAMS</h1>
               <p class="mb-10">
                 Hire top tech talent and quickly scale your delivery capacity. Our engineers have the necessary niche skills, deep expertise, and are highly loyal.
               </p>
@@ -40,7 +40,7 @@
         <div class="slide3 h-700px w-full inline-block animate__animated ">
           <div class="h-full w-full flex items-center text-white justify-center" >
             <div class="w-4/5 lg:w-1/2">
-              <h1 class="font-extrabold mb-10 text-6 lg:text-10">MOBILE APP DEVELOPMENT</h1>
+              <h1 class="font-extrabold text-primary mb-10 text-6 lg:text-10">MOBILE APP DEVELOPMENT</h1>
               <p class="mb-10">
                 Delivering on-demand mobile app experiences for startups and enterprise clients by leveraging the latest technologies.
               </p>
@@ -56,7 +56,7 @@
         <div class="slide4 h-700px w-full inline-block animate__animated ">
           <div class="h-full w-full flex items-center text-white justify-center" >
             <div class="w-4/5 lg:w-1/2">
-              <h1 class="font-extrabold mb-10 text-6 lg:text-10">DRIVE DIGITAL DISRUPTION IN HOSPITALITY</h1>
+              <h1 class="font-extrabold text-primary mb-10 text-6 lg:text-10">DRIVE DIGITAL DISRUPTION IN HOSPITALITY</h1>
               <p class="mb-10">
 
                 Check out the potential of digital transformation in the hospitality industry as well as ways
@@ -74,7 +74,7 @@
         <div class="slide5 h-700px w-full inline-block animate__animated ">
           <div class="h-full w-full flex items-center text-white justify-center" >
             <div class="w-4/5 lg:w-1/2">
-              <h1 class="font-extrabold mb-10 text-6 lg:text-10">SMART HEALTHCARE SOLUTIONS</h1>
+              <h1 class="font-extrabold text-primary mb-10 text-6 lg:text-10">INTELLIGENT HEALTHCARE SOLUTIONS</h1>
               <p class="mb-10">
                 Leverage the power of digital solutions to provide more effective treatments and care.
               </p>
@@ -90,7 +90,7 @@
         <div class="slide6 h-700px w-full inline-block animate__animated ">
           <div class="h-full w-full flex items-center text-white justify-center" >
             <div class="w-4/5 lg:w-1/2">
-              <h1 class="font-extrabold mb-10 text-6 lg:text-10">INTELLIGENT INSURANCE</h1>
+              <h1 class="font-extrabold text-primary mb-10 text-6 lg:text-10">INTELLIGENT INSURANCE</h1>
               <p class="mb-10">
                 A strategic roadmap for insurers to enhance revenue streams, time-to-market, and profitability.
               </p>
@@ -103,14 +103,14 @@
       </div>
     </div>
 
-    <div class="swiper-pagination flex justify-center items-center mb-20px w-1/2 mx-auto">
+    <div class="swiper-pagination flex justify-center items-center mb-20px w-1/2 mx-auto float-right">
 
     </div>
-
-    <div class="swiper-button-prev h-16">
-    </div>
-    <div class="swiper-button-next h-16">
-    </div>
+<!--FOR NAVIGATION-->
+<!--    <div class="swiper-button-prev h-16">-->
+<!--    </div>-->
+<!--    <div class="swiper-button-next h-16">-->
+<!--    </div>-->
 
     <div class="swiper-scrollbar"></div>
   </div>
@@ -120,12 +120,31 @@
   export default {
     components: {
     },
+    data(){
+      return{
+        colors:['primary','primary-purple','primary-red','primary-yellow']
+      }
+    },
+    computed:{
+      Pagination(){
+        let colors = this.colors
+        let a  = document.getElementsByClassName('page-bullet')
+        let start = Math.floor(Math.random()*colors.length)
+        for (let i = 0; i <a.length; i++) {
+          let next = start+i
+          let indx= next<=colors.length-1? next:
+              next<=colors.length*2-1?next-colors.length:next-colors.length*2
+          a[i].classList.add(`bg-${colors[indx]}`)
+        }
+      }
+    },
     mounted() {
       const swiper = new Swiper('.carousel-swiper', {
         // Optional parameters
         // direction: 'vertical',
         loop: true,
-        // grabCursor:true,
+        grabCursor:true,
+        spaceBetween:10,
 
 
         // If we need pagination
@@ -151,6 +170,7 @@
           delay:6000
         }
       });
+      this.Pagination
     },
   };
 </script>
@@ -166,8 +186,8 @@
 
 
   .page-bullet{background: #888383a6;height: 8px;width: 8px;border-radius: unset;display: inline-block;margin-right: 28px;}
-  .page-bullet-active,.page-bullet:hover{background: #ffffff;height: 12px;width: 12px;}
-  .swiper-horizontal>.swiper-pagination-bullets, .swiper-pagination-bullets.swiper-pagination-horizontal{width: 50%}
+  .page-bullet-active,.page-bullet:hover{height: 12px;width: 12px;}
+  .swiper-horizontal>.swiper-pagination-bullets, .swiper-pagination-bullets.swiper-pagination-horizontal{width: 100%;justify-content: flex-end;padding-right: 100px}
 
   .swiper-button-prev::after,.swiper-button-next::after{content:unset}
 

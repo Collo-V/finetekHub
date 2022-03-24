@@ -4,13 +4,42 @@
         <h2 class="uppercase text-24px lg:text-8 mb-5 text-center">what we offer</h2>
         <div class="tabs flex mb-10 w-9/10 mx-auto justify-center">
             <div class="w-1/3 max-w-300px" v-for="tab in offerTabs" :key='tab'>
-               <div class="w-full h-full border-b-1px flex justify-center hover:text-primary" v-if="tab!=activeTab">
-                   <button class="uppercase focus:outline-none font-bold h-10" @click="activeTab=tab">{{tab}}</button>
-               </div>
-               <div class="w-full h-full border-b-1px flex justify-center 
-               hover:text-primary border-primary text-primary" v-else>
-                   <button class="uppercase focus:outline-none font-bold h-10">{{tab}}</button>
-               </div>
+              <div class="w-full h-full flex justify-center border-b-1px border-primary-red" v-if="tab == activeTab && tab=='technologies'">
+                <button class="uppercase focus:outline-none font-bold h-10 text-primary-red"
+                        @click="activeTab=tab">{{tab}}</button>
+              </div>
+              <div class="w-full h-full flex justify-center border-b-1px border-primary" v-else-if="tab == activeTab">
+                <button class="uppercase focus:outline-none font-bold h-10 text-primary"
+                        @click="activeTab=tab">{{tab}}</button>
+              </div>
+              <div class="w-full h-full flex justify-center border-b-1px" v-else-if="tab != activeTab && tab=='technologies'">
+                <button class="uppercase focus:outline-none font-bold h-10 hover:text-primary-red"
+                        @click="activeTab=tab">{{tab}}</button>
+              </div>
+              <div class="w-full h-full flex justify-center border-b-1px" v-else>
+                <button class="uppercase focus:outline-none font-bold h-10 hover:text-primary"
+                        @click="activeTab=tab">{{tab}}</button>
+              </div>
+<!--               <div class="w-full h-full border-b-1px flex justify-center" v-if="tab!=activeTab">-->
+<!--                 <div class="w-full h-full flex justify-center" v-if="activeTab=='technologies'">-->
+<!--                   <button class="uppercase focus:outline-none font-bold h-10 hover:text-primary-red"-->
+<!--                           @click="activeTab=tab">{{tab}}</button>-->
+<!--                 </div>-->
+<!--                 <div class="w-full h-full flex justify-center" v-else>-->
+<!--                   <button class="uppercase focus:outline-none font-bold h-10 hover:text-primary"-->
+<!--                           @click="activeTab=tab">{{tab}} init</button>-->
+<!--                 </div>-->
+<!--               </div>-->
+<!--               <div v-if="tab==activeTab">-->
+<!--                 <div class="w-full h-full border-b-1px flex justify-center-->
+<!--               hover:text-primary-red border-primary-red text-primary-red" v-if="activeTab=='technologies'">-->
+<!--                   <button class="uppercase focus:outline-none font-bold h-10">{{tab}}</button>-->
+<!--                 </div>-->
+<!--                 <div class="w-full h-full border-b-1px flex justify-center-->
+<!--               hover:text-primary border-primary text-primary" v-else>-->
+<!--                   <button class="uppercase focus:outline-none font-bold h-10">{{tab}}</button>-->
+<!--                 </div>-->
+<!--               </div>-->
             </div>
         </div>
         <div class="w-full max-w-1200px">

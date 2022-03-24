@@ -37,17 +37,7 @@
               <span class="hidden invalid text-red"><i class="fa-solid fa-triangle-exclamation"></i></span>
             </div>
           </fieldset>
-          <fieldset class="h-36px w-full relative mb-3">
-            <input class="form-input pl-4 w-full h-full flex items-center rounded-sm focus:outline-none border-1px"
-            id="phone" @blur="Validate($event.target.id)">
-            <div class="form-label h-0 w-full absolute pl-4 top-1/2 btm-1/2 flex items-center">
-              <label class="bg-white px-1">First Name*</label>
-            </div>
-            <div class="validity-checker h-0 w-full absolute pr-2 top-1/2 btm-1/2 flex items-center justify-end">
-              <span class="hidden valid text-green"><i class="fa-solid fa-check"></i></span>
-              <span class="hidden invalid text-red"><i class="fa-solid fa-triangle-exclamation"></i></span>
-            </div>
-          </fieldset>
+          <Phone/>
           <fieldset class="h-36px w-full relative mb-3">
             <input class="form-input pl-4 w-full h-full flex items-center rounded-sm focus:outline-none border-1px"
             id="company" @blur="Validate($event.target.id)">
@@ -125,9 +115,13 @@
 </template>
 
 <script>
+import Phone from "@/components/Phone";
 export default {
   name: "Contact",
-  data(){},
+  components: {Phone},
+  data(){
+    return{}
+  },
   methods:{
     Validate(id){
       console.log(id)

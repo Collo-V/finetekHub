@@ -1,7 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
 
-
+import Home from "@/views/Home";
+import Team from "@/views/Team";
 
 const routes = [
     {
@@ -11,6 +12,12 @@ const routes = [
         props: true
     },
     {
+        path: '/team',
+        name: 'team',
+        component: Team,
+        props: true
+    },
+
 
 ]
 

@@ -1,6 +1,6 @@
 <template>
 
-  <section class="client-success w-full p-16 bg-moda">
+  <section class="client-success w-full p-16 bg-gre">
     <div class="client-success-cont w-4/5 max-w-1200px mx-auto">
       <h1 class="uppercase text-center">client success</h1>
       <a href="#cases" class="text-primary block my-5 text-18pxhh text-center font-bold uppercase">
@@ -8,9 +8,9 @@
       </a>
       <div class="shadow bg-white">
         <div
-            style="--swiper-navigation-color: #fff; --swiper-pagination-color: #fff;margin: 0;height: fit-content"
             class="swiper mySwiper2 h-fit m-0 border-b-2px border-grey-light"
         >
+<!--            style="&#45;&#45;swiper-navigation-color: #fff; &#45;&#45;swiper-pagination-color: #fff;margin: 0;height: fit-content"-->
           <div class="swiper-wrapper ">
             <div class="swiper-slide flex">
               <div>
@@ -86,24 +86,24 @@
 
           </div>
         </div>
-        <div thumbsSlider="" class="swiper mySwiper">
-          <div class="swiper-wrapper cursor-pointer">
-            <div class="swiper-slide border-r-2px border-r-grey-light">
+        <div thumbsSlider="" class="swiper mySwiper bg-grey-light">
+          <div class="swiper-wrapper cursor-pointer bg-grey">
+            <div class="swiper-slide bg-white">
               <img src="../assets/images/clientLogos/cirrus.png" />
             </div>
-            <div class="swiper-slide border-r-2px border-r-grey-light">
+            <div class="swiper-slide bg-white">
               <img src="../assets/images/clientLogos/eurostar.png" />
             </div>
-            <div class="swiper-slide border-r-2px border-r-grey-light">
+            <div class="swiper-slide bg-white">
               <img src="../assets/images/clientLogos/harley-davidson.png" />
             </div>
-            <div class="swiper-slide border-r-2px border-r-grey-light">
+            <div class="swiper-slide bg-white">
               <img src="../assets/images/clientLogos/ernst-young.png" />
             </div>
-            <div class="swiper-slide border-r-2px border-r-grey-light">
+            <div class="swiper-slide bg-white">
               <img src="../assets/images/clientLogos/guinness.png" />
             </div>
-            <div class="swiper-slide border-r-2px border-r-grey-light">
+            <div class="swiper-slide bg-white">
               <img src="../assets/images/clientLogos/jaguar-talk.png" />
             </div>
           </div>
@@ -120,18 +120,19 @@ export default {
     name:'ClientSuccess',
   mounted() {
     var swiper = new Swiper(".mySwiper", {
-      spaceBetween: 10,
+      spaceBetween:0,
       slidesPerView: 6,
       loop:true,
       autoplay: {
         delay:6000
       },
+      slideActiveClass:'swiper-slide-active border-b-2px border-primary',
       // auto?
       freeMode: true,
       watchSlidesProgress: true,
     });
     var swiper2 = new Swiper(".mySwiper2", {
-      spaceBetween: 10,
+      // spaceBetween: 10,
       loop:true,
       autoplay: {
         delay:6000
@@ -141,13 +142,13 @@ export default {
       },
     });
   }
-
+//class="swiper-slide border-r-2px border-r-grey-light swiper-slide-visible swiper-slide-active swiper-slide-thumb-active"
 }
 </script>
 
 <style>
 .swiper-slide-thumb-active{
-  padding-bottom:0PX;border-bottom: solid 2px blue;
+  padding-bottom:0PX;border-bottom: solid;
 }
 
 </style>

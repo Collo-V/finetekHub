@@ -3,16 +3,18 @@
   <nav class="nav hidden lg:flex h-80px absolute top-0 w-full z-3 items-center justify-center hover:bg-white text-black justify-center text-white hover:text-black" id="nav">
       <div class="flex w-4/5  h-full items-center">
           <div class="sub-menu-title w-full">
-              <div class="w-240px h-46px mx-auto logo-div">
-                <div class="main-logo flex hidden">
-                  <img src="../assets/images/logos/logoFwhite.png" class="w-46px h-46px">
-<!--                  <img src="../assets/images/logos/finetelWhiteText@2x.png" class="w-100px h-46px">-->
+              <router-link to="/">
+                <div class="w-240px h-46px mx-auto logo-div">
+                  <div class="main-logo flex hidden">
+                    <img src="../assets/images/logos/logoFwhite.png" class="w-46px h-46px">
+                                      <img src="../assets/images/logos/finetelWhiteText@2x.png" class="w-100px h-46px">
+                  </div>
+                  <div class="hover-logo flex hidden">
+                    <img src="../assets/images/logos/iconColored@2x.png" class="w-46px h-46px">
+                                      <img src="../assets/images/logos/textColored@2x.png" class="w-170px h-46px">
+                  </div>
                 </div>
-                <div class="hover-logo flex hidden">
-                  <img src="../assets/images/logos/iconColored@2x.png" class="w-46px h-46px">
-<!--                  <img src="../assets/images/logos/textColored@2x.png" class="w-170px h-46px">-->
-                </div>
-              </div>
+              </router-link>
           </div>
           <ul class="list-none h-full flex">
               <li class=" menu-item services h-full inline-flex items-center">
@@ -197,8 +199,21 @@
                                       </div>
 
                                   </div>
-                                  <div class="mb-5 dropdown-cont">
-                                      <a href="#hj" class="hover:text-primary">Blockchain (DLT)</a>
+<!--                                  <div class="mb-5 dropdown-cont">-->
+<!--                                      <a href="#hj" class="hover:text-primary">Blockchain (DLT)</a>-->
+<!--                                      <div class="menu-img-div hidden dropdown absolute top-0 right-full mr-8 h-fit w-max ">-->
+<!--                                          <div class="absolute top-0 right-0 w-full h-full flex items-center justify center">-->
+<!--                                              <div class=" absolute top-0 right-0 img-div-crop"></div>-->
+<!--                                              <div class="w-4/5 mx-auto text-white">-->
+<!--                                                  Blockchain development and consultancy for enterprise, SMBs, and funded startups-->
+<!--                                              </div>-->
+<!--                                          </div>-->
+<!--                                          <img src="../assets/images/menu/tech/blockchain.jpg" alt="" class="w-550px">-->
+<!--                                      </div>-->
+
+<!--                                  </div>-->
+                                <div class="mb-5 dropdown-cont">
+                                      <a href="#hj" class="hover:text-primary">Computer Vision</a>
                                       <div class="menu-img-div hidden dropdown absolute top-0 right-full mr-8 h-fit w-max ">
                                           <div class="absolute top-0 right-0 w-full h-full flex items-center justify center">
                                               <div class=" absolute top-0 right-0 img-div-crop"></div>
@@ -208,8 +223,20 @@
                                           </div>
                                           <img src="../assets/images/menu/tech/blockchain.jpg" alt="" class="w-550px">
                                       </div>
+                                </div>
+                                <div class="mb-5 dropdown-cont">
+                                      <a href="#hj" class="hover:text-primary">Augmented Reality</a>
+                                      <div class="menu-img-div hidden dropdown absolute top-0 right-full mr-8 h-fit w-max ">
+                                          <div class="absolute top-0 right-0 w-full h-full flex items-center justify center">
+                                              <div class=" absolute top-0 right-0 img-div-crop"></div>
+                                              <div class="w-4/5 mx-auto text-white">
+                                                  Blockchain development and consultancy for enterprise, SMBs, and funded startups
+                                              </div>
+                                          </div>
+                                          <img src="../assets/images/menu/tech/blockchain.jpg" alt="" class="w-550px">
+                                      </div>
+                                </div>
 
-                                  </div>
                                   <div class="mb-5 dropdown-cont">
                                       <a href="#hj" class="hover:text-primary">Customer Experience (UX / UI)</a>
                                       <div class="menu-img-div hidden dropdown absolute top-0 right-full mr-8 h-fit w-max ">
@@ -256,7 +283,7 @@
 
                                       </div>
                                       <div class="mb-5 dropdown-cont">
-                                          <a href="#hj" class="hover:text-primary">Construction</a>
+                                          <a href="#hj" class="hover:text-primary">Agriculture</a>
                                           <div class="menu-img-div hidden dropdown absolute top-0 right-full mr-8 h-fit w-max ">
                                               <div class="absolute top-0 right-0 w-full h-full flex items-center justify center">
                                                   <div class=" absolute top-0 right-0 img-div-crop"></div>
@@ -282,7 +309,7 @@
 
                                       </div>
                                       <div class="mb-5 dropdown-cont">
-                                          <a href="#hj" class="hover:text-primary">Dental</a>
+                                          <a href="#hj" class="hover:text-primary">Human Resource</a>
                                           <div class="menu-img-div hidden dropdown absolute top-0 right-full mr-8 h-fit w-max ">
                                               <div class="absolute top-0 right-0 w-full h-full flex items-center justify center">
                                                   <div class=" absolute top-0 right-0 img-div-crop"></div>
@@ -295,12 +322,12 @@
 
                                       </div>
                                       <div class="mb-5 dropdown-cont">
-                                          <a href="#hj" class="hover:text-primary">Insurance</a>
+                                          <a href="#hj" class="hover:text-primary">Security</a>
                                           <div class="menu-img-div hidden dropdown absolute top-0 right-full mr-8 h-fit w-max ">
                                               <div class="absolute top-0 right-0 w-full h-full flex items-center justify center">
                                                   <div class=" absolute top-0 right-0 img-div-crop"></div>
                                                   <div class="w-4/5 mx-auto text-white">
-                                                      Digital transformation of insurance services with custom software development, Artificial Intelligence, and cloud
+                                                    Custom security solution for military and security companies
 
                                                   </div>
                                               </div>
@@ -323,7 +350,7 @@
                                       </div>
 
                                       <div class="mb-5 dropdown-cont">
-                                          <a href="#hj" class="hover:text-primary">Logistics & Automotive</a>
+                                          <a href="#hj" class="hover:text-primary">E-commerce</a>
                                           <div class="menu-img-div hidden dropdown absolute top-0 right-full mr-8 h-fit w-max ">
                                               <div class="absolute top-0 right-0 w-full h-full flex items-center justify center">
                                                   <div class=" absolute top-0 right-0 img-div-crop"></div>
@@ -332,39 +359,12 @@
 
                                                   </div>
                                               </div>
-                                              <img src="../assets/images/menu/industries/logistics.jpg" alt="" class="w-550px">
-                                          </div>
-
-                                      </div>
-                                  </div>
-                                  <div class="border-l-1px pl-3 w-225px h-fit">
-                                      <div class="mb-5 dropdown-cont">
-                                          <a href="#hj" class="hover:text-primary">Travel & Hospitality</a>
-                                          <div class="menu-img-div hidden dropdown absolute top-0 right-full mr-8 h-fit w-max ">
-                                              <div class="absolute top-0 right-0 w-full h-full flex items-center justify center">
-                                                  <div class=" absolute top-0 right-0 img-div-crop"></div>
-                                                  <div class="w-4/5 mx-auto text-white">
-                                                      Smart room systems, unified hotel experience, next-generation entertainment, security solutions, and more
-                                                  </div>
-                                              </div>
-                                              <img src="../assets/images/menu/industries/travel.jpg" alt="" class="w-550px">
-                                          </div>
-
-                                      </div>
-                                      <div class="mb-5 dropdown-cont">
-                                          <a href="#hj" class="hover:text-primary">Retail & E-Commerce</a>
-                                          <div class="menu-img-div hidden dropdown absolute top-0 right-full mr-8 h-fit w-max ">
-                                              <div class="absolute top-0 right-0 w-full h-full flex items-center justify center">
-                                                  <div class=" absolute top-0 right-0 img-div-crop"></div>
-                                                  <div class="w-4/5 mx-auto text-white">
-                                                      Transform the shopping experience through gamification, big data, and AR / VR solutions
-                                                  </div>
-                                              </div>
                                               <img src="../assets/images/menu/industries/retail.jpg" alt="" class="w-550px">
                                           </div>
 
                                       </div>
                                   </div>
+
 
                               </div>
 
@@ -467,7 +467,7 @@
 
                                       </div>
                                       <div class="mb-5 dropdown-cont">
-                                          <a href="#hj" class="hover:text-primary">Team</a>
+                                        <router-link to="/team" class="hover:text-primary">Team</router-link>
                                           <div class="menu-img-div hidden dropdown absolute top-0 right-full mr-8 h-fit w-max ">
                                               <div class="absolute top-0 right-0 w-full h-full flex items-center justify center">
                                                   <div class=" absolute top-0 right-0 img-div-crop"></div>
