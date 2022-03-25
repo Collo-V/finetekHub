@@ -114,10 +114,10 @@
             <a href="#ej" class="font-bold uppercase text-black">contacts</a>
           </li>
           <li class="whitespace-nowrap mb-3 hover:text-primary">
-            <a href="mailto:info@intellectsoft.net" class="capitalize text-primary font-bold">info@intellectsoft.net</a>
+            <a href="mailto:info@fineteklabs.com" class="text-primary font-bold">info@fineteklabs.com</a>
           </li>
           <li class="whitespace-nowrap mb-3 hover:text-primary">
-            <a href="#ej" class="capitalize">+1 855 TOP DEVS</a>
+            <a href="tel:+254734341962" class="capitalize">+254 734 34 1962</a>
           </li>
           <li class="whitespace-nowrap mb-3 hover:text-primary">
             <a href="#ej" class="capitalize">+1 650 300 4335</a>
@@ -145,7 +145,7 @@
       </p>
       <div class="flex justify-between">
         <div class="flex w-full">
-          <div class="border-r-1px py-1 pr-2">© 2022 Intellectsoft US</div>
+          <div class="border-r-1px py-1 pr-2">© {{new Date().getFullYear()}} Fineteklabs</div>
           <div class="border-r-1px py-1 px-2">
             <a href="#sitemap" class="hover:text-inherit">Sitemap</a>
           </div>
@@ -157,25 +157,32 @@
         <div class="flex w-full justify-end">
           <div class="flex items-center">
             <span class="mr-3">
-              <a href="#linkedin" class="rounded-full text-5 hover:text-blue"><i class="fa-brands fa-linkedin"></i></a>
-            </span>
-            <span class="mr-3">
-              <a href="#linkedin" class="rounded-full text-5 hover:text-blue"><i class="fa-brands fa-facebook"></i></a>
-            </span>
-            <span class="mr-3">
-              <a href="#linkedin" class="rounded-full text-5  hover:text-primary"><i class="fa-brands fa-twitter"></i></a>
-            </span>
-            <span class="mr-3">
-              <a href="#linkedin" class=" text-5">
-                <span class="flex items-center justify-center h-5 w-5 inline-block bg-grey-dark rounded-full hover:bg-red">
-                  <span class="h-2 w-2 rounded-full inline-block bg-white mr-2px"></span>
-                  <span class="h-2 w-2 rounded-full inline-block bg-white"></span>
-                </span>
+              <a href="https://www.linkedin.com/company/finetek-technologies-k-ltd/about/" class="rounded-full text-5 hover:text-blue"  target="_blank">
+                <i class="fa-brands fa-linkedin"></i>
               </a>
             </span>
             <span class="mr-3">
-              <a href="#linkedin" class="rounded-full text-5  hover:text-red"><i class="fa-brands fa-youtube"></i></a>
+              <a href="https://www.facebook.com/Fineteklabs/" target="_blank"
+                 class="rounded-full text-5 hover:text-blue">
+                <i class="fa-brands fa-facebook"></i>
+              </a>
             </span>
+            <span class="mr-3">
+              <a href="https://twitter.com/fineteklabs" target="_blank" class="rounded-full text-5  hover:text-primary">
+                <i class="fa-brands fa-twitter"></i>
+              </a>
+            </span>
+<!--            <span class="mr-3">-->
+<!--              <a href="#linkedin" class=" text-5">-->
+<!--                <span class="flex items-center justify-center h-5 w-5 inline-block bg-grey-dark rounded-full hover:bg-red">-->
+<!--                  <span class="h-2 w-2 rounded-full inline-block bg-white mr-2px"></span>-->
+<!--                  <span class="h-2 w-2 rounded-full inline-block bg-white"></span>-->
+<!--                </span>-->
+<!--              </a>-->
+<!--            </span>-->
+<!--            <span class="mr-3">-->
+<!--              <a href="#linkedin" class="rounded-full text-5  hover:text-red"><i class="fa-brands fa-youtube"></i></a>-->
+<!--            </span>-->
           </div>
         </div>
 

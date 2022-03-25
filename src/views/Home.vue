@@ -9,7 +9,7 @@
           <Awards/>
           <Contact/>
           <News/>
-          <Offices/>
+<!--          <Offices/>-->
   </div>
 </template>
 
