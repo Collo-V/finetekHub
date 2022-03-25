@@ -3,7 +3,7 @@
     <!-- Additional required wrapper -->
     <div class="swiper-wrapper">
       <!-- Slides -->
-      <div class="swiper-slide">
+      <div class="swiper-slide animate_animated">
         <div class=" slide1 h-700px w-full inline-block w-full  animate__animated w">
           <div class="h-full w-full flex items-center text-white justify-center" >
             <div class="w-4/5 lg:w-1/2">
@@ -20,7 +20,7 @@
         </div>
       </div>
 
-      <div class="swiper-slide">
+      <div class="swiper-slide animate_animated">
         <div class="slide2 h-700px w-full inline-block animate__animated ">
           <div class="h-full w-full flex items-center text-white justify-center" >
             <div class="w-4/5 lg:w-1/2">
@@ -36,7 +36,7 @@
         </div>
       </div>
 
-      <div class="swiper-slide">
+      <div class="swiper-slide animate_animated">
         <div class="slide3 h-700px w-full inline-block animate__animated ">
           <div class="h-full w-full flex items-center text-white justify-center" >
             <div class="w-4/5 lg:w-1/2">
@@ -52,7 +52,7 @@
         </div>
       </div>
 
-      <div class="swiper-slide">
+      <div class="swiper-slide animate_animated">
         <div class="slide4 h-700px w-full inline-block animate__animated ">
           <div class="h-full w-full flex items-center text-white justify-center" >
             <div class="w-4/5 lg:w-1/2">
@@ -70,7 +70,7 @@
         </div>
       </div>
 
-      <div class="swiper-slide">
+      <div class="swiper-slide animate_animated">
         <div class="slide5 h-700px w-full inline-block animate__animated ">
           <div class="h-full w-full flex items-center text-white justify-center" >
             <div class="w-4/5 lg:w-1/2">
@@ -86,7 +86,7 @@
         </div>
       </div>
 
-      <div class="swiper-slide">
+      <div class="swiper-slide animate_animated">
         <div class="slide6 h-700px w-full inline-block animate__animated ">
           <div class="h-full w-full flex items-center text-white justify-center" >
             <div class="w-4/5 lg:w-1/2">
@@ -135,16 +135,17 @@
           let indx= next<=colors.length-1? next:
               next<=colors.length*2-1?next-colors.length:next-colors.length*2
           a[i].classList.add(`bg-${colors[indx]}`)
+          console.log(`bg-${colors[indx]}`)
         }
       }
     },
     mounted() {
       const swiper = new Swiper('.carousel-swiper', {
-        // Optional parameters
-        // direction: 'vertical',
         loop: true,
-        grabCursor:true,
         spaceBetween:10,
+        slidePrevClass:'swiper-slide-duplicate-prev slide animate__slideOutLeft',
+        slideActiveClass:'swiper-slide-active animate__slideInRight',
+        speed:1000,
 
 
         // If we need pagination
@@ -185,7 +186,7 @@
   .slide6{background: linear-gradient(to right, #1f1d1da9,#1f1d1da9), url(~@/assets/images/slide/family.jpg) no-repeat center/cover;}
 
 
-  .page-bullet{background: #888383a6;height: 8px;width: 8px;border-radius: unset;display: inline-block;margin-right: 28px;}
+  .page-bullet{height: 8px;width: 8px;border-radius: unset;display: inline-block;margin-right: 28px;}
   .page-bullet-active,.page-bullet:hover{height: 12px;width: 12px;}
   .swiper-horizontal>.swiper-pagination-bullets, .swiper-pagination-bullets.swiper-pagination-horizontal{width: 100%;justify-content: flex-end;padding-right: 100px}
 
@@ -195,6 +196,5 @@
   .swiper-button-prev:hover{background:linear-gradient(to right, #5250503a,#5250503a), url(~@/assets/images/icons/arrow-left-dark.svg) no-repeat center;transform: none;}
   .swiper-button-next{background:url(~@/assets/images/icons/arrow-right-light.svg) no-repeat center}
   .swiper-button-next:hover{background:linear-gradient(to right, #5250503a,#5250503a), url(~@/assets/images/icons/arrow-left-dark.svg) no-repeat center;transform: rotate(180deg);}
-  /* .swiper-button-next:hover{transform: translateY(-50%) rotate(180deg);background: #7976769c;} */
-
+  
 </style>

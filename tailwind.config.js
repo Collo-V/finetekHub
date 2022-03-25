@@ -92,6 +92,7 @@ let colors = {
   'primary-dark':'#649A00',
   'purple':'#800080',
   'modal':'#5757585A',
+  'grey-bg':'#fafafa',
   'grey-skeleton':'#d1d1d1',
   'loader':'rgba(124,124,127,0.2)',
   'grey-input':'#dde9d4',

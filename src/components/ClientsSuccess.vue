@@ -126,8 +126,10 @@ export default {
       autoplay: {
         delay:6000
       },
-      slideActiveClass:'swiper-slide-active border-b-2px border-primary',
-      // auto?
+    thumbs:{
+      slideThumbActiveClass:'swiper-slide-thumb-active border-b-2px border-primary',
+      autoScrollOffset:0
+    },
       freeMode: true,
       watchSlidesProgress: true,
     });
@@ -146,9 +148,7 @@ export default {
 }
 </script>
 
-<style>
-.swiper-slide-thumb-active{
-  padding-bottom:0PX;border-bottom: solid;
-}
+<style scoped>
+
 
 </style>

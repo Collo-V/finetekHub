@@ -7,7 +7,7 @@
                 <div class="w-240px h-46px mx-auto logo-div">
                   <div class="main-logo flex hidden">
                     <img src="../assets/images/logos/logoFwhite.png" class="w-46px h-46px">
-                                      <img src="../assets/images/logos/finetelWhiteText@2x.png" class="w-100px h-46px">
+                                      <img src="../assets/images/logos/logoWhiteDi@2x.png" class="w-170px h-46px">
                   </div>
                   <div class="hover-logo flex hidden">
                     <img src="../assets/images/logos/iconColored@2x.png" class="w-46px h-46px">

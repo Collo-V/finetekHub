@@ -190,7 +190,7 @@
 
     </div>
   </footer>
-  <footer class="lg:hidden text-grey-dark mb-5 bg-grey-cyan">
+  <footer class="lg:hidden text-grey-dark mb-5">
     <div class="footer-item px-4 border-t-1px border-b-1px -mt-1px" id="mob-footer-services">
       <div class="flex justify-between font-bold w-full items-center  h-10" @click="Expand('mob-footer-services')">
         <span class="block uppercase">services</span>

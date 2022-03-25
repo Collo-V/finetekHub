@@ -11,31 +11,14 @@
 </template>
 
 <script>
-import Slide from './components/Slide.vue'
-import Clients from './components/Clients'
-import Other from './components/Other.vue'
 import Nav from "@/components/Nav";
-import Offers from './components/Offers'
-import ClientSuccess from "@/components/ClientsSuccess";
-import Awards from "@/components/Awards";
-import Contact from "@/components/Contact";
-import News from "@/components/News";
-import Offices from "@/components/Offices";
 import Footer from "@/components/Footer";
-import Team from "@/views/Team";
 
 export default {
   name: 'App',
   components: {
-    Team,
     Footer,
-    Offices,
-    Contact,
-    Awards,
-    ClientSuccess,
-      Nav,
-    Clients,Other,Slide,Offers,
-    News
+    Nav,
   }
 }
 </script>

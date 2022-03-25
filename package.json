@@ -13,6 +13,7 @@
     "@growthbunker/vueflags": "^0.1.14",
     "animate.css": "^4.1.1",
     "core-js": "^3.6.5",
+    "intl-tel-input": "^17.0.16",
     "swiper": "^8.0.0",
     "vue": "^3.0.0",
     "vue-router": "^4.0.14"

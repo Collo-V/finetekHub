@@ -1,8 +1,6 @@
 <template>
-  <div class="w-full">
-            <Slide/>
-
-
+  <div class="w-full bg-grey-bg">
+          <Slide/>
           <Offers/>
           <Clients/>
           <ClientsSuccess/>
