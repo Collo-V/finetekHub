@@ -176,7 +176,7 @@
   };
 </script>
 
-<style>
+<style scoped>
   .swiper:active{cursor: grab;}
   .slide1{background: linear-gradient(to right, #1f1d1da9,#1f1d1da9), url(~@/assets/images/slide/planning2.jpg) no-repeat center/cover;color: white;}
   .slide2{background: linear-gradient(to right, #1f1d1da9,#1f1d1da9), url(~@/assets/images/slide/slide_3-1x.jpg) no-repeat center/cover;color: white;}
