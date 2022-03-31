@@ -268,6 +268,7 @@
   }
 
   img.grayscale:hover {
+    display: none;
     filter: none;
     -webkit-filter: grayscale(0%);
   }
