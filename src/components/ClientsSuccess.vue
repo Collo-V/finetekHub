@@ -89,22 +89,25 @@
         <div thumbsSlider="" class="swiper mySwiper bg-grey-light">
           <div class="swiper-wrapper cursor-pointer bg-grey">
             <div class="swiper-slide bg-white">
-              <img src="../assets/images/clientLogos/cirrus.png" />
+              <img src="../assets/images/clients-Success/povo.png" />
             </div>
             <div class="swiper-slide bg-white">
-              <img src="../assets/images/clientLogos/eurostar.png" />
+              <img src="../assets/images/clients-Success/buruk.png" />
             </div>
             <div class="swiper-slide bg-white">
-              <img src="../assets/images/clientLogos/harley-davidson.png" />
+              <img src="../assets/images/clients-Success/mnc.png" />
             </div>
             <div class="swiper-slide bg-white">
-              <img src="../assets/images/clientLogos/ernst-young.png" />
+              <img src="../assets/images/clients-Success/canopy.png" />
             </div>
             <div class="swiper-slide bg-white">
-              <img src="../assets/images/clientLogos/guinness.png" />
+              <img src="../assets/images/clients-Success/robin.png" />
             </div>
+<!--            <div class="swiper-slide bg-white">-->
+<!--              <img src="../assets/images/clients-Success/sucafina.png" />-->
+<!--            </div>-->
             <div class="swiper-slide bg-white">
-              <img src="../assets/images/clientLogos/jaguar-talk.png" />
+              <img src="../assets/images/clients-Success/magicKenya.png" />
             </div>
           </div>
         </div>        
