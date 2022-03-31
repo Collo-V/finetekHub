@@ -13,16 +13,16 @@
       <div class="w-full hidden lg:block">
           <div class="flex mx-auto w-fit">
               <div class="w-48 h-32 flex items-center justify-center">
-                  <img src="../assets/images/clientLogos/universal.svg" alt="">
+                  <img src="../assets/images/clientLogos/canopy.png" alt="">
               </div>
               <div class="w-48 h-32 flex items-center justify-center">
-                  <img src="../assets/images/clientLogos/nhs.svg" alt="">
+                  <img src="../assets/images/clientLogos/ideasUnLtd.png" alt="">
               </div>
               <div class="w-48 h-32 flex items-center justify-center">
-                  <img src="../assets/images/clientLogos/guinness.svg" alt="">
+                  <img src="../assets/images/clientLogos/falconSigns.png" alt="">
               </div>
               <div class="w-48 h-32 flex items-center justify-center">
-                  <img src="../assets/images/clientLogos/eurostar.svg" alt="">
+                  <img src="../assets/images/clientLogos/magicKenya.png" alt="">
               </div>
               <div class="w-48 h-32 flex items-center justify-center">
                   <img src="../assets/images/clientLogos/ernst-young.svg" alt="">
@@ -101,18 +101,18 @@
             <div class="swiper-slide w-full ">
               <div class="flex w-full">
                 <div class="w-1/2 h-32">
-                  <img src="../assets/images/clientLogos/universal.svg" alt="">
+                  <img src="../assets/images/clientLogos/canopy.png" alt="">
                 </div>
                 <div class="w-1/2 h-32">
-                  <img src="../assets/images/clientLogos/nhs.svg" alt="">
+                  <img src="../assets/images/clientLogos/ideasUnLtd.png" alt="">
                 </div>
               </div>
               <div class="flex w-full">
                 <div class="w-1/2 h-32">
-                  <img src="../assets/images/clientLogos/griffins.svg" alt="">
+                  <img src="../assets/images/clientLogos/falconSigns.png" alt="">
                 </div>
                 <div class="w-1/2 h-32">
-                  <img src="../assets/images/clientLogos/land-rover.svg" alt="">
+                  <img src="../assets/images/clientLogos/magicKenya.png" alt="">
                 </div>
               </div>
               <div class="flex w-full">

@@ -14,7 +14,7 @@
         <div class="swiper-wrapper">
           <!-- Slides -->
           <div class="swiper-slide">
-            <div class="slide1 inline-block border-r-2px overflow-hidden border-white animate__animated w-245px h-360px relative" >
+            <div class="of-slide1 inline-block border-r-2px overflow-hidden border-white animate__animated w-245px h-360px relative" >
               <div class="absolute h-full left-full w-2px bg-white top-0"></div>
               <div class="office-details h-full w-full relative text-white">
                 <div class="pb-2 w-full text-center font-bold absolute btm-0">
@@ -30,7 +30,7 @@
             </div>
           </div>
           <div class="swiper-slide">
-            <div class="slide2 inline-block border-r-2px overflow-hidden border-white animate__a w-245px h-360px relative">
+            <div class="of-slide2 inline-block border-r-2px overflow-hidden border-white animate__a w-245px h-360px relative">
               <div class="absolute h-full left-full w-2px bg-white top-0"></div>
               <div class="office-details h-full w-full relative text-white">
                 <div class="pb-2 w-full text-center font-bold absolute btm-0">
@@ -46,7 +46,7 @@
             </div>
           </div>
           <div class="swiper-slide">
-            <div class="slide3 inline-block border-r-2px overflow-hidden border-white animate__an w-245px h-360px relative" >
+            <div class="of-slide3 inline-block border-r-2px overflow-hidden border-white animate__an w-245px h-360px relative" >
               <div class="absolute h-full left-full w-2px bg-white top-0"></div>
               <div class="office-details h-full w-full relative text-white">
                 <div class="pb-2 w-full text-center font-bold absolute btm-0">
@@ -62,7 +62,7 @@
             </div>
           </div>
           <div class="swiper-slide">
-            <div class="slide4 inline-block border-r-2px overflow-hidden border-white animate__an w-245px h-360px relative">
+            <div class="of-slide4 inline-block border-r-2px overflow-hidden border-white animate__an w-245px h-360px relative">
               <div class="absolute h-full left-full w-2px bg-white top-0"></div>
               <div class="office-details h-full w-full relative text-white">
                 <div class="pb-2 w-full text-center font-bold absolute btm-0">
@@ -78,7 +78,7 @@
             </div>
           </div>
           <div class="swiper-slide">
-            <div class="slide5 inline-block border-r-2px overflow-hidden border-white animate__an w-245px h-360px relative">
+            <div class="of-slide5 inline-block border-r-2px overflow-hidden border-white animate__an w-245px h-360px relative">
               <div class="absolute h-full left-full w-2px bg-white top-0"></div>
               <div class="office-details h-full w-full relative text-white">
                 <div class="pb-2 w-full text-center font-bold absolute btm-0">
@@ -109,7 +109,7 @@
         <div class="swiper-wrapper">
           <!-- Slides -->
           <div class="swiper-slide">
-            <div class="slide1 inline-block border-r-2px overflow-hidden border-white animate__animated w-full h-360px relative" >
+            <div class="of-slide1 inline-block border-r-2px overflow-hidden border-white animate__animated w-full h-360px relative" >
               <div class="absolute h-full left-full w-2px bg-white top-0"></div>
               <div class="office-details h-full w-full relative text-white">
                 <div class="pb-2 w-full text-center font-bold absolute btm-0">
@@ -125,7 +125,7 @@
             </div>
           </div>
           <div class="swiper-slide">
-            <div class="slide2 inline-block border-r-2px overflow-hidden border-white animate__a w-full h-360px relative">
+            <div class="of-slide2 inline-block border-r-2px overflow-hidden border-white animate__a w-full h-360px relative">
               <div class="absolute h-full left-full w-2px bg-white top-0"></div>
               <div class="office-details h-full w-full relative text-white">
                 <div class="pb-2 w-full text-center font-bold absolute btm-0">
@@ -141,7 +141,7 @@
             </div>
           </div>
           <div class="swiper-slide">
-            <div class="slide3 inline-block border-r-2px overflow-hidden border-white animate__an w-full h-360px relative" >
+            <div class="of-slide3 inline-block border-r-2px overflow-hidden border-white animate__an w-full h-360px relative" >
               <div class="absolute h-full left-full w-2px bg-white top-0"></div>
               <div class="office-details h-full w-full relative text-white">
                 <div class="pb-2 w-full text-center font-bold absolute btm-0">
@@ -157,7 +157,7 @@
             </div>
           </div>
           <div class="swiper-slide">
-            <div class="slide4 inline-block border-r-2px overflow-hidden border-white animate__an w-full h-360px relative">
+            <div class="of-slide4 inline-block border-r-2px overflow-hidden border-white animate__an w-full h-360px relative">
               <div class="absolute h-full left-full w-2px bg-white top-0"></div>
               <div class="office-details h-full w-full relative text-white">
                 <div class="pb-2 w-full text-center font-bold absolute btm-0">
@@ -173,7 +173,7 @@
             </div>
           </div>
           <div class="swiper-slide">
-            <div class="slide5 inline-block border-r-2px overflow-hidden border-white animate__an w-full h-360px relative">
+            <div class="of-slide5 inline-block border-r-2px overflow-hidden border-white animate__an w-full h-360px relative">
               <div class="absolute h-full left-full w-2px bg-white top-0"></div>
               <div class="office-details h-full w-full relative text-white">
                 <div class="pb-2 w-full text-center font-bold absolute btm-0">
@@ -251,11 +251,11 @@
 
 <style scoped>
   .swiper:active{cursor: grab;}
-  .slide1{background:url(~@/assets/images/offices/oslo-norway.jpg) no-repeat center/cover;}
-  .slide2{background:url(~@/assets/images/offices/usa-ny.jpg) no-repeat center/cover;}
-  .slide3{background:url(~@/assets/images/offices/miami.jpg) no-repeat center/cover;}
-  .slide4{background:url(~@/assets/images/offices/ukraine-kyiv.jpg) no-repeat center/cover;}
-  .slide5{background:url(~@/assets/images/offices/london-uk.jpg) no-repeat center/cover;}
+  .of-slide1{background:url(~@/assets/images/offices/oslo-norway.jpg) no-repeat center/cover;}
+  .of-slide2{background:url(~@/assets/images/offices/usa-ny.jpg) no-repeat center/cover;}
+  .of-slide3{background:url(~@/assets/images/offices/miami.jpg) no-repeat center/cover;}
+  .of-slide4{background:url(~@/assets/images/offices/ukraine-kyiv.jpg) no-repeat center/cover;}
+  .of-slide5{background:url(~@/assets/images/offices/london-uk.jpg) no-repeat center/cover;}
 
   .office-details:hover{background: #1474f28e;}
   .office-details:hover .office-contact{display: initial;}
