@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full bg-grey-bg">
+  <div class="w-full">
           <Slide/>
           <Offers/>
           <Clients/>
