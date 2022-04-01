@@ -1,8 +1,8 @@
 <template>
   <div class="w-full">
           <Slide/>
-          <Offers/>
           <Clients/>
+          <Offers/>
           <ClientsSuccess/>
           <Awards/>
           <Contact/>

@@ -135,7 +135,7 @@
           let indx= next<=colors.length-1? next:
               next<=colors.length*2-1?next-colors.length:next-colors.length*2
           a[i].classList.add(`bg-${colors[indx]}`)
-          console.log(`bg-${colors[indx]}`)
+          // console.log(`bg-${colors[indx]}`)
         }
       }
     },
@@ -176,8 +176,8 @@
   };
 </script>
 
-<style scoped>
-  .carousel-swiper{display: none}
+<style>
+  /*.carousel-swiper{display: none}*/
   .swiper:active{cursor: grab;}
   .slide1{background: linear-gradient(to right, #1f1d1da9,#1f1d1da9), url(~@/assets/images/slide/planning2.jpg) no-repeat center/cover;}
   .slide2{background: linear-gradient(to right, #1f1d1da9,#1f1d1da9), url(~@/assets/images/slide/slide_3-1x.jpg) no-repeat center/cover}

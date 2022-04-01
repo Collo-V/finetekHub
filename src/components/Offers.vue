@@ -1,5 +1,5 @@
 <template>
-<section class="offers-section min-h-500px p-16">
+<section class="offers-section min-h-500px p-16 mt-10">
     <div class="flex-col flex justify-center items-center w-9/10 mx-auto ">
         <h2 class="uppercase text-24px lg:text-8 mb-5 text-center">what we offer</h2>
         <div class="tabs flex mb-10 w-9/10 mx-auto justify-center">
@@ -20,26 +20,7 @@
                 <button class="uppercase focus:outline-none font-bold h-10 hover:text-primary"
                         @click="activeTab=tab">{{tab}}</button>
               </div>
-<!--               <div class="w-full h-full border-b-1px flex justify-center" v-if="tab!=activeTab">-->
-<!--                 <div class="w-full h-full flex justify-center" v-if="activeTab=='technologies'">-->
-<!--                   <button class="uppercase focus:outline-none font-bold h-10 hover:text-primary-red"-->
-<!--                           @click="activeTab=tab">{{tab}}</button>-->
-<!--                 </div>-->
-<!--                 <div class="w-full h-full flex justify-center" v-else>-->
-<!--                   <button class="uppercase focus:outline-none font-bold h-10 hover:text-primary"-->
-<!--                           @click="activeTab=tab">{{tab}} init</button>-->
-<!--                 </div>-->
-<!--               </div>-->
-<!--               <div v-if="tab==activeTab">-->
-<!--                 <div class="w-full h-full border-b-1px flex justify-center-->
-<!--               hover:text-primary-red border-primary-red text-primary-red" v-if="activeTab=='technologies'">-->
-<!--                   <button class="uppercase focus:outline-none font-bold h-10">{{tab}}</button>-->
-<!--                 </div>-->
-<!--                 <div class="w-full h-full border-b-1px flex justify-center-->
-<!--               hover:text-primary border-primary text-primary" v-else>-->
-<!--                   <button class="uppercase focus:outline-none font-bold h-10">{{tab}}</button>-->
-<!--                 </div>-->
-<!--               </div>-->
+
             </div>
         </div>
         <div class="w-full max-w-1200px">

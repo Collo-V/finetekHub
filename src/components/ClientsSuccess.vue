@@ -123,7 +123,7 @@ export default {
     name:'ClientSuccess',
   mounted() {
     var swiper = new Swiper(".mySwiper", {
-      spaceBetween:0,
+      spaceBetween:2,
       slidesPerView: 6,
       loop:true,
       autoplay: {

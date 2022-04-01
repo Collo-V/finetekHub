@@ -13,85 +13,57 @@
       <div class="w-full hidden lg:block">
           <div class="flex mx-auto w-fit">
               <div class="w-48 h-32 flex items-center justify-center">
-                  <img src="../assets/images/clientLogos/universal.svg" alt="">
+                  <img src="../assets/images/clientLogos/perfectPics.png">
+              </div>
+              <div class="w-48 h-32 flex items-center justify-center ">
+                  <img src="../assets/images/clientLogos/robin.png">
+              </div>
+              <div class="w-48 h-32 flex items-center justify-center ">
+                  <img src="../assets/images/clientLogos/newnham.png">
+              </div>
+              <div class="w-48 h-32 flex items-center justify-center ">
+                  <img src="../assets/images/clientLogos/sucafina.png">
+              </div>
+              <div class="w-48 h-32 flex items-center justify-center ">
+                  <img src="../assets/images/clientLogos/buruk.png">
+              </div>
+
+         </div>
+
+
+          <div class="flex mx-auto w-fit">
+              <div class="w-48 h-32 flex items-center justify-center">
+                  <img src="../assets/images/clientLogos/ecodesh.png" alt="">
               </div>
               <div class="w-48 h-32 flex items-center justify-center">
-                  <img src="../assets/images/clientLogos/nhs.svg" alt="">
+                  <img src="../assets/images/clientLogos/povo.png" alt="">
               </div>
               <div class="w-48 h-32 flex items-center justify-center">
-                  <img src="../assets/images/clientLogos/guinness.svg" alt="">
+                  <img src="../assets/images/clientLogos/mnc.png" alt="">
               </div>
               <div class="w-48 h-32 flex items-center justify-center">
-                  <img src="../assets/images/clientLogos/eurostar.svg" alt="">
+                  <img src="../assets/images/clientLogos/hHour.png" alt="">
               </div>
               <div class="w-48 h-32 flex items-center justify-center">
-                  <img src="../assets/images/clientLogos/ernst-young.svg" alt="">
-              </div>
-              <div class="w-48 h-32 flex items-center justify-center">
-                  <img src="../assets/images/clientLogos/kjk.svg" alt="">
+                  <img src="../assets/images/clientLogos/ideasUn.png" alt="">
               </div>
           </div>
 
           <div class="flex mx-auto w-fit">
               <div class="w-48 h-32 flex items-center justify-center">
-                  <img src="../assets/images/clientLogos/griffins.svg" alt="">
+                  <img src="../assets/images/clientLogos/falconSigns.png" alt="">
               </div>
               <div class="w-48 h-32 flex items-center justify-center">
-                  <img src="../assets/images/clientLogos/land-rover.svg" alt="">
+                  <img src="../assets/images/clientLogos/magicKenya.png" alt="">
               </div>
               <div class="w-48 h-32 flex items-center justify-center">
-                  <img src="../assets/images/clientLogos/jaguar-talk.svg" alt="">
+                  <img src="../assets/images/clientLogos/canopy.png" alt="">
               </div>
               <div class="w-48 h-32 flex items-center justify-center">
-                  <img src="../assets/images/clientLogos/walt-disney.svg" alt="">
+                  <img src="../assets/images/clientLogos/elida.png" alt="">
               </div>
               <div class="w-48 h-32 flex items-center justify-center">
-                  <img src="../assets/images/clientLogos/guest-services.svg" alt="">
-              </div>
-              <div class="w-48 h-32 flex items-center justify-center">
-                  <img src="../assets/images/clientLogos/cirrus.svg" alt="">
-              </div>
-          </div>
-
-          <div class="flex mx-auto w-fit">
-              <div class="w-48 h-32 flex items-center justify-center">
-                  <img src="../assets/images/clientLogos/hoosbaa.svg" alt="">
-              </div>
-              <div class="w-48 h-32 flex items-center justify-center">
-                  <img src="../assets/images/clientLogos/af-gruppen.svg" alt="">
-              </div>
-              <div class="w-48 h-32 flex items-center justify-center">
-                  <img src="../assets/images/clientLogos/wynn.svg" alt="">
-              </div>
-              <div class="w-48 h-32 flex items-center justify-center">
-                  <img src="../assets/images/clientLogos/melco.svg" alt="">
-              </div>
-              <div class="w-48 h-32 flex items-center justify-center">
-                  <img src="../assets/images/clientLogos/eurostar.svg" alt="">
-              </div>
-              <div class="w-48 h-32 flex items-center justify-center">
-                  <img src="../assets/images/clientLogos/bombardier.svg" alt="">
-              </div>
-          </div>
-
-          <div class="flex mx-auto w-fit">
-              <div class="w-48 h-32 flex items-center justify-center">
-                  <img src="../assets/images/clientLogos/nestle.svg" alt="">
-              </div>
-              <div class="w-48 h-32 flex items-center justify-center">
-                  <img src="../assets/images/clientLogos/clinique.svg" alt="">
-              </div>
-              <div class="w-48 h-32 flex items-center justify-center">
-                  <img src="../assets/images/clientLogos/harley-davidson.svg" alt="">
-              </div>
-              <div class="w-48 h-32 flex items-center justify-center">
-                  <img src="../assets/images/clientLogos/gulls.svg" alt="">
-              </div>
-              <div class="w-48 h-32 flex items-center justify-center">
-                  <img src="../assets/images/clientLogos/audi.svg" alt="">
-              </div>
-              <div class="w-48 h-32 flex items-center justify-center">
-                  <img src="../assets/images/clientLogos/giant.svg" alt="">
+                  <img src="../assets/images/clientLogos/nakkei.png" alt="">
               </div>
           </div>
       </div>
