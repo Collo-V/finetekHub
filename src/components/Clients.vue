@@ -1,9 +1,9 @@
 <template>
-    <div class="w-full">
+    <div class="w-full min-h-screen-h-80">
       <div class="mt-18 w-full">
         <div class="w-ful max-w-800px text-center mx-auto leading-10">
-          <h2 class="uppercase text-24px lg:text-8 mb-5">who we are</h2>
-          <div class="lg:text-5 text-grey-dark">
+          <h2 class="uppercase text-24px lg:text-8 mb-10">who we are</h2>
+          <div class="lg:text-5 text-grey-dark mb-10">
             We are a digital transformation consultancy and software development company that provides cutting edge engineering solutions,
             helping Fortune 500 companies and enterprise clients untangle complex issues that always emerge during their digital evolution journey.
             Since 2007 we have been a visionary and a reliable software engineering partner for world-class brands.
@@ -71,175 +71,71 @@
         <div class="swiper client-swiper">
           <div class="swiper-wrapper">
             <div class="swiper-slide w-full ">
-              <div class="flex w-full">
+              <div class="flex flex-col">
                 <div class="w-1/2 h-32">
-                  <img src="../assets/images/clientLogos/universal.svg" alt="">
+                  <img src="../assets/images/clientLogos/perfectPics.png" alt="">
                 </div>
                 <div class="w-1/2 h-32">
-                  <img src="../assets/images/clientLogos/nhs.svg" alt="">
-                </div>
-              </div>
-              <div class="flex w-full">
-                <div class="w-1/2 h-32">
-                  <img src="../assets/images/clientLogos/griffins.svg" alt="">
+                  <img src="../assets/images/clientLogos/ecodesh.png" alt="">
                 </div>
                 <div class="w-1/2 h-32">
-                  <img src="../assets/images/clientLogos/land-rover.svg" alt="">
-                </div>
-              </div>
-              <div class="flex w-full">
-                <div class="w-1/2 h-32">
-                  <img src="../assets/images/clientLogos/hoosbaa.svg" alt="">
-                </div>
-                <div class="w-1/2 h-32">
-                  <img src="../assets/images/clientLogos/af-gruppen.svg" alt="">
-                </div>
-              </div>
-              <div class="flex w-full">
-                <div class="w-1/2 h-32">
-                  <img src="../assets/images/clientLogos/nestle.svg" alt="">
-                </div>
-                <div class="w-1/2 h-32">
-                  <img src="../assets/images/clientLogos/clinique.svg" alt="">
+                  <img src="../assets/images/clientLogos/falconSigns.png" alt="">
                 </div>
               </div>
             </div>
             <div class="swiper-slide w-full">
-                <div class="flex w-full">
+              <div class="flex flex-col">
                 <div class="w-1/2 h-32">
-                  <img src="../assets/images/clientLogos/nhs.svg" alt="">
-                </div>
-                <div class="w-1/2 h-32">
-                  <img src="../assets/images/clientLogos/guinness.svg" alt="">
-                </div>
-              </div>
-              <div class="flex w-full">
-               <div class="w-1/2 h-32">
-                  <img src="../assets/images/clientLogos/land-rover.svg" alt="">
+                  <img src="../assets/images/clientLogos/robin.png" alt="">
                 </div>
                 <div class="w-1/2 h-32">
-                  <img src="../assets/images/clientLogos/jaguar-talk.svg" alt="">
-                </div>
-              </div>
-              <div class="flex w-full">
-               <div class="w-1/2 h-32">
-                  <img src="../assets/images/clientLogos/af-gruppen.svg" alt="">
+                  <img src="../assets/images/clientLogos/povo.png" alt="">
                 </div>
                 <div class="w-1/2 h-32">
-                  <img src="../assets/images/clientLogos/wynn.svg" alt="">
-                </div>
-              </div>
-              <div class="flex w-full">
-               <div class="w-1/2 h-32">
-                  <img src="../assets/images/clientLogos/clinique.svg" alt="">
-                </div>
-                <div class="w-1/2 h-32">
-                  <img src="../assets/images/clientLogos/harley-davidson.svg" alt="">
+                  <img src="../assets/images/clientLogos/magicKenya.png" alt="">
                 </div>
               </div>
             </div>
             <div class="swiper-slide w-full">
-                <div class="flex w-full">
+              <div class="flex flex-col">
                 <div class="w-1/2 h-32">
-                  <img src="../assets/images/clientLogos/guinness.svg" alt="">
+                  <img src="../assets/images/clientLogos/newnham.png" alt="">
                 </div>
                 <div class="w-1/2 h-32">
-                  <img src="../assets/images/clientLogos/eurostar.svg" alt="">
-                </div>
-              </div>
-              <div class="flex w-full">
-               <div class="w-1/2 h-32">
-                  <img src="../assets/images/clientLogos/jaguar.svg" alt="">
+                  <img src="../assets/images/clientLogos/mnc.png" alt="">
                 </div>
                 <div class="w-1/2 h-32">
-                  <img src="../assets/images/clientLogos/walt-disney.svg" alt="">
-                </div>
-              </div>
-              <div class="flex w-full">
-                <div class="w-1/2 h-32">
-                  <img src="../assets/images/clientLogos/wynn.svg" alt="">
-                </div>
-                <div class="w-1/2 h-32">
-                  <img src="../assets/images/clientLogos/melco.svg" alt="">
-                </div>
-              </div>
-              <div class="flex w-full">
-                <div class="w-1/2 h-32">
-                  <img src="../assets/images/clientLogos/harley-davidson.svg" alt="">
-                </div>
-                <div class="w-1/2 h-32">
-                  <img src="../assets/images/clientLogos/gulls.svg" alt="">
+                  <img src="../assets/images/clientLogos/canopy.png" alt="">
                 </div>
               </div>
             </div>
             <div class="swiper-slide w-full">
-                <div class="flex w-full">
+              <div class="flex flex-col">
                 <div class="w-1/2 h-32">
-                  <img src="../assets/images/clientLogos/eurostar.svg" alt="">
+                  <img src="../assets/images/clientLogos/sucafina.png" alt="">
                 </div>
                 <div class="w-1/2 h-32">
-                  <img src="../assets/images/clientLogos/ernst-young.svg" alt="">
-                </div>
-              </div>
-              <div class="flex w-full">
-               <div class="w-1/2 h-32">
-                  <img src="../assets/images/clientLogos/walt-disney.svg" alt="">
+                  <img src="../assets/images/clientLogos/hHour.png" alt="">
                 </div>
                 <div class="w-1/2 h-32">
-                  <img src="../assets/images/clientLogos/guest-services.svg" alt="">
-                </div>
-              </div>
-              <div class="flex w-full">
-                <div class="w-1/2 h-32">
-                  <img src="../assets/images/clientLogos/melco.svg" alt="">
-                </div>
-                <div class="w-1/2 h-32">
-                  <img src="../assets/images/clientLogos/eurostar.svg" alt="">
-                </div>
-              </div>
-              <div class="flex w-full">
-                <div class="w-1/2 h-32">
-                  <img src="../assets/images/clientLogos/gulls.svg" alt="">
-                </div>
-                <div class="w-1/2 h-32">
-                  <img src="../assets/images/clientLogos/audi.svg" alt="">
+                  <img src="../assets/images/clientLogos/elida.png" alt="">
                 </div>
               </div>
             </div>
             <div class="swiper-slide w-full">
-                <div class="flex w-full">
+              <div class="flex flex-col">
                 <div class="w-1/2 h-32">
-                  <img src="../assets/images/clientLogos/ernst-young.svg" alt="">
+                  <img src="../assets/images/clientLogos/buruk.png" alt="">
                 </div>
                 <div class="w-1/2 h-32">
-                  <img src="../assets/images/clientLogos/kjk.svg" alt="">
-                </div>
-              </div>
-              <div class="flex w-full">
-                <div class="w-1/2 h-32">
-                  <img src="../assets/images/clientLogos/guest-services.svg" alt="">
-                </div>
-               <div class="w-1/2 h-32">
-                  <img src="../assets/images/clientLogos/cirrus.svg" alt="">
-                </div>
-              </div>
-              <div class="flex w-full">
-                <div class="w-1/2 h-32">
-                  <img src="../assets/images/clientLogos/eurostar.svg" alt="">
+                  <img src="../assets/images/clientLogos/ideasUn.png" alt="">
                 </div>
                 <div class="w-1/2 h-32">
-                  <img src="../assets/images/clientLogos/bombardier.svg" alt="">
-                </div>
-              </div>
-              <div class="flex w-full">
-                <div class="w-1/2 h-32">
-                  <img src="../assets/images/clientLogos/audi.svg" alt="">
-                </div>
-                <div class="w-1/2 h-32">
-                  <img src="../assets/images/clientLogos/giant.svg" alt="">
+                  <img src="../assets/images/clientLogos/nakkei.png" alt="">
                 </div>
               </div>
             </div>
+
           </div>
           <div class="swiper-button-next"></div>
           <div class="swiper-button-prev"></div>
@@ -272,6 +168,8 @@
         components: {
         },mounted() {
         var swiper = new Swiper(".client-swiper", {
+          slidesPerView:2,
+          loop:true,
           autoplay:{
             delay:6000
           },

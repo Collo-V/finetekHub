@@ -1,5 +1,5 @@
 <template>
-<section class="offers-section min-h-500px p-16 mt-10">
+<section class="offers-section min-h-screen-h-80 p-16">
     <div class="flex-col flex justify-center items-center w-9/10 mx-auto ">
         <h2 class="uppercase text-24px lg:text-8 mb-5 text-center">what we offer</h2>
         <div class="tabs flex mb-10 w-9/10 mx-auto justify-center">

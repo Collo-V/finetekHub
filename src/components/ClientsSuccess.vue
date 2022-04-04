@@ -1,9 +1,9 @@
 <template>
 
-  <section class="client-success w-full p-16 bg-gre">
+  <section class="client-success w-full p-16 min-h-screen-h-80">
     <div class="client-success-cont w-4/5 max-w-1200px mx-auto">
       <h1 class="uppercase text-center">client success</h1>
-      <a href="#cases" class="text-primary block my-5 text-18pxhh text-center font-bold uppercase">
+      <a href="#cases" class="text-primary block my-10 text-18pxhh text-center font-bold uppercase">
         All case studies <span class="ml-1"><i class="fa-solid fa-angle-right"></i></span>
       </a>
       <div class="shadow bg-white">
@@ -123,7 +123,7 @@ export default {
     name:'ClientSuccess',
   mounted() {
     var swiper = new Swiper(".mySwiper", {
-      spaceBetween:2,
+      spaceBetween:1,
       slidesPerView: 6,
       loop:true,
       autoplay: {

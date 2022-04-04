@@ -1,10 +1,10 @@
 <template>
-  <div class="carousel-swiper swiper w-full">
+  <div class="carousel-swiper swiper w-full lg:min-h-screen-h-90">
     <!-- Additional required wrapper -->
     <div class="swiper-wrapper">
       <!-- Slides -->
       <div class="swiper-slide animate_animated">
-        <div class=" slide1 h-700px w-full inline-block w-full  animate__animated w">
+        <div class=" slide1 h-700px min-h-screen-h-90 w-full inline-block w-full  animate__animated w">
           <div class="h-full w-full flex items-center text-white justify-center" >
             <div class="w-4/5 lg:w-1/2">
               <h1 class="font-extrabold text-primary mb-10 text-6 lg:text-10">ENTERPRISE SOFTWARE DEVELOPMENT</h1>
@@ -21,7 +21,7 @@
       </div>
 
       <div class="swiper-slide animate_animated">
-        <div class="slide2 h-700px w-full inline-block animate__animated ">
+        <div class="slide2 h-700px min-h-screen-h-90 w-full inline-block animate__animated ">
           <div class="h-full w-full flex items-center text-white justify-center" >
             <div class="w-4/5 lg:w-1/2">
               <h1 class="font-extrabold text-primary mb-10 text-6 lg:text-10">DEDICATED DEVELOPMENT TEAMS</h1>
@@ -37,7 +37,7 @@
       </div>
 
       <div class="swiper-slide animate_animated">
-        <div class="slide3 h-700px w-full inline-block animate__animated ">
+        <div class="slide3 h-700px min-h-screen-h-90 w-full inline-block animate__animated ">
           <div class="h-full w-full flex items-center text-white justify-center" >
             <div class="w-4/5 lg:w-1/2">
               <h1 class="font-extrabold text-primary mb-10 text-6 lg:text-10">MOBILE APP DEVELOPMENT</h1>
@@ -53,7 +53,7 @@
       </div>
 
       <div class="swiper-slide animate_animated">
-        <div class="slide4 h-700px w-full inline-block animate__animated ">
+        <div class="slide4 h-700px min-h-screen-h-90 w-full inline-block animate__animated ">
           <div class="h-full w-full flex items-center text-white justify-center" >
             <div class="w-4/5 lg:w-1/2">
               <h1 class="font-extrabold text-primary mb-10 text-6 lg:text-10">DRIVE DIGITAL DISRUPTION IN HOSPITALITY</h1>
@@ -71,7 +71,7 @@
       </div>
 
       <div class="swiper-slide animate_animated">
-        <div class="slide5 h-700px w-full inline-block animate__animated ">
+        <div class="slide5 h-700px min-h-screen-h-90 w-full inline-block animate__animated ">
           <div class="h-full w-full flex items-center text-white justify-center" >
             <div class="w-4/5 lg:w-1/2">
               <h1 class="font-extrabold text-primary mb-10 text-6 lg:text-10">INTELLIGENT HEALTHCARE SOLUTIONS</h1>
@@ -87,7 +87,7 @@
       </div>
 
       <div class="swiper-slide animate_animated">
-        <div class="slide6 h-700px w-full inline-block animate__animated ">
+        <div class="slide6 h-700px min-h-screen-h-90 w-full inline-block animate__animated ">
           <div class="h-full w-full flex items-center text-white justify-center" >
             <div class="w-4/5 lg:w-1/2">
               <h1 class="font-extrabold text-primary mb-10 text-6 lg:text-10">INTELLIGENT INSURANCE</h1>
