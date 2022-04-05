@@ -226,7 +226,7 @@
 </script>
 
 <style scoped>
-    .offers-section{background:linear-gradient(to right, #1f1d1da9,#1f1d1da9),url(../assets/images/offers/webBg@2x.png) no-repeat center/cover}
+    .offers-section{background:linear-gradient(to right, #1f1d1da9,#1f1d1da9),url(../assets/images/offers/offerBackground.png) no-repeat center/cover}
     .svc-item:hover .offer-more-link{display: block;}
 
 </style>
