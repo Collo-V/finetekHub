@@ -317,7 +317,7 @@
                                                       Software for dental clinics
                                                   </div>
                                               </div>
-                                              <img src="../assets/images/menu/industries/dental.jpg" alt="" class="w-550px">
+                                              <img src="../assets/images/menu/industries/work.jpg" alt="" class="w-550px">
                                           </div>
 
                                       </div>
