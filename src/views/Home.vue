@@ -4,7 +4,7 @@
           <Clients/>
           <Offers/>
           <ClientsSuccess/>
-          <Awards/>
+<!--          <Awards/>-->
           <Contact/>
           <News/>
 <!--          <Offices/>-->

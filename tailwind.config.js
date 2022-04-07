@@ -149,19 +149,13 @@ const measurements={
 }
 
 function Px(){
-  let i=0
-  for (i = 0; i < 500; i++) {
+  let i
+  for (i = 0; i <= 500; i++) {
     measurements[`${i}px`]=`${i}px`
   }
-  for (i = 500; i < 500; i+=100) {
+  for (i = 500; i < 1500; i+=100) {
     measurements[`${i}px`]=`${i}px`
   }
-  // i=500
-  // while (i<1500){
-  //   i+=100
-  //   console.log('good news')
-  //   measurements[`${i}px`]=`${i}px`
-  // }
 }
 Px()
 function Percent(){
