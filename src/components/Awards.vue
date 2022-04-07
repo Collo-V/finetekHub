@@ -231,21 +231,6 @@
 </script>
 
 <style scoped>
-  /*.swiper:active{cursor: grab;}*/
-  /*.slide1{background:url(~@/assets/images/rating/inc-5000.png) no-repeat center/cover;}*/
-  /*.slide2{background:url(~@/assets/images/rating/stevies.png) no-repeat center/cover;}*/
-  /*.slide3{background:url(~@/assets/images/rating/top-design.png) no-repeat center/cover;}*/
-  /*.slide4{background:url(~@/assets/images/rating/goodfirms-software.png) no-repeat center/cover;}*/
-  /*.slide5{background:url(~@/assets/images/rating/clutch-2017.png) no-repeat center/cover;}*/
-  /*.slide6{background:url(~@/assets/images/rating/techies.png) no-repeat center/cover;}*/
-  /*.slide7{background:url(~@/assets/images/rating/itfirms.png) no-repeat center/cover;}*/
-  /*.slide8{background:url(~@/assets/images/rating/iOS-App-Developers_2021-300x200.png) no-repeat center/cover;}*/
-  /*.slide9{background:url(~@/assets/images/rating/goodfirms.png) no-repeat center/cover;}*/
-  /*.slide10{background:url(~@/assets/images/rating/clutch-global-2018.png) no-repeat center/cover;}*/
-  /*.slide11{background:url(~@/assets/images/rating/appindex.png) no-repeat center/cover;}*/
-  /*.slide12{background:url(~@/assets/images/rating/ibm.png) no-repeat center/cover;}*/
-  /*.slide13{background:url(~@/assets/images/rating/ny_nyc_software-development_2022.png) no-repeat center/cover;}*/
-  /*.slide14{background:url(~@/assets/images/rating/regionals.png) no-repeat center/cover;}*/
 
   .office-details:hover{background: #1474f28e;}
   .office-details:hover .office-contact{display: initial;}

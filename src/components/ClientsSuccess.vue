@@ -103,9 +103,7 @@
             <div class="swiper-slide bg-white">
               <img src="../assets/images/clients-Success/robin.png" />
             </div>
-<!--            <div class="swiper-slide bg-white">-->
-<!--              <img src="../assets/images/clients-Success/sucafina.png" />-->
-<!--            </div>-->
+
             <div class="swiper-slide bg-white">
               <img src="../assets/images/clients-Success/magicKenya.png" />
             </div>
