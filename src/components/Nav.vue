@@ -107,7 +107,7 @@
                   <div class="menu-dropdown shadow-lg hidden absolute w-full right-0 top-full bg-white p-10 h-350px">
                       <div class="absolute w-full bg-white btm-full left-0 h-4"></div>
                       <div class="mx-auto w-max flex justify-cente">
-                          <div class="w-550px h-10 bg-secondary relative block invisible"></div>
+                          <div class="w-500px h-10 bg-secondary relative block invisible"></div>
                           <div class=" flex h-full items-center ml-8 hidden">
                               <div class="border-l-1px h-fit relative pl-3 w-225px">
                                   <div class="mb-5 ">
@@ -120,7 +120,7 @@
                                                   adoption of new technologies and orchestrate ongoing innovation
                                               </div>
                                           </div>
-                                          <img src="../assets/images/menu/tech/type.jpg" alt="" class="w-550px">
+                                          <img src="../assets/images/menu/tech/type.jpg" alt="" class="w-500px">
                                       </div>
 
                                   </div>
@@ -133,7 +133,7 @@
                                                   Enterprise Industrial IoT and smart infrastructure solutions
                                               </div>
                                           </div>
-                                          <img src="../assets/images/menu/tech/iot.jpg" alt="" class="w-550px">
+                                          <img src="../assets/images/menu/tech/iot.jpg" alt="" class="w-500px">
                                       </div>
                                       <div class="menu-img-div hidden dropdown absolute top-0 left-full mr-8 h-fit w-max">
                                           <div class="h-full border-l-1px ml-8 pl-3 ">
@@ -149,7 +149,7 @@
                                                               Collect, aggregate, and integrate IoT data to build Machine Learning-driven, end-to-end IoT systems
                                                           </div>
                                                       </div>
-                                                      <img src="../assets/images/menu/tech/industrialIot.jpg" alt="" class="w-550px">
+                                                      <img src="../assets/images/menu/tech/industrialIot.jpg" alt="" class="w-500px">
                                                   </div>
                                               </div>
                                               <div class="mb-5 iot-dropdown-cont">
@@ -161,7 +161,7 @@
                                                               Build secure software and hardware for your operations with our industry-specific embedded software solutions
                                                           </div>
                                                       </div>
-                                                      <img src="../assets/images/menu/tech/embedded.jpg" alt="" class="w-550px">
+                                                      <img src="../assets/images/menu/tech/embedded.jpg" alt="" class="w-500px">
                                                   </div>
                                               </div>
                                               <div class="mb-5 iot-dropdown-cont">
@@ -173,7 +173,7 @@
                                                               Our team will help you leverage the vast possibilities of embedded Android OS on custom devices
                                                           </div>
                                                       </div>
-                                                      <img src="../assets/images/menu/tech/android.jpg" alt="" class="w-550px">
+                                                      <img src="../assets/images/menu/tech/android.jpg" alt="" class="w-500px">
                                                   </div>
                                               </div>
                                               <div class="mb-5 iot-dropdown-cont">
@@ -185,7 +185,7 @@
                                                               Use our unique expertise in building embedded systems with sensors, microcontrollers, and wired and wireless communication
                                                           </div>
                                                       </div>
-                                                      <img src="../assets/images/menu/tech/hardware.jpg" alt="" class="w-550px">
+                                                      <img src="../assets/images/menu/tech/hardware.jpg" alt="" class="w-500px">
                                                   </div>
                                               </div>
 
@@ -208,7 +208,7 @@
 <!--                                                  Blockchain development and consultancy for enterprise, SMBs, and funded startups-->
 <!--                                              </div>-->
 <!--                                          </div>-->
-<!--                                          <img src="../assets/images/menu/tech/blockchain.jpg" alt="" class="w-550px">-->
+<!--                                          <img src="../assets/images/menu/tech/blockchain.jpg" alt="" class="w-500px">-->
 <!--                                      </div>-->
 
 <!--                                  </div>-->
@@ -221,7 +221,7 @@
                                                   Blockchain development and consultancy for enterprise, SMBs, and funded startups
                                               </div>
                                           </div>
-                                          <img src="../assets/images/menu/tech/blockchain.jpg" alt="" class="w-550px">
+                                          <img src="../assets/images/menu/tech/blockchain.jpg" alt="" class="w-500px">
                                       </div>
                                 </div>
                                 <div class="mb-5 dropdown-cont">
@@ -233,7 +233,7 @@
                                                   Blockchain development and consultancy for enterprise, SMBs, and funded startups
                                               </div>
                                           </div>
-                                          <img src="../assets/images/menu/tech/blockchain.jpg" alt="" class="w-550px">
+                                          <img src="../assets/images/menu/tech/blockchain.jpg" alt="" class="w-500px">
                                       </div>
                                 </div>
 
@@ -246,7 +246,7 @@
                                                   Create an engaging product on time with a team that designs software products for more than a decade
                                               </div>
                                           </div>
-                                          <img src="../assets/images/menu/tech/customer.jpg" alt="" class="w-550px">
+                                          <img src="../assets/images/menu/tech/customer.jpg" alt="" class="w-500px">
                                       </div>
 
                                   </div>
@@ -264,7 +264,7 @@
                   <div class="menu-dropdown shadow-lg hidden absolute w-full right-0 top-full bg-white p-10 h-450px">
                       <div class="absolute w-full bg-white btm-full left-0 h-4"></div>
                       <div class="mx-auto w-max flex justify-cente">
-                          <div class="w-550px h-10 bg-secondary relative block invisible"></div>
+                          <div class="w-500px h-10 bg-secondary relative block invisible"></div>
                           <div class=" flex h-full items-center ml-8 hidden">
                               <div class=" h-fit relative flex">
                                   <div class="border-l-1px pl-3 w-225px">
@@ -278,7 +278,7 @@
                                                       adoption of new technologies and orchestrate ongoing innovation
                                                   </div>
                                               </div>
-                                              <img src="../assets/images/menu/industries/work.jpg" alt="" class="w-550px">
+                                              <img src="../assets/images/menu/industries/work.jpg" alt="" class="w-500px">
                                           </div>
 
                                       </div>
@@ -291,7 +291,7 @@
                                                       Construction software development
                                                   </div>
                                               </div>
-                                              <img src="../assets/images/menu/industries/constuction.jpg" alt="" class="w-550px">
+                                              <img src="../assets/images/menu/industries/constuction.jpg" alt="" class="w-500px">
                                           </div>
 
                                       </div>
@@ -304,7 +304,7 @@
                                                       Software for patient, workflow, and asset management, and other solutions
                                                   </div>
                                               </div>
-                                              <img src="../assets/images/menu/industries/health.jpg" alt="" class="w-550px">
+                                              <img src="../assets/images/menu/industries/health.jpg" alt="" class="w-500px">
                                           </div>
 
                                       </div>
@@ -317,7 +317,7 @@
                                                       Software for dental clinics
                                                   </div>
                                               </div>
-                                              <img src="../assets/images/menu/industries/work.jpg" alt="" class="w-550px">
+                                              <img src="../assets/images/menu/industries/work.jpg" alt="" class="w-500px">
                                           </div>
 
                                       </div>
@@ -331,7 +331,7 @@
 
                                                   </div>
                                               </div>
-                                              <img src="../assets/images/menu/industries/insurance.jpg" alt="" class="w-550px">
+                                              <img src="../assets/images/menu/industries/insurance.jpg" alt="" class="w-500px">
                                           </div>
 
                                       </div>
@@ -344,7 +344,7 @@
                                                       Custom software solutions for banks, insurance companies, and financial institutions
                                                   </div>
                                               </div>
-                                              <img src="../assets/images/menu/industries/fintech.jpg" alt="" class="w-550px">
+                                              <img src="../assets/images/menu/industries/fintech.jpg" alt="" class="w-500px">
                                           </div>
 
                                       </div>
@@ -359,7 +359,7 @@
 
                                                   </div>
                                               </div>
-                                              <img src="../assets/images/menu/industries/retail.jpg" alt="" class="w-550px">
+                                              <img src="../assets/images/menu/industries/retail.jpg" alt="" class="w-500px">
                                           </div>
 
                                       </div>
@@ -379,7 +379,7 @@
                   <div class="menu-dropdown shadow-lg hidden absolute w-full right-0 top-full bg-white p-10 h-350px">
                       <div class="absolute w-full bg-white btm-full left-0 h-4"></div>
                       <div class="mx-auto w-max flex justify-cente">
-                          <div class="w-550px h-10 bg-secondary relative block invisible"></div>
+                          <div class="w-500px h-10 bg-secondary relative block invisible"></div>
                           <div class=" flex h-full items-center ml-8 hidden">
                               <div class=" h-fit relative flex">
                                   <div class="border-l-1px pl-3 w-450px">
@@ -392,7 +392,7 @@
                                                       Trusted by world's leading brands and Fortune 500 companiesn
                                                   </div>
                                               </div>
-                                              <img src="../assets/images/menu/clients/clients.jpg" alt="" class="w-550px">
+                                              <img src="../assets/images/menu/clients/clients.jpg" alt="" class="w-500px">
                                           </div>
 
                                       </div>
@@ -405,7 +405,7 @@
                                                       Trusted by world's leading brands and Fortune 500 companies
                                                   </div>
                                               </div>
-                                              <img src="../assets/images/menu/clients/clients.jpg" alt="" class="w-550px">
+                                              <img src="../assets/images/menu/clients/clients.jpg" alt="" class="w-500px">
                                           </div>
 
                                       </div>
@@ -418,7 +418,7 @@
                                                       Explore our industry-spanning solutions for Fortune 500 clients and top brands
                                                   </div>
                                               </div>
-                                              <img src="../assets/images/menu/clients/study.jpg" alt="" class="w-550px">
+                                              <img src="../assets/images/menu/clients/study.jpg" alt="" class="w-500px">
                                           </div>
 
                                       </div>
@@ -436,7 +436,7 @@
                   <div class="menu-dropdown shadow-lg hidden absolute w-full right-0 top-full bg-white p-10 h-450px">
                       <div class="absolute w-full bg-white btm-full left-0 h-4"></div>
                       <div class="mx-auto w-max flex justify-cente">
-                          <div class="w-550px h-10 bg-secondary relative block invisible"></div>
+                          <div class="w-500px h-10 bg-secondary relative block invisible"></div>
                           <div class=" flex h-full items-center ml-8 hidden">
                               <div class=" h-fit relative flex">
                                   <div class="border-l-1px pl-3 w-225px">
@@ -449,7 +449,7 @@
                                                       We help enterprises reimagine their business and achieve Digital Transformation more efficiently
                                                   </div>
                                               </div>
-                                              <img src="../assets/images/menu/company/company.jpg" alt="" class="w-550px">
+                                              <img src="../assets/images/menu/company/company.jpg" alt="" class="w-500px">
                                           </div>
 
                                       </div>
@@ -462,7 +462,7 @@
                                                       We help enterprises reimagine their business and achieve Digital Transformation more efficiently
                                                   </div>
                                               </div>
-                                              <img src="../assets/images/menu/company/company.jpg" alt="" class="w-550px">
+                                              <img src="../assets/images/menu/company/company.jpg" alt="" class="w-500px">
                                           </div>
 
                                       </div>
@@ -475,7 +475,7 @@
                                                       Meet the leadership and talents propelling Intellectsoft’s progress
                                                   </div>
                                               </div>
-                                              <img src="../assets/images/menu/company/team.jpg" alt="" class="w-550px">
+                                              <img src="../assets/images/menu/company/team.jpg" alt="" class="w-500px">
                                           </div>
 
                                       </div>
@@ -488,7 +488,7 @@
                                                       Explore our current career opportunities
                                                   </div>
                                               </div>
-                                              <img src="../assets/images/menu/company/careers.jpg" alt="" class="w-550px">
+                                              <img src="../assets/images/menu/company/careers.jpg" alt="" class="w-500px">
                                           </div>
 
                                       </div>
@@ -501,7 +501,7 @@
                                                       Get in touch with us around the world
                                                   </div>
                                               </div>
-                                              <img src="../assets/images/menu/company/contact.jpg" alt="" class="w-550px">
+                                              <img src="../assets/images/menu/company/contact.jpg" alt="" class="w-500px">
                                           </div>
 
                                       </div>
@@ -520,7 +520,7 @@
                                                       Get the latest industry insights into software engineering and emerging tech
                                                   </div>
                                               </div>
-                                              <img src="../assets/images/menu/company/blog.jpg" alt="" class="w-550px">
+                                              <img src="../assets/images/menu/company/blog.jpg" alt="" class="w-500px">
                                           </div>
 
                                       </div>
@@ -533,7 +533,7 @@
                                                       Check out the company's latest activities and updates
                                                   </div>
                                               </div>
-                                              <img src="../assets/images/menu/company/new.jpg" alt="" class="w-550px">
+                                              <img src="../assets/images/menu/company/new.jpg" alt="" class="w-500px">
                                           </div>
 
                                       </div>
@@ -546,7 +546,7 @@
                                                       Gain access to videos, ebooks, and other content by our top technology experts
                                                   </div>
                                               </div>
-                                              <img src="../assets/images/menu/company/insights.jpg" alt="" class="w-550px">
+                                              <img src="../assets/images/menu/company/insights.jpg" alt="" class="w-500px">
                                           </div>
 
                                       </div>
