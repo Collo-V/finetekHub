@@ -150,6 +150,9 @@ export default {
 </script>
 
 <style scoped>
+.swiper-slide-thumb-active {
+    padding-bottom: 0PX;
+    border-bottom: solid 2px #00afee;}
 
 
 </style>

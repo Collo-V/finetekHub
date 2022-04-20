@@ -512,7 +512,7 @@
                                           <span class="opacity-50 uppercase">resources</span>
                                       </div>
                                       <div class="mb-5 dropdown-cont">
-                                          <a href="#hj" class="hover:text-primary">Blogs</a>
+                                        <router-link to="/blogs">Blogs</router-link>
                                           <div class="menu-img-div hidden dropdown absolute top-0 right-full mr-8 h-fit w-max ">
                                               <div class="absolute top-0 right-0 w-full h-full flex items-center justify center">
                                                   <div class=" absolute top-0 right-0 img-div-crop"></div>
@@ -756,7 +756,7 @@
                     <a href="#">About</a>
                 </li>
                 <li class="mb-5 ml-5 font-bold">
-                    <a href="#">Blog</a>
+                  <a href="#hj" class="hover:text-primary">Blogs</a>
                 </li>
                 <li class="ml-5 font-bold">
                     <a href="#">News</a>

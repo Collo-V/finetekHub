@@ -317,13 +317,13 @@
         <a href="mailto:info@intellectsoft.net" class="capitalize text-primary font-bold">info@intellectsoft.net</a>
       </li>
       <li class="whitespace-nowrap mb-3 hover:text-primary">
-        <a href="#ej" class="capitalize">+1 855 TOP DEVS</a>
+        <a href="tel:25473343443" class="capitalize">0706494322</a>
       </li>
       <li class="whitespace-nowrap mb-3 hover:text-primary">
-        <a href="#ej" class="capitalize">+1 650 300 4335</a>
+        <a href="tel:2547344" class="capitalize">43490</a>
       </li>
       <li class="whitespace-nowrap mb-3 hover:text-primary">
-        <a href="#ej" class="capitalize">+44 20 3887 0078</a>
+        <a href="tel:4454542342" class="capitalize">+</a>
       </li>
       <li class="whitespace-nowrap mb-3 hover:text-primary">
         <a href="#ej" class="text-primary font-bold hover:text-primary">

@@ -5,8 +5,8 @@
           <Offers/>
           <ClientsSuccess/>
 <!--          <Awards/>-->
-          <Contact/>
           <News/>
+          <Contact/>
 <!--          <Offices/>-->
   </div>
 </template>
