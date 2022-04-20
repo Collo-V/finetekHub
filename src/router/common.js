@@ -4,6 +4,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Home from "@/views/Home";
 import Team from "@/views/Team";
 import Blogs from "@/views/Blogs";
+import Auth from "@/views/Auth";
 
 const routes = [
     {
@@ -22,6 +23,13 @@ const routes = [
         path: '/blogs',
         name: 'blogs',
         component: Blogs,
+        props: true
+    },
+
+    {
+        path: '/auth',
+        name: 'auth',
+        component: Auth,
         props: true
     },
 
