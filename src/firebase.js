@@ -1,5 +1,7 @@
 import {initializeApp} from 'firebase/app'
 import {getAnalytics} from 'firebase/analytics'
+import {getFirestore,collection,getDocs,addDoc,doc,setDoc,onSnapshot} from 'firebase/firestore'
+import {getStorage,ref} from 'firebase/storage'
 
 const firebaseConfig = {
     apiKey: "AIzaSyATe6gJztZbriB0vTgwW3KHg96GFtriadE",
@@ -10,7 +12,13 @@ const firebaseConfig = {
     appId: "1:331636695526:web:ddbb34838cb07f1284b627",
     measurementId: "G-CWDJ0LDB7M"
 }
-
-
+const firebaseApp=  initializeApp(firebaseConfig)
+const db =  getFirestore()
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
+const messages =  collection(db,'messages')
+const team =  collection(db,'team')
+const storage = getStorage(firebaseApp)
+export {
+    messages,getDocs,addDoc,doc,setDoc,onSnapshot,team,db,storage,
+}

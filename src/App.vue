@@ -1,9 +1,11 @@
 <template>
-    <div class="relative text-14px">
+    <div class="relative text-14px flex">
         <Nav/>
-      <router-view></router-view>
+      <div class="page-cont w-full mt-16 ml-200px">
+        <router-view></router-view>
+      </div>
 
-      <Footer/>
+<!--      <Footer/>-->
 
 
 
@@ -12,14 +14,25 @@
 
 <script>
 import Nav from "@/components/Nav";
-import Footer from "@/components/Footer";
-
 export default {
   name: 'App',
-  components: {
-    Footer,
-    Nav,
+  components:{
+    Nav
+  },
+  mounted() {
+    if (window.performance) {
+      console.info("window.performance works fine on this browser");
+    }
+    console.info(performance.navigation.type);
+    if (performance.navigation.type == performance.navigation.TYPE_RELOAD) {
+      // this
+      console.info( "This page is reloaded" );
+      // this.$router.push({name:'login'})
+    } else {
+      console.info( "This page is not reloaded");
+    }
   }
+
 }
 </script>
 
@@ -81,4 +94,11 @@ button:focus,button:active{outline: none;}
 
   .leading-10{line-height: 30px}
   .list-none{list-style: none;}
+
+    .form-label{transform: translateY(-50%)}
+    .form-input:focus + .form-label,.prefilled-form .form-input+.form-label,.input-valid + .form-label,
+    .input-invalid + .form-label{top: 0;color: #1476f2;font-size: smaller}
+    .next-circle{background: #1865c7;}
+    .input-invalid~.validity-checker .invalid{display: initial;}
+    .input-valid~.validity-checker .valid{display: initial;}
 </style>
