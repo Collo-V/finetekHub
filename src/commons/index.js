@@ -1,5 +1,10 @@
 import Swal from "sweetalert2";
 
+function isEmail(email){
+    return email.match(/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)?
+        true:false
+}
+
 function Validate(id){
     let inp = document.getElementById(id)
     let val = inp.value
@@ -18,9 +23,7 @@ function Validate(id){
         }
     }
     else if(id=='email'){
-        if(
-            !val.match(/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)
-        ){
+        if(!isEmail(val)){
             inp.classList.add('input-invalid')
             inp.classList.remove('input-valid')
             return
@@ -43,7 +46,7 @@ function Validate(id){
     else if(id=='password1'){
         let specialChar,uppercase,number,lowercase,specials
         specials = [ "+", "-", "&&", "||", "!", "(", ")", "{", "}", "[", "]", "^",
-            "~", "*", "?", ":","\"","\\",'.',',']
+            "~", "*", "?", ":","\"","\\",'.',',','@']
         specialChar=uppercase=number=lowercase=false
         for (let i = 0; i < val.length; i++) {
             if (specials.includes(val[i])){
@@ -82,44 +85,75 @@ function Validate(id){
     inp.classList.add('input-valid')
     inp.classList.remove('input-invalid')
     }
-async function Alert() {
-    let c = await Swal.fire({
-        title: 'Confirm delete',
-        text: 'Do you want to continue',
-        // icon: 'error',
-        confirmButtonText: 'Delete',
-        showCancelButton:true,
-        cancelButtonText:'cancel'
-    })
-    if (c.isConfirmed){
-        return true
+
+function TextAreaAdjust(id) {
+    let element = document.getElementById(id)
+    element.style.height = "1px";
+    element.style.height = (10+element.scrollHeight)+"px";
+}
+
+function ReverseArray(array){
+    array = array.sort()
+    let newArray = []
+    for (let i = 1; i < array.length+1; i++) {
+        newArray.push(array[array.length-i])
     }
-    if (c.isDenied){
-        return false
+    return newArray
+
+}
+
+
+function RemoveFromArray(array,item){
+    let index = array.indexOf(item)
+    try{
+        if (index == array.length - 1) {
+            array.pop()
+        } else if (index == 0) {
+            array = array.slice(1)
+        } else {
+            array = array.slice(0, index).concat(array.slice(index + 1))
+        }
+        return array
+    }catch{
+        console.error("The item does not exist in array")
     }
 
 }
 
-async function Report(){
-    const Toast = Swal.mixin({
-        toast: true,
-        timer:3000,
-        position: 'top',
-        showConfirmButton: false,
-        showClass: {
-            popup: 'animate__animated animate__fadeInDown'
-        },
-        hideClass: {
-            popup: 'animate__animated animate__fadeOutUp'
+function CreateFile(){
+    console.log('start')
+    let input=document.createElement("input");
+    input.type="file";
+    input.accept=".png,.jpg"
+    let files=[]
+    input.onchange = e=>{
+        files=e.target.files;
+        let reader=new FileReader();
+        reader.onload=function(){
         }
-    })
+        reader.readAsDataURL(files[0]);
+        return files
+    }
+    input.click()
+}
 
-    Toast.fire({
-        icon: 'success',
-        title: 'Success'
-    })
+function CodeGenerator(){
+    const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+    let code="";
+    for(let i=0;i<10;i++){
+        let x= Math.floor(Math.random() * 26);
+        code += x%2==0? letters[x]:x.toString()
+        if(code.length>=10){
+            if(code.length>10){
+                code= code.slice(0,10)
+            }
+            console.log(code)
+            break
+        }
+    }
+    return code
 }
 
 export {
-    Validate,Alert,Report
+    Validate,isEmail,TextAreaAdjust,RemoveFromArray,ReverseArray,CreateFile,CodeGenerator
 }

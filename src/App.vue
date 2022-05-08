@@ -1,36 +1,56 @@
 <template>
-    <div class="relative text-14px flex">
-        <Nav/>
-      <div class="page-cont w-full mt-16 ml-200px">
-        <router-view></router-view>
-      </div>
-
-<!--      <Footer/>-->
-
-
+  <div class="fixed h-screen-h w-full text-14px flex" v-if="$store.state.checkedUser">
+    <Nav/>
+    <div class="page-cont w-full mt-16" id="page-cont">
+      <router-view></router-view>
 
     </div>
+  </div>
+  <Loader v-else/>
+
 </template>
 
 <script>
 import Nav from "@/components/Nav";
+import Loader from "@/components/Loader";
+import {Report} from "@/commons/swal";
+
+
+
 export default {
   name: 'App',
   components:{
-    Nav
+    Nav,Loader
+  },
+  methods:{
+    OnlineStatus(online){
+      let obj={
+        position:'bottom-left',
+        title:online?'Back online':'You are offline',
+        icon:online?'success':'error'
+      }
+      Report(obj)
+      console.log('sent')
+      return
+    }
   },
   mounted() {
     if (window.performance) {
-      console.info("window.performance works fine on this browser");
+      // console.info("window.performance works fine on this browser");
     }
-    console.info(performance.navigation.type);
+    // console.info(performance.navigation.type);
     if (performance.navigation.type == performance.navigation.TYPE_RELOAD) {
-      // this
-      console.info( "This page is reloaded" );
-      // this.$router.push({name:'login'})
+      // logout
     } else {
-      console.info( "This page is not reloaded");
+      // console.info( "This page is not reloaded");
     }
+    window.addEventListener('offline',this.OnlineStatus(false))
+    window.addEventListener('online',this.OnlineStatus(true))
+
+  },
+  beforeMount() {
+    this.$store.dispatch('CheckUser')
+    this.$store.commit('GetClientMessages')
   }
 
 }
@@ -76,7 +96,7 @@ button:focus,button:active{outline: none;}
     .left-90{left: 90%}
     .left-1\/10{left:10%}
     .left-3\/4{left:75%}
-    .left-90{bottom: 90%}
+    .left-90{left: 90%}
     .-btm-20px{}
 
 
@@ -92,8 +112,17 @@ button:focus,button:active{outline: none;}
 .whitespace-nowrap{white-space: nowrap}
 .whitespace-wrap{white-space: normal}
 
+.text-ellipsis{text-overflow: ellipsis;overflow: hidden;white-space: nowrap}
+
   .leading-10{line-height: 30px}
   .list-none{list-style: none;}
+
+
+    /*Dropdown*/
+    .dropdown-cont:hover >.dropdown{
+      display: initial;
+    }
+    .dropdown{display: none}
 
     .form-label{transform: translateY(-50%)}
     .form-input:focus + .form-label,.prefilled-form .form-input+.form-label,.input-valid + .form-label,
@@ -101,4 +130,5 @@ button:focus,button:active{outline: none;}
     .next-circle{background: #1865c7;}
     .input-invalid~.validity-checker .invalid{display: initial;}
     .input-valid~.validity-checker .valid{display: initial;}
+    /*.font-bold *{font-weight: bold}*/
 </style>

@@ -6,18 +6,22 @@
         <h3 class="text-center text-8">Welcome back!</h3>
         <form action="" id="login-form" class="w-full flex flex-col justify-center items-center text-3" @submit.prevent="">
           <fieldset class="outline-none mt-4 w-4/5">
-            <label class="block mb-2 font-bold">Username </label>
-            <input type="text" class="border-grey border-1px rounded-md h-10 w-full outline-none">
+            <label class="block mb-2 font-bold">Username or email</label>
+            <input type="text" class="border-grey border-1px rounded-md h-10 w-full outline-none"
+                   v-model="creds.username">
           </fieldset>
           <fieldset class="outline-none mt-4 w-4/5">
             <label class="block mb-2 font-bold">Password</label>
-            <input type="password" class="border-grey border-1px rounded-md h-10 w-full outline-none">
+            <input type="password" class="border-grey border-1px rounded-md h-10 w-full outline-none"
+                   v-model="creds.password">
           </fieldset>
+          <div class="text-red text-3 hidden mt-2" id="invalid-cred-error">*Invalid credentials</div>
           <fieldset class="outline-none mt-4 w-4/5">
             <router-link to="/" class="w-full text-right block hover:underline text-primary">Forgot password?</router-link>
           </fieldset>
           <fieldset class="outline-none mt-4 w-4/5">
-            <button class="h-10 w-full bg-primary text-white rounded-md focus:outline-none font-bold">Log In</button>
+            <button class="h-10 w-full bg-primary text-white rounded-md focus:outline-none font-bold"
+                    @click="Login()">Log In</button>
           </fieldset>
         </form>
       </div>
@@ -35,23 +39,60 @@
 </template>
 
 <script>
+import {isEmail} from "@/commons";
+import {db,team} from "@/firebase";
+import {getDoc,onSnapshot,setDoc,doc,query,where,getDocs,deleteDoc,updateDoc,collection} from 'firebase/firestore'
+import {signInWithEmailAndPassword,getAuth,signOut} from 'firebase/auth'
 export default {
   name: "Auth",
   data(){
     return{
-
+      creds:{}
     }
   },
   methods:{
+    async Login(){
+      // signOut(getAuth())
+      // return
+      document.getElementById('invalid-cred-error').classList.add('hidden')
+      let username = this.creds.username
+      let password = this.creds.password
+      if(!username||!password){
+        //please fill the form
+        return
+      }
+      let email
+      if(!isEmail(username)){
+        let c = (await getDocs(query(team, where('username', '==', username)))).docs[0]
+        email = c?c.id:'no-email'
+      }else{
+        email = username
+      }
+      try {
+        let user = await signInWithEmailAndPassword(getAuth(), email, password)
+        await this.$router.replace({name: 'home'})
+      }
+      catch (error) {
+        if(error.code=='auth/wrong-password' || error.code == 'auth/user-not-found'
+            || error.code == 'auth/wrong-email') {
+            console.log(error.code)
+          document.getElementById('invalid-cred-error').classList.remove('hidden')
+        }
+      }
+      // let email = !isEmail(username)?
+
+    }
 
   },
   mounted() {
     document.getElementById('admin-nav').classList.add('hidden')
+    document.getElementById("page-cont").classList.remove('mt-16','ml-200px')
     // document.getElementById('footer-bar').classList.add('hidden')
   },
   beforeUnmount() {
     document.getElementById('admin-nav').classList.remove('hidden')
     // document.getElementById('footer-bar').classList.remove('hidden')
+    document.getElementById("page-cont").classList.add('mt-16','ml-200px')
   }
 }
 

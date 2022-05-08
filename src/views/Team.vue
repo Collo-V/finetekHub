@@ -175,7 +175,8 @@ import {team,db} from "@/firebase";
 import {getDoc,onSnapshot,setDoc,doc,query,where,getDocs,deleteDoc,updateDoc} from 'firebase/firestore'
 import { getStorage, ref, uploadBytes,getDownloadURL } from "firebase/storage";
 import {getAuth, createUserWithEmailAndPassword,deleteUser} from 'firebase/auth'
-import {Validate, Alert, Report} from "@/commons";
+import {Validate} from "@/commons";
+import {Alert,Report} from "@/commons/swal";
 
 export default {
   name: "Team",
@@ -186,7 +187,7 @@ export default {
       editing:false,
       newMember:{
         firstName:'',lastName:'',email:'',phone:'',username:'',position:'',
-        password1:'',password2:'',image:'',isAdmin:false
+        password1:'',password2:'',image:'',isAdmin:false,isOnline:false,lastSeen:''
       }
     }
   },
@@ -360,7 +361,7 @@ export default {
       document.getElementById('username').disabled=true
     },
     DeleteMember(id){
-      if(Alert()){
+      if(Alert()===true){
         deleteDoc(doc(db,'team',id))
       }
 

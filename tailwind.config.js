@@ -377,7 +377,7 @@ module.exports = {
     height: ['responsive', 'hover'],
     leading: ['responsive'],
     lists: ['responsive'],
-    margin: ['responsive'],
+    margin: ['responsive','hover'],
     maxHeight: ['responsive', 'hover'],
     maxWidth: ['responsive', 'hover'],
     minHeight: ['responsive', 'hover'],
@@ -403,7 +403,7 @@ module.exports = {
     visibility: ['responsive'],
     whitespace: ['responsive'],
     width: ['responsive', 'hover'],
-    zIndex: ['responsive'],
+    zIndex: ['responsive','hover'],
   },
 
   plugins: [

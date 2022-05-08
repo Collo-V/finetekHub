@@ -18,7 +18,8 @@ const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 const messages =  collection(db,'messages')
 const team =  collection(db,'team')
+const chats =  collection(db,'chats')
 const storage = getStorage(firebaseApp)
 export {
-    messages,getDocs,addDoc,doc,setDoc,onSnapshot,team,db,storage,
+    messages,getDocs,addDoc,doc,setDoc,onSnapshot,team,db,storage,chats
 }

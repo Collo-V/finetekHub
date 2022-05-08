@@ -27,7 +27,8 @@
       </form>
 
       <div class="mt-8" v-if="!show">
-        <ckeditor :editor="editor" editordata="what is there to be seen" v-model="blog.content" class="h-500px"></ckeditor>
+        <ckeditor :editor="editor"  v-model="blog.content" class="h-500px"
+                  tokenUrl='https://88978.cke-cs.com/token/dev/1159b5974c1756a01752ca32a1df5e961b3629a4e800bd5741223c3aaa0a?limit=10'></ckeditor>
         <button class="w-200px h-10 rounded-sm bg-primary" @click="show=true">Try it</button>
       </div>
       <div v-else>
@@ -44,10 +45,11 @@
 <script>
 import CKEditor from '@ckeditor/ckeditor5-vue'
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
-import Quill from "quill/quill";
-
-let container = document.getElementById('myeditor');
-let editor = new Quill(container);
+// import CloudServices from '@ckeditor/ckeditor5-cloud-services'
+// import Quill from "quill/quill";
+//
+// let container = document.getElementById('myeditor');
+// let editor = new Quill(container);
 
 
 
@@ -70,7 +72,11 @@ export default {
         content:'',
         picLink:'',
       },
-      editor: ClassicEditor
+      editor: ClassicEditor,
+      // CloudServices:{
+      //   tokenUrl:'https://88978.cke-cs.com/token/dev/1159b5974c1756a01752ca32a1df5e961b3629a4e800bd5741223c3aaa0a?limit=10'
+      // }
+
     }
   },
   methods:{
