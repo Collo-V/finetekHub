@@ -1,7 +1,7 @@
 <template>
   <div class="w-full flex flex-col h-full">
     <div class="absolute top-0 z-1 h-screen-h w-full flex left-0 relative" id="chats-prev-cont">
-      <div class="fixed left-0 p-2 w-full shadow h-full top-0 mt-8" v-if="selectedChat==''">
+      <div class="fixed left-0 p-2 w-full shadow h-full top-0 mt-10" v-if="selectedChat==''">
         <div v-for="member in myTeam">
           <div class="h-18 flex border-b-1px cursor-pointer"
                v-if="member.email!==$store.getters.GetUser.email" @click="[selectedChat = member]">
@@ -39,12 +39,17 @@
           CLick on an account and start chatting
         </div>
         <div v-else class="h-full w-full relative">
-          <div class="fixed top-0 w-full shadow-md h-16 flex items-center pl-2 z-5 bg-grey-lighter justify-center">
-            <img :src="selectedChat.image" alt="" class="h-12 w-12 rounded-full">
-            <div class="flex flex-col ml-3">
-              <div class="mb-2">{{selectedChat.firstName}} {{selectedChat.lastName}}</div>
-              <div class="" v-if="selectedChat.isOnline">Online</div>
-              <div class="" v-else>Last seen: {{selectedChat.lastSeen}}</div>
+          <div class="fixed top-0 w-full shadow-md h-16 flex items-center pl-2 z-5 bg-grey-lighter">
+            <button class="focus:outline-none text-18px mx-5" @click="selectedChat = ''">
+              <i class="fas fa-long-arrow-left"></i>
+            </button>
+            <div class="flex justify-center">
+              <img :src="selectedChat.image" alt="" class="h-12 w-12 rounded-full">
+              <div class="flex flex-col ml-3">
+                <div class="mb-2">{{selectedChat.firstName}} {{selectedChat.lastName}}</div>
+                <div class="" v-if="selectedChat.isOnline">Online</div>
+                <div class="" v-else>Last seen: {{selectedChat.lastSeen}}</div>
+              </div>
             </div>
           </div>
           <div class="chat-section h-full items-center relative p-2 pb-18">
@@ -52,7 +57,8 @@
               <div class="block w-full h-10 bg-orange-lightest flex items-center justify-center shadow mb-5">
                 The messages are end-to-end encrypted
               </div>
-              <div class="mb-3 w-full focus:bg-red" v-for="chat in chats[selectedChat.username]" :id="'chat-'+chat.id">
+              <div class="mb-3 w-full" v-for="chat in chats[selectedChat.username]"
+                   :id="'chat-'+chat.id" @mousedown="SelectChat('chat-'+chat.id)">
                 <div class="w-full pl-3"
                      v-if="chat.sender==selectedChat.username" >
                   <div class="bg-primary text-white shadow min-h-10 flex justify-center w-fit p-4 flex-col
@@ -321,7 +327,7 @@
 
       </div>
     </div>
-    {{GetChats,WriteTeam(),GetUser(),ReadMsg,ScrollToBottom,CheckSwipe()}}
+    {{GetChats,WriteTeam(),GetUser(),ReadMsg,ScrollToBottom,CheckSwipe(),RemoveNav}}
   </div>
 </template>
 
@@ -771,6 +777,9 @@ export default {
           console.log('got chat',event)
         });
       }
+    },
+    SelectChat(id){
+      document.getElementById(id).classList.add('bg-red')
     }
   },
   computed:{
@@ -818,6 +827,14 @@ export default {
         toScroll.scrollTop = toScroll.scrollHeight + 1500
       }catch {}
     },
+    RemoveNav(){
+      let btn = document.getElementById('nav-button')
+      if(this.selectedChat!==''){
+        btn.classList.add('hidden')
+      }else{
+        btn.classList.remove('hidden')
+      }
+    }
   },
   mounted() {
     document.getElementById('page-cont').classList.remove('mt-16')

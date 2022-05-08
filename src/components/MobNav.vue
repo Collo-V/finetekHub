@@ -1,5 +1,6 @@
 <template>
-      <button class="z-5 fixed top-0 left-0 h-10 w-10 rounded-full focus:outline-none border-1px bg-primary-purple text-white "
+      <button class="z-5 fixed top-0 left-0 h-10 w-10 rounded-full focus:outline-none mt-4
+       border-1px bg-primary-purple text-white " id="nav-button"
               @click="expanded=true" v-if="!expanded">
         <i class="fa-solid fa-bars"></i>
       </button>
