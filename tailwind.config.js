@@ -96,7 +96,8 @@ let colors = {
   'grey-skeleton':'#d1d1d1',
   'loader':'rgba(124,124,127,0.2)',
   'grey-input':'#dde9d4',
-  'dashboard-grey':'#eeeeee'
+  'dashboard-grey':'#eeeeee',
+  'inherit':'inherit',
 }
 
 const measurements={
@@ -144,7 +145,11 @@ const measurements={
   'screen-h-80': '80vh',
   'screen-h-70': '70vh',
   'screen-h-50': '50vh',
-  'inherit':'inherit'
+  'screen-h-45': '45vh',
+  'screen-h-30': '30vh',
+  'screen-h-20': '20vh',
+  'inherit':'inherit',
+  'screen-w':'100vw'
 
 }
 

@@ -1,6 +1,11 @@
 <template>
   <div class="fixed h-screen-h w-full text-14px flex" v-if="$store.state.checkedUser">
-    <Nav/>
+    <div class="hidden lg:block">
+      <Nav/>
+    </div>
+    <div class="lg:hidden">
+      <MobNav/>
+    </div>
     <div class="page-cont w-full mt-16" id="page-cont">
       <router-view></router-view>
 
@@ -12,6 +17,7 @@
 
 <script>
 import Nav from "@/components/Nav";
+import MobNav from "@/components/MobNav";
 import Loader from "@/components/Loader";
 import {Report} from "@/commons/swal";
 
@@ -20,7 +26,7 @@ import {Report} from "@/commons/swal";
 export default {
   name: 'App',
   components:{
-    Nav,Loader
+    Nav,Loader,MobNav
   },
   methods:{
     OnlineStatus(online){
@@ -103,6 +109,7 @@ button:focus,button:active{outline: none;}
 .right-0{right:0px}
 .right-10{right:10%}
 .right-full{right:100%}
+.right-1\/2{right:50%}
 
 
 .opacity-25{opacity: .25}
