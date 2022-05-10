@@ -825,14 +825,14 @@ export default {
     },
   },
   mounted() {
-    document.getElementById('page-cont').classList.remove('mt-16')
+    // document.getElementById('page-cont').classList.remove('mt-16')
     // document.querySelector('emoji-picker')
 
 
 
   },
   beforeUnmount() {
-    document.getElementById('page-cont').classList.add('mt-16')
+    // document.getElementById('page-cont').classList.add('mt-16')
   }
 }
 </script>

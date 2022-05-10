@@ -7,7 +7,7 @@
     <div class="fixed top-0 left-0 z-3" v-if="expanded" >
       <div class="w-screen-w h-screen-h bg-grey absolute top-0 w-0 opacity-50"></div>
       <div>
-        <div class="h-screen-h w-screen-h rounded-full bg-primary-purple animate__animated animate__fadeInDown
+        <div class="h-screen-h w-screen-h min-w-screen-w min-h-screen-w rounded-full bg-primary-purple animate__animated animate__fadeInDown
       -ml-screen-h-50 -mt-screen-h-50 relative z-2 mb-10">
           <div class="absolute top-0 mt-screen-h left-1/2 h-10 w-screen-w flex justify-center p-18">
             <button class="h-10 w-10 rounded-full focus:outline-none shadow-md bg-primary-purple text-white "
@@ -30,8 +30,7 @@
           </div>
         </div>
         <div class="absolute let-0 top-0 h-screen-h w-screen-h rounded-full bg-primary-purple
-       opacity-50 -ml-screen-h-45
-      -mt-screen-h-45 z-1">
+       opacity-50 -ml-screen-h-45 min-w-screen-w min-h-screen-w -mt-screen-h-45 z-1">
         </div>
       </div>
       </div>

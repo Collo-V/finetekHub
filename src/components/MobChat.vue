@@ -40,6 +40,11 @@
         </div>
         <div v-else class="h-full w-full relative">
           <div class="fixed top-0 w-full shadow-md h-16 flex items-center pl-2 z-5 bg-grey-lighter">
+            <div class="absolute top-0 left-0 h-full w-full bg-primary
+            px-6 text-white flex text-18px flex-row-reverse"
+                 v-if="highlightedChat.length>0">
+              <button class="focus:outline-none" @click="DeleteMsg()"><i class="fa-solid fa-trash"></i></button>
+            </div>
             <button class="focus:outline-none text-18px mx-5" @click="selectedChat = ''">
               <i class="fas fa-long-arrow-left"></i>
             </button>
@@ -58,7 +63,7 @@
                 The messages are end-to-end encrypted
               </div>
               <div class="mb-3 w-full" v-for="chat in chats[selectedChat.username]"
-                   :id="'chat-'+chat.id" @mousedown="SelectChat('chat-'+chat.id)">
+                   :id="'chat-'+chat.id" @mousedown="HighlightChat(chat.id)">
                 <div class="w-full pl-3"
                      v-if="chat.sender==selectedChat.username" >
                   <div class="bg-primary text-white shadow min-h-10 flex justify-center w-fit p-4 flex-col
@@ -358,7 +363,8 @@ export default {
       imagePrev:'',
       filePrev:'',
       inputFile:'',
-      uploadTask:''
+      uploadTask:'',
+      highlightedChat:[]
 
 
     }
@@ -504,30 +510,36 @@ export default {
 
 
     },
-    async DeleteMsg(deleteId){
+    async DeleteMsg(){
       if(!await Alert()){return}
-      let user = this.selectedChat.username
-      let id = this.$store.state.chatIds[user]
-      let temp = {}
-      let userChats = this.chats[user]
-      if (!userChats){return}
-      userChats.forEach(chat => {
-        chat = JSON.parse(JSON.stringify(chat))
-        let chatId = chat.id
-        delete chat.id
-        if(deleteId==chatId){
-          chat.isDeleted = true
-        }
-        temp[chatId] = chat
-      })
-      try{
-        await updateDoc((doc(db, 'chats', id)), {
-          chats: temp
+      let chats = this.highlightedChat
+      for (let i = 0; i < chats.length; i++) {
+        let deleteId= chats[i]
+        let user = this.selectedChat.username
+        let id = this.$store.state.chatIds[user]
+        let temp = {}
+        let userChats = this.chats[user]
+        if (!userChats){return}
+        userChats.forEach(chat => {
+          chat = JSON.parse(JSON.stringify(chat))
+          let chatId = chat.id
+          delete chat.id
+          if(deleteId==chatId){
+            chat.isDeleted = true
+          }
+          temp[chatId] = chat
         })
-      }catch (e) {
-        console.log(e)
+        try{
+          await updateDoc((doc(db, 'chats', id)), {
+            chats: temp
+          })
+        }catch (e) {
+          console.log(e)
+        }
+
       }
       this.InputFocus()
+      this.highlightedChat = []
     },
     DisplayModify(id,hide){
       try{
@@ -778,8 +790,21 @@ export default {
         });
       }
     },
-    SelectChat(id){
-      document.getElementById(id).classList.add('bg-red')
+    HighlightChat(id){
+      let a = document.getElementById('chat-'+id)
+      if(this.highlightedChat.includes(id)){
+        this.highlightedChat = RemoveFromArray(this.highlightedChat,id)
+        a.classList.remove('bg-red')
+        return
+      }
+      if(this.highlightedChat.length>0){
+        a.classList.add('bg-red')
+        this.highlightedChat.push(id)
+      }
+      setTimeout(()=>{
+      a.classList.add('bg-red')
+        this.highlightedChat.push(id)
+      },2000)
     }
   },
   computed:{
@@ -828,16 +853,18 @@ export default {
       }catch {}
     },
     RemoveNav(){
-      let btn = document.getElementById('nav-button')
-      if(this.selectedChat!==''){
-        btn.classList.add('hidden')
-      }else{
-        btn.classList.remove('hidden')
-      }
+      try{
+        let btn = document.getElementById('nav-button')
+        if (this.selectedChat !== '') {
+          btn.classList.add('hidden')
+        } else {
+          btn.classList.remove('hidden')
+        }
+      }catch{}
     }
   },
   mounted() {
-    document.getElementById('page-cont').classList.remove('mt-16')
+    // document.getElementById('page-cont').classList.remove('mt-16')
     // document.querySelector('emoji-picker')
     document.addEventListener('swiped-left',()=>{
       console.log('swiped left')
@@ -847,7 +874,7 @@ export default {
 
   },
   beforeUnmount() {
-    document.getElementById('page-cont').classList.add('mt-16')
+    // document.getElementById('page-cont').classList.add('mt-16')
   }
 }
 </script>
