@@ -341,7 +341,7 @@ export default {
     },
     FillEditable(blog){
       this.blogPost = blog
-      this.imagePrev = blog.
+      this.imagePrev = blog.headerImage
       this.addPost = true
     },
 

@@ -153,6 +153,7 @@
            <fieldset class="w-full">
              <button class="w-100px h-10 focus:outline-none border-1px rounded-md"
              type="button"  @click="Create()">Add Photo</button>
+             <span class="valid text-green" v-if="newMember.image!=''"><i class="fa-solid fa-check"></i></span>
              <span class="text-red text-12px hidden" id="no-photo-error"> Please add profile photo</span>
            </fieldset>
          </div>
@@ -217,11 +218,11 @@ export default {
       let valid = true
       let member  = this.newMember
       let keys = Object.keys(member)
-      for (let i = 0; i < keys.length ; i++) {
-        if (keys[i]!='isAdmin' && member[keys[i]]==''){
-          valid = false
-        }
-      }
+      // for (let i = 0; i < keys.length ; i++) {
+      //   if (keys[i]!='isAdmin' && member[keys[i]]==''){
+      //     valid = false
+      //   }
+      // }
       if(document.getElementsByClassName('input-invalid').length>0){
         valid = false
       }

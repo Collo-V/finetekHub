@@ -47,170 +47,172 @@
               <div class="" v-else>Last seen: {{selectedChat.lastSeen}}</div>
             </div>
           </div>
-          <div class="chat-section h-full items-center relative p-2">
-            <div class="lg:w-full mx-auto pt-48 overflow-y-scroll h-full pb-16 custom-scroll" id="chats-cont">
-              <div class="block w-full h-10 bg-orange-lightest flex items-center justify-center shadow mb-5">
-                The messages are end-to-end encrypted
-              </div>
-              <div class="mb-3 w-full focus:bg-red" v-for="chat in chats[selectedChat.username]" :id="'chat-'+chat.id">
-                <div class="w-full pl-3"
-                     v-if="chat.sender==selectedChat.username" >
-                  <div class="bg-primary text-white shadow min-h-10 flex justify-center w-fit p-4 flex-col
-                  chat-bubble chat-bubble-left rounded-b-md rounded-tr-md dropdown-cont relative">
-                    <div class="triangle-left absolute right-full top-0"></div>
-                    <div v-if="chat.replyFor">
-                      <a :href="'#chat-'+chat.replyFor" class="block w-fit min-w-full h-16 rounded-sm
-                       flex overflow-hidden bg-grey-dark pr-1px justify-between">
-                        <div class="w-2 h-full bg-primary mr-2"></div>
-                        <div class="w-full h-full flex justify-center flex-col">
-                          <div class="mb-2 text-primary-red"
-                               v-if="SearchChat(chat.replyFor).sender==selectedChat.username">
-                            {{selectedChat.firstName}} {{selectedChat.lastName}}
-                          </div>
-                          <div class="mb-2 text-primary-red" v-else>You</div>
-                          <div class="w-full overflow-y-hidden">
-                            <span class="mr-2" v-if="SearchChat(chat.replyFor).image!=''"><i class="fa-solid fa-camera"></i></span>
-                            {{ SearchChat(chat.replyFor).message}}
-                          </div>
-                        </div>
-                        <div class="h-full" v-if="SearchChat(chat.replyFor).image!=''">
-                          <img :src="SearchChat(chat.replyFor).image.link" class="h-full w-auto">
-                        </div>
-                      </a>
-                    </div>
-                    <div v-if="chat.image!=''" class="relative dropdown-cont">
-                      <div class="dropdown absolute top-0 mt-3 right-0 mr-2
-                      animate__animated animate__fadeOutUps animate__fadeInDown">
-                        <button class="px-2 py-1 w-16 focus:outline-none border-1px rounded-md text-black bg-white"
-                                @click="DownloadImage(chat.image.link)">
-                          <i class="fa-solid fa-cloud-arrow-down"></i>
-                        </button>
-                      </div>
-                      <img :src="chat.image.link" alt="" class="max-w-300px h-auto">
-                      <div class="absolute w-full h-10 btm-0 left-0 flex items-center bg-blue-light bg-grey-light">
-                        {{chat.image.name}}
-                      </div>
-                    </div>
-                    <div v-if="chat.file!=''" class="relative dropdown-cont">
-                      <div class="dropdown absolute top-0 mt-3 right-0 mr-2
-                      animate__animated animate__fadeOutUps animate__fadeInDown">
-                        <button class="px-2 py-1 w-16 focus:outline-none border-1px rounded-md text-black bg-white"
-                                @click="DownloadImage(chat.file.link)">
-                          <i class="fa-solid fa-cloud-arrow-down"></i>
-                        </button>
-                      </div>
-                      <iframe :src="chat.file.link" alt="" class="max-w-300px h-auto"></iframe>
-                      <div class="absolute w-full h-10 btm-0 left-0 flex items-center bg-grey-light bg-blue-light">
-                        {{chat.file.name}}
-                      </div>
-                    </div>
-                    <span v-html="CheckLink(chat.message)"></span>
-                    <div class="dropdown absolute right-0 top-0 mr-1 dropdown-cont">
-                      <button class="focus:outline-none" @mouseover="DisplayModify('modify-chat'+chat.id)">
-                        <i class="fa-solid fa-angle-down"></i>
-                      </button>
-                      <div class="dropdown modify-chat modify-chat-left absolute right-0 w-150px text-black
-                      h-18 py-1 bg-white shadow-md -mt-1 top-full z-1"
-                           :id="'modify-chat'+chat.id" @blur="InputFocus()">
-                        <button class="w-full focus:outline-none hover:bg-grey-light h-8"
-                                @click.prevent="[replyFor = chat]">
-                             <span class="w-full pl-8 block text-left">
-                               <i class="fa-solid fa-reply"></i> Reply
-                             </span>
-                        </button>
-                        <button class="w-full focus:outline-none hover:bg-grey-light h-8" @click='DeleteMsg(chat.id)'>
-                           <span class="w-full pl-8 block text-left">
-                            <i class="fa-solid fa-trash"></i> Delete
-                           </span>
-                        </button>
-
-                      </div>
-                    </div>
-                  </div>
-                  <div class="text-3 mt-1">{{DateFormat(chat.time)}}</div>
+          <div class="chat-section h-full items-center relative p-2 pb-0">
+            <div class="lg:w-full mx-auto h-full" id="chats-cont">
+              <div class="relative w-full pt-48 pb-16  custom-scroll overflow-y-scroll h-full">
+                <div class="block w-full h-10 bg-orange-lightest flex items-center justify-center shadow mb-5">
+                  The messages are end-to-end encrypted
                 </div>
-                <div class="w-full pl-3 flex flex-col items-end"
-                     v-else-if="chat.sender!=selectedChat.username">
-                  <div class="bg-white self-end shadow min-h-10 flex justify-center w-fit p-4 flex-col
-                  chat-bubble chat-bubble-right rounded-b-md rounded-tl-md dropdown-cont relative mr-2">
-                    <div class="triangle-right absolute left-full top-0"></div>
-                    <div v-if="chat.replyFor">
-                      <a :href="'#chat-'+chat.replyFor" class="block w-fit min-w-full h-16 rounded-sm
+                <div class="mb-3 w-full focus:bg-red" v-for="chat in chats[selectedChat.username]" :id="'chat-'+chat.id">
+                  <div class="w-full pl-3"
+                       v-if="chat.sender==selectedChat.username" >
+                    <div class="bg-primary text-white shadow min-h-10 flex justify-center w-fit p-4 flex-col
+                  chat-bubble chat-bubble-left rounded-b-md rounded-tr-md dropdown-cont relative">
+                      <div class="triangle-left absolute right-full top-0"></div>
+                      <div v-if="chat.replyFor">
+                        <a :href="'#chat-'+chat.replyFor" class="block w-fit min-w-full h-16 rounded-sm
                        flex overflow-hidden bg-grey-dark pr-1px justify-between">
-                        <div class="w-2 h-full bg-primary mr-2"></div>
-                        <div class="w-full h-full flex justify-center flex-col">
-                          <div class="mb-2 text-primary-red"
-                               v-if="SearchChat(chat.replyFor).sender==selectedChat.username">
-                            {{selectedChat.firstName}} {{selectedChat.lastName}}
+                          <div class="w-2 h-full bg-primary mr-2"></div>
+                          <div class="w-full h-full flex justify-center flex-col">
+                            <div class="mb-2 text-primary-red"
+                                 v-if="SearchChat(chat.replyFor).sender==selectedChat.username">
+                              {{selectedChat.firstName}} {{selectedChat.lastName}}
+                            </div>
+                            <div class="mb-2 text-primary-red" v-else>You</div>
+                            <div class="w-full overflow-y-hidden">
+                              <span class="mr-2" v-if="SearchChat(chat.replyFor).image!=''"><i class="fa-solid fa-camera"></i></span>
+                              {{ SearchChat(chat.replyFor).message}}
+                            </div>
                           </div>
-                          <div class="mb-2 text-primary-red" v-else>You</div>
-                          <div class="w-full overflow-y-hidden">
-                            <span class="mr-2" v-if="SearchChat(chat.replyFor).image!=''"><i class="fa-solid fa-camera"></i></span>
-                            {{ SearchChat(chat.replyFor).message}}
+                          <div class="h-full" v-if="SearchChat(chat.replyFor).image!=''">
+                            <img :src="SearchChat(chat.replyFor).image.link" class="h-full w-auto">
                           </div>
+                        </a>
+                      </div>
+                      <div v-if="chat.image!=''" class="relative dropdown-cont">
+                        <div class="dropdown absolute top-0 mt-3 right-0 mr-2
+                      animate__animated animate__fadeOutUps animate__fadeInDown">
+                          <button class="px-2 py-1 w-16 focus:outline-none border-1px rounded-md text-black bg-white"
+                                  @click="DownloadImage(chat.image.link)">
+                            <i class="fa-solid fa-cloud-arrow-down"></i>
+                          </button>
                         </div>
-                        <div class="h-full" v-if="SearchChat(chat.replyFor).image!=''">
-                          <img :src="SearchChat(chat.replyFor).image.link" class="h-full w-auto">
+                        <img :src="chat.image.link" alt="" class="max-w-300px h-auto">
+                        <div class="absolute w-full h-10 btm-0 left-0 flex items-center bg-blue-light bg-grey-light">
+                          {{chat.image.name}}
                         </div>
-                      </a>
-                    </div>
-                    <div v-if="chat.image!=''" class="relative dropdown-cont">
-                      <div class="dropdown absolute top-0 mt-3 right-0 mr-2
-                      animate__animated  animate__fadeInDown">
-                        <button class="px-2 py-1 w-16 focus:outline-none border-1px rounded-md text-black bg-white"
-                                @click="DownloadImage(chat.image.link)">
-                          <i class="fa-solid fa-cloud-arrow-down"></i>
+                      </div>
+                      <div v-if="chat.file!=''" class="relative dropdown-cont">
+                        <div class="dropdown absolute top-0 mt-3 right-0 mr-2
+                      animate__animated animate__fadeOutUps animate__fadeInDown">
+                          <button class="px-2 py-1 w-16 focus:outline-none border-1px rounded-md text-black bg-white"
+                                  @click="DownloadImage(chat.file.link)">
+                            <i class="fa-solid fa-cloud-arrow-down"></i>
+                          </button>
+                        </div>
+                        <iframe :src="chat.file.link" alt="" class="max-w-300px h-auto"></iframe>
+                        <div class="absolute w-full h-10 btm-0 left-0 flex items-center bg-grey-light bg-blue-light">
+                          {{chat.file.name}}
+                        </div>
+                      </div>
+                      <span v-html="CheckLink(chat.message)"></span>
+                      <div class="dropdown absolute right-0 top-0 mr-1 dropdown-cont">
+                        <button class="focus:outline-none" @mouseover="DisplayModify('modify-chat'+chat.id)">
+                          <i class="fa-solid fa-angle-down"></i>
                         </button>
-                      </div>
-                      <img :src="chat.image.link" class="max-w-300px h-auto">
-                      <div class="absolute w-full h-10 btm-0 left-0 flex items-center bg-grey-light bg-grey-light">
-                        {{chat.image.name}}
-                      </div>
-                    </div>
-                    <div v-if="chat.file!=''" class="relative dropdown-cont">
-                      <div class="dropdown absolute top-0 mt-3 right-0 mr-2
-                      animate__animated  animate__fadeInDown">
-                        <button class="px-2 py-1 w-16 focus:outline-none border-1px rounded-md text-black bg-white"
-                                @click="DownloadImage(chat.file.link)">
-                          <i class="fa-solid fa-cloud-arrow-down"></i>
-                        </button>
-                      </div>
-                      <iframe :src="chat.file.link" class="max-w-300px h-auto"></iframe>
-                      <div class="absolute w-full h-10 btm-0 left-0 flex items-center bg-grey-light bg-grey-light">
-                        {{chat.file.name}}
-                      </div>
-                    </div>
-                    <span v-html="CheckLink(chat.message)"></span>
-                    <div class="dropdown absolute right-0 top-0 mr-1 dropdown-cont">
-                      <button class="focus:outline-none" @mouseover="DisplayModify('modify-chat'+chat.id)">
-                        <i class="fa-solid fa-angle-down"></i>
-                      </button>
-                      <div class="dropdown modify-chat absolute right-0 w-150px h-18 py-1 bg-white shadow-md mt-1px top-full z-1"
-                           :id="'modify-chat'+chat.id" @blur="InputFocus()">
-                        <button class="w-full focus:outline-none hover:bg-grey-light h-8"
-                                @click.prevent="[replyFor = chat,ReplyMsg()]">
+                        <div class="dropdown modify-chat modify-chat-left absolute right-0 w-150px text-black
+                      h-18 py-1 bg-white shadow-md -mt-1 top-full z-1"
+                             :id="'modify-chat'+chat.id" @blur="InputFocus()">
+                          <button class="w-full focus:outline-none hover:bg-grey-light h-8"
+                                  @click.prevent="[replyFor = chat]">
                              <span class="w-full pl-8 block text-left">
                                <i class="fa-solid fa-reply"></i> Reply
                              </span>
-                        </button>
-                        <button class="w-full focus:outline-none hover:bg-grey-light h-8" @click='DeleteMsg(chat.id)'>
+                          </button>
+                          <button class="w-full focus:outline-none hover:bg-grey-light h-8" @click='DeleteMsg(chat.id)'>
                            <span class="w-full pl-8 block text-left">
                             <i class="fa-solid fa-trash"></i> Delete
                            </span>
-                        </button>
+                          </button>
 
+                        </div>
                       </div>
                     </div>
+                    <div class="text-3 mt-1">{{DateFormat(chat.time)}}</div>
                   </div>
-                  <div class="text-3 mt-1 flex">
-                    {{DateFormat(chat.time)}}
-                    <div class="flex justify-end text-8px ml-1">
-                      <span class="text-grey" v-if="!chat.isRead"><i class="fa-solid fa-check"></i></span>
-                      <span class="text-primary relative" v-else>
+                  <div class="w-full pl-3 flex flex-col items-end"
+                       v-else-if="chat.sender!=selectedChat.username">
+                    <div class="bg-white self-end shadow min-h-10 flex justify-center w-fit p-4 flex-col
+                  chat-bubble chat-bubble-right rounded-b-md rounded-tl-md dropdown-cont relative mr-2">
+                      <div class="triangle-right absolute left-full top-0"></div>
+                      <div v-if="chat.replyFor">
+                        <a :href="'#chat-'+chat.replyFor" class="block w-fit min-w-full h-16 rounded-sm
+                       flex overflow-hidden bg-grey-dark pr-1px justify-between">
+                          <div class="w-2 h-full bg-primary mr-2"></div>
+                          <div class="w-full h-full flex justify-center flex-col">
+                            <div class="mb-2 text-primary-red"
+                                 v-if="SearchChat(chat.replyFor).sender==selectedChat.username">
+                              {{selectedChat.firstName}} {{selectedChat.lastName}}
+                            </div>
+                            <div class="mb-2 text-primary-red" v-else>You</div>
+                            <div class="w-full overflow-y-hidden">
+                              <span class="mr-2" v-if="SearchChat(chat.replyFor).image!=''"><i class="fa-solid fa-camera"></i></span>
+                              {{ SearchChat(chat.replyFor).message}}
+                            </div>
+                          </div>
+                          <div class="h-full" v-if="SearchChat(chat.replyFor).image!=''">
+                            <img :src="SearchChat(chat.replyFor).image.link" class="h-full w-auto">
+                          </div>
+                        </a>
+                      </div>
+                      <div v-if="chat.image!=''" class="relative dropdown-cont">
+                        <div class="dropdown absolute top-0 mt-3 right-0 mr-2
+                      animate__animated  animate__fadeInDown">
+                          <button class="px-2 py-1 w-16 focus:outline-none border-1px rounded-md text-black bg-white"
+                                  @click="DownloadImage(chat.image.link)">
+                            <i class="fa-solid fa-cloud-arrow-down"></i>
+                          </button>
+                        </div>
+                        <img :src="chat.image.link" class="max-w-300px h-auto">
+                        <div class="absolute w-full h-10 btm-0 left-0 flex items-center bg-grey-light bg-grey-light">
+                          {{chat.image.name}}
+                        </div>
+                      </div>
+                      <div v-if="chat.file!=''" class="relative dropdown-cont">
+                        <div class="dropdown absolute top-0 mt-3 right-0 mr-2
+                      animate__animated  animate__fadeInDown">
+                          <button class="px-2 py-1 w-16 focus:outline-none border-1px rounded-md text-black bg-white"
+                                  @click="DownloadImage(chat.file.link)">
+                            <i class="fa-solid fa-cloud-arrow-down"></i>
+                          </button>
+                        </div>
+                        <iframe :src="chat.file.link" class="max-w-300px h-auto"></iframe>
+                        <div class="absolute w-full h-10 btm-0 left-0 flex items-center bg-grey-light bg-grey-light">
+                          {{chat.file.name}}
+                        </div>
+                      </div>
+                      <span v-html="CheckLink(chat.message)"></span>
+                      <div class="dropdown absolute right-0 top-0 mr-1 dropdown-cont">
+                        <button class="focus:outline-none" @mouseover="DisplayModify('modify-chat'+chat.id)">
+                          <i class="fa-solid fa-angle-down"></i>
+                        </button>
+                        <div class="dropdown modify-chat absolute right-0 w-150px h-18 py-1 bg-white shadow-md mt-1px top-full z-1"
+                             :id="'modify-chat'+chat.id" @blur="InputFocus()">
+                          <button class="w-full focus:outline-none hover:bg-grey-light h-8"
+                                  @click.prevent="[replyFor = chat,ReplyMsg()]">
+                             <span class="w-full pl-8 block text-left">
+                               <i class="fa-solid fa-reply"></i> Reply
+                             </span>
+                          </button>
+                          <button class="w-full focus:outline-none hover:bg-grey-light h-8" @click='DeleteMsg(chat.id)'>
+                           <span class="w-full pl-8 block text-left">
+                            <i class="fa-solid fa-trash"></i> Delete
+                           </span>
+                          </button>
+
+                        </div>
+                      </div>
+                    </div>
+                    <div class="text-3 mt-1 flex">
+                      {{DateFormat(chat.time)}}
+                      <div class="flex justify-end text-8px ml-1">
+                        <span class="text-grey" v-if="!chat.isRead"><i class="fa-solid fa-check"></i></span>
+                        <span class="text-primary relative" v-else>
                         <span><i class="fa-solid fa-check"></i></span>
                         <span class="absolute right-0 mr-1"><i class="fa-solid fa-check"></i></span>
                       </span>
-                    </div></div>
+                      </div></div>
+                  </div>
                 </div>
               </div>
               <div class="w-full pl-3 flex flex-col items-end">
@@ -260,7 +262,7 @@
               </div>
               <div class="hidden bg-red w-full h-150px"></div>
             </div>
-            <div class="absolute btm-0 left-0 bg-grey-lighter w-full input-prev-cont z-2">
+            <div class="absolute btm-0 left-0 bg-grey-lighter w-full input-prev-cont z-2 mb-16" >
               <div class="absolute z-3 btm-full min-h-screen-h-50  w-full flex justify-center items-center relative"
                    v-if="(imagePrev!='' || filePrev!='')&& uploadTask==''" >
                 <button class="absolute top-0 left-0 h-10 w-10 focus:outline-none text-5 border-1px rounded-sm m-2"
@@ -307,7 +309,7 @@
                       <i class="fa-solid fa-image"></i>
                       <span class="dropdown absolute left-full ml-4 bg-grey-darkest p-1 rounded-pill text-4">Photos </span>
                     </button>
-                    <button class="block focus:outline-none  dropdown-cont h-10 w-10 bg-primary text-white rounded-full mr-20px"
+                    <button class="block focus:outline-none  dropdown-cont h-10 w-10 bg-primary-purple text-white rounded-full mr-20px"
                             @click="CreateFile()">
                       <i class="fa-regular fa-file"></i>
                       <span class="dropdown absolute left-full ml-4 bg-grey-darkest p-1 rounded-pill text-4"> Documents</span>
