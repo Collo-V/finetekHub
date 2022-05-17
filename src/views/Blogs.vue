@@ -1,7 +1,7 @@
 <template>
   <div class="flex overflow-y-auto h-full custom-scroll">
     <div class="add-post w-full" v-if="addPost">
-      <div class="mt-5 flex w-full pl-3">
+      <div class="mt-5 flex w-full pl-3 mb-2">
         <button class="w-200px h-10 rounded-sm bg-grey-light focus:outline-none"
                 @click="[$router.push({name:'blogs'}),addPost = false]">
           <span class="mr-2"><i class="fas fa-long-arrow-left"></i></span>
@@ -73,7 +73,7 @@
 
         </div>
         <hr>
-        <div class="mt-5 flex items-end flex-row-reverse w-full">
+        <div class="mt-5 flex items-end flex-row-reverse w-full" v-if="!title">
           <button class="w-200px h-10 rounded-sm bg-primary text-white ml-2 focus:outline-none" @click="PostBLog()">Post</button>
           <button class="w-200px h-10 rounded-sm bg-grey-light ml-2" @click="showPrev = false">Continue-editing</button>
           <button class="w-200px h-10 rounded-sm bg-grey-dark ml-2" >Discard</button>
@@ -116,7 +116,7 @@
 
     </div>
   </div>
-  <span class="hidden">{{}}</span>
+  <span class="hidden">{{FindBlog}}</span>
 
 </template>
 
@@ -182,12 +182,10 @@ export default {
         }
       }
       this.cats=options
-      // console.log(options)
 
     },
     async StartEditor(){
       let editor  = document.getElementById('html-editor')
-      console.log(editor)
       try{
         let c = await ClassicEditor.create(editor, {
           cloudServices: {
@@ -196,7 +194,6 @@ export default {
 
           }
         })
-        console.log(c)
       }catch (e) {
         console.log(e)
       }
@@ -209,7 +206,6 @@ export default {
         img.removeAttribute('sizes')
         img.removeAttribute('width')
         img.style.width = '300px'
-        console.log(img,img.attributes)
       }
     },
     async PostBLog(){
@@ -222,9 +218,6 @@ export default {
           await uploadBytes(imgRef, this.blogPost.headerImage)
           let imgPath = await getDownloadURL(imgRef)
           await addDoc(blogs, {...this.blogPrev, headerImage: imgPath, time: time})
-          this.blogPost = {
-            author: '', categories: [], time: '', content: '',
-          }
           await Report({
             title: 'blog successfully added',
             icon: 'success',
@@ -240,19 +233,23 @@ export default {
             await uploadBytes(imgRef, this.blogPost.headerImage)
             imgPath = await getDownloadURL(imgRef)
           }
+          let id = this.blogPost.id
           delete this.blogPost.id
           delete this.blogPost.table
-          await updateDoc(doc(db,'blogs',this.blogPost.id),
+          await updateDoc(doc(db,'blogs',id),
               {...this.blogPrev, headerImage: imgPath})
-          this.blogPost = {
-            author: '', categories: [], time: '', content: '',
-          }
+
           await Report({
-            title: 'blog successfully added',
+            title: 'blog updated',
             icon: 'success',
             position: 'top'
           })
         }
+        this.blogPost = {
+          author: '', categories: [], time: '', content: '',
+        }
+        this.showPrev = this.addPost = false
+        this.blogPrev = {}
 
       }catch (e){
         await Report({
@@ -329,7 +326,6 @@ export default {
           tempTeam[doc.id] = {...doc.data(),id:doc.id}
         }
         this.blogs = JSON.parse(JSON.stringify(tempTeam))
-        console.log(this.blogs)
       })
     },
     DateFormat(date){
@@ -344,6 +340,7 @@ export default {
       this.addPost = true
     },
     async DeleteBlog(id){
+      if(!await Alert()){return}
       try {
         await deleteDoc(doc(db,'blogs',id))
       }catch (e) {
@@ -355,6 +352,24 @@ export default {
       }
     }
 
+
+  },
+  computed:{
+    FindBlog(){
+      if(this.title && this.blogs!==''){
+        let keys  = Object.keys(this.blogs)
+        for (let i = 0; i < keys.length; i++) {
+          let blog = this.blogs[keys[i]]
+          if(blog.title.toLowerCase().replaceAll(' ','-').
+          replaceAll('?','')==this.title){
+            this.blogPrev = blog
+            this.imagePrev  = blog.headerImage
+            this.addPost = true
+            this.showPrev = true
+          }
+        }
+      }
+    }
 
   },
   mounted() {
