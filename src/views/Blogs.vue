@@ -90,7 +90,7 @@
           <div class="w-full lg:w-45% min-w-300px max-w-400px rounded-md shadow-lg relative dropdown-cont ml-2 mb-2"
                v-for="blog in blogs">
             <div class="dropdown absolute left-full shadow-md z-2 w-10 mr-2px h-80px bg-white">
-              <button class="block focus:outline-none h-10 w-10 hover:bg-grey">
+              <button class="block focus:outline-none h-10 w-10 hover:bg-grey" @click="DeleteBlog(blog.id)">
                 <i class="fas fa-trash"></i>
               </button>
               <button class="block focus:outline-none h-10 w-10 hover:bg-grey" @click="FillEditable(blog)">
@@ -242,7 +242,6 @@ export default {
           }
           delete this.blogPost.id
           delete this.blogPost.table
-          delete this.blogPost
           await updateDoc(doc(db,'blogs',this.blogPost.id),
               {...this.blogPrev, headerImage: imgPath})
           this.blogPost = {
@@ -344,6 +343,17 @@ export default {
       this.imagePrev = blog.headerImage
       this.addPost = true
     },
+    async DeleteBlog(id){
+      try {
+        await deleteDoc(doc(db,'blogs',id))
+      }catch (e) {
+        await Report({
+          title:'Could not delete',
+          icon:'error',
+          position:'top'
+        })
+      }
+    }
 
 
   },

@@ -1,11 +1,11 @@
 <template>
   <div class="w-full flex flex-col h-full" style="flex-shrink: 0">
     <div class="absolute top-0 z-1 h-screen-h w-full flex left-0 relative" id="chats-prev-cont">
-      <div class="ml-200px fixed left-0 p-2 w-250px shadow h-full top-0 mt-16">
+      <div class="ml-200px fixed left-0 p-2 w-250px shadow h-full top-0 mt-16 z-0">
         <div v-for="member in myTeam">
           <div class="h-18 flex border-b-1px cursor-pointer"
                v-if="member.email!==$store.getters.GetUser.email" @click="[selectedChat = member]">
-            <div class="h-full w-12 flex items-center">
+            <div class="h-full min-w-12 flex items-center">
               <img :src="member.image" class="w-12 h-12 rounded-full">
             </div>
             <div class="h-full flex justify-between w-full">
@@ -39,7 +39,7 @@
           CLick on an account and start chatting
         </div>
         <div v-else class="h-full w-full relative">
-          <div class="fixed top-0 w-full shadow-md mt-16 h-16 flex items-center pl-2 z-5 bg-grey-lighter">
+          <div class="hidden fixed top-0 w-full shadow-md mt-16 h-16 flex items-center pl-2 z-1 bg-grey-lighter">
             <img :src="selectedChat.image" alt="" class="h-12 w-12 rounded-full">
             <div class="flex flex-col ml-3">
               <div class="mb-2">{{selectedChat.firstName}} {{selectedChat.lastName}}</div>
@@ -47,9 +47,9 @@
               <div class="" v-else>Last seen: {{selectedChat.lastSeen}}</div>
             </div>
           </div>
-          <div class="chat-section h-full items-center relative p-2 pb-0">
+          <div class="chat-section h-full items-center relative p-2 pb-0 z-0">
             <div class="lg:w-full mx-auto h-full" id="chats-cont">
-              <div class="relative w-full pt-48 pb-16  custom-scroll overflow-y-scroll h-full">
+              <div class="relative w-full pt-48 pb-32  custom-scroll overflow-y-scroll h-full">
                 <div class="block w-full h-10 bg-orange-lightest flex items-center justify-center shadow mb-5">
                   The messages are end-to-end encrypted
                 </div>

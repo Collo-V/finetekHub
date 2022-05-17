@@ -1,11 +1,11 @@
 <template>
-  <div class="h-screen-h bg-primary-purple min-w-200px top-0 left-0 z-2" id="admin-nav">
+  <div class="h-screen-h bg-primary-purple min-w-200px top-0 left-0 z-8" id="admin-nav">
    <div class="fixed top-0 left-0 w-full h-16 shadow-md flex justify-between bg-grey-light">
      <div class="h-full w-200px bg-primary-purple"></div>
      <div class="flex flex-row-reverse h-full items-center pr-3 bg-grey-light">
        <div class="relative dropdown-cont">
          <img :src="$store.getters.GetUser.image" class="h-12 w-12 rounded-full" v-if="$store.getters.GetUser">
-         <div class="dropdown absolute top-full right-0 w-150px h-150px shadow-md z-4  tooltip">
+         <div class="dropdown absolute top-full right-0 w-150px h-150px shadow-md bg-white  tooltip z-10">
            <button class="w-full focus:outline-none hover:bg-grey-light h-8">
                <span class="w-full pl-8 block text-left">
                  <i class="fa-solid fa-user"></i> Edit profile
