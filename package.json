@@ -26,6 +26,7 @@
     "sweetalert2": "^11.4.10",
     "swiper": "^8.0.0",
     "vue": "^3.0.0",
+    "vue-html-editor": "^0.2.1",
     "vue-router": "^4.0.14",
     "vuex": "^4.0.2"
   },

@@ -55,7 +55,7 @@
              <input class="form-input pl-4 w-full h-full flex items-center rounded-sm focus:outline-none border-1px"
                     id="lastName" @blur="Validate($event.target.id)" v-model="newMember.lastName">
              <div class="form-label h-0 w-full absolute pl-4 top-1/2 btm-1/2 flex items-center">
-               <label class="bg-white cursor-text px-1">First Name*</label>
+               <label class="bg-white cursor-text px-1">Last Name*</label>
              </div>
              <div class="validity-checker h-0 w-full absolute pr-2 top-1/2 btm-1/2 flex items-center justify-end">
                <span class="hidden valid text-green"><i class="fa-solid fa-check"></i></span>
@@ -317,8 +317,10 @@ export default {
           delete this.newMember.password1
           await setDoc(doc(db, 'team', this.newMember.email), this.newMember)
         }catch (e) {
+          console.log(e)
         }
       }catch (e) {
+        console.log(e)
         
       }
       this.ClearForm()

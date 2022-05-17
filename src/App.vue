@@ -125,6 +125,31 @@ button:focus,button:active{outline: none;}
   .list-none{list-style: none;}
 
 
+
+    .custom-scroll::-webkit-scrollbar {
+      width: 5px;
+    }
+    /* Track */
+    ::-webkit-scrollbar-track {
+      box-shadow: inset 0 0 5px grey;
+      border-radius: 10px;
+    }
+    /* Handle */
+    ::-webkit-scrollbar-thumb {
+      background: gray;
+      border-radius: 10px;
+    }
+    /* Handle on hover */
+    ::-webkit-scrollbar-thumb:hover {
+      background: #98CB00;
+    }
+
+
+
+
+
+
+
     /*Dropdown*/
     .dropdown-cont:hover >.dropdown{
       display: initial;

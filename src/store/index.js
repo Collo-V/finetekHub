@@ -56,7 +56,7 @@ export default createStore({
                 let tempTeam = {}
                 for (let i = 0; i < snap.docs.length; i++) {
                     let doc = snap.docs[i]
-                    tempTeam[doc.id] = {...doc.data(),email:doc.id}
+                    tempTeam[doc.data().username] = {...doc.data(),email:doc.id}
                 }
                 state.team = tempTeam
             })
