@@ -593,7 +593,7 @@ export default {
     CreateImage:function (){
       let input=document.createElement("input");
       input.type="file";
-      input.accept=".png,.jpg"
+      input.accept=".png,.jpg,.jpeg"
       let files=[]
       let all  = this
       input.onchange = e=>{
