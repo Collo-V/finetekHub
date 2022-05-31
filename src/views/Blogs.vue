@@ -152,7 +152,7 @@ export default {
       showPrev:false,
       imagePrev:'',
       cats:[],
-      categories:['IOT',"AI","Mobile Development",'Web Development','Front-end','Healthcare','Fintech','Ecommerce'],
+      categories:[],
       blogPost:{
         headerImage:'',
         author:'',
@@ -323,7 +323,12 @@ export default {
         let tempTeam = {}
         for (let i = 0; i < snap.docs.length; i++) {
           let doc = snap.docs[i]
-          tempTeam[doc.id] = {...doc.data(),id:doc.id}
+          if(doc.id === 'blog-categories'){
+            this.categories = doc.data().cats
+
+          }else {
+            tempTeam[doc.id] = {...doc.data(), id: doc.id}
+          }
         }
         this.blogs = JSON.parse(JSON.stringify(tempTeam))
       })
