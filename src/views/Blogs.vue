@@ -22,7 +22,7 @@
               <span v-for="cat in blogPost.categories" class="mr-1">
                 <span class="relative pr-2 text-ellipsis">
                    {{cat}}
-                  <button type="button" class="absolute top-0 right-0 focus:outline-none text-red text-3" @click="RemoveCat(cat)">
+                  <button type="button" class="absolute top-0 right-0 focus:outline-none text-red text-3" @click="CheckInput(cat)">
                     <i class="fas fa-xmark"></i>
                   </button>
                 </span>,
@@ -30,7 +30,7 @@
               </span>
               <input type="text" class="h-full outline-none inline min-w-100px w-full px-0 mr-2"
                      @keyup="CategoryFill($event.target)" aria-autocomplete="none" id="category"
-                     @keydown="RemoveCat($event)" v-model="catInput">
+                     @keydown="CheckInput($event)" v-model="catInput">
 <!--              <span class="h-full flex items-center">{{cats[0]}}</span>-->
               <div class="cat-options-div absolute left-0 top-full w-350px rounded-md z-3 rounded-sm bg-white shadow-md">
                 <span class="block w-full h-8 hover:bg-grey-light flex items-center px-2 cursor-pointer"
@@ -212,6 +212,13 @@ export default {
       let user  = this.$store.getters.GetUser
       let time = new Date().getTime()
       try{
+        let newCats = this.blogPost.categories.filter(cat=>{
+          return !this.categories.includes(cat)
+        })
+        if(newCats.length>0){
+          await updateDoc(doc(db,'blogs','blog-categories'),
+              this.categories.concat(newCats))
+        }
         if (!this.blogPost.id){
           this.blogPost.author = `${user.firstName} ${user.lastName}`
           let imgRef = ref(getStorage(), 'blogs/' + user.username + time)
@@ -301,13 +308,16 @@ export default {
       }
       return {table:table,content:tempCont}
     },
-    RemoveCat(cat){
+    CheckInput(cat){
       if (typeof (cat)==='string'){
         this.blogPost.categories = RemoveFromArray(this.blogPost.categories,cat)
-        return
       }
-      if(this.catInput=='' && cat.key=='Backspace'){
+       else if(this.catInput=='' && cat.key=='Backspace'){
         this.blogPost.categories.pop()
+      }
+       else if(this.catInput!=='' && cat.key=='Comma'){
+         this.blogPost.categories.push(this.catInput)
+
       }
 
     },
