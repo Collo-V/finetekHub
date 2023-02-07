@@ -5,6 +5,8 @@ import {getAuth, signOut} from 'firebase/auth'
 import router from "@/router";
 import {GetUser} from '@/commons/data'
 import {RemoveFromArray} from "@/commons";
+import {onValue,ref,set} from 'firebase/database'
+import {realDb} from "@/firebase";
 
 export default createStore({
     state:{
@@ -13,6 +15,7 @@ export default createStore({
         userExists:false,
         checkedUser:false,
         team:'',
+        status:{},
         chats: {},
         chatIds:{},
         newChats:0
@@ -31,6 +34,9 @@ export default createStore({
             return state.chats
         },GetNewChats(state){
             return state.newChats
+        },
+        GetStatus(state){
+            return state.status
         }
     },
     mutations:{
@@ -63,7 +69,8 @@ export default createStore({
         },
 
         WriteChats(state,chats){
-            let currentUser = state.user.email
+            let newChats = 0
+            let currentUser = state.user.username
             let team = state.team
             let userKeys = RemoveFromArray(Object.keys(team),currentUser)
             let chatKeys = Object.keys(chats)
@@ -80,16 +87,23 @@ export default createStore({
                             if(p.isDeleted){continue}
                             chat.push({...p,id:z[k]})
                             if(!p.isRead && p.sender!=state.user.username){
-                                state.newChats++
+                                newChats+=1
                             }
                         }
                         state.chats[user.username] = chat
+                        state.newChats = newChats
                     }
                 }
 
             }
             // console.log(this.chats)
             // this.ReadMsg()
+        },
+        WriteStatus(state,status){
+            status.forEach(user=>{
+                state.status[user.email] = user.lastSeen
+            })
+
         }
     },
     actions:{
@@ -103,16 +117,17 @@ export default createStore({
                     context.state.userExists = true
                     context.commit("GetUser",user.email)
                     context.dispatch('GetChats',user.email).then()
-                    context.commit('GetTeam')
+
                 }
             })
         },
-        async OnlineStatus(context,online){
+        async OnlineStatus(context){
 
             try{
-                await updateDoc((doc(db, 'team', context.state.user.email)), {
-                    isOnline: online?true:false,
-                    lastSeen: new Date().getTime()
+                let statusRef = ref(realDb,'/status/')
+                onValue(statusRef,snapshot => {
+                    let data = snapshot.val()
+                    context.commit('WriteStatus',Object.values(data))
                 })
             }catch (e) {
                 console.log(e)
@@ -132,5 +147,12 @@ export default createStore({
             })
 
         },
+        async Gets(context){
+            context.commit('GetClientMessages')
+            await context.dispatch('CheckUser')
+            await context.commit('GetTeam')
+            await context.dispatch('OnlineStatus')
+
+        }
     }
 })

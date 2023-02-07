@@ -342,7 +342,7 @@ import {Picker} from "emoji-picker-element";
 import {chats, team,db} from "@/firebase";
 import {getDoc, onSnapshot, setDoc, doc, query, where, getDocs, deleteDoc, updateDoc, addDoc} from 'firebase/firestore'
 import {TextAreaAdjust, RemoveFromArray, ReverseArray, isEmail, CodeGenerator} from "@/commons";
-import {Alert, Report} from "@/commons/swal";
+import {confirmAction, Report} from "@/commons/swal";
 import {getDownloadURL, getStorage, ref, uploadBytes,uploadBytesResumable} from "firebase/storage";
 
 export default {
@@ -511,7 +511,7 @@ export default {
 
     },
     async DeleteMsg(){
-      if(!await Alert()){return}
+      if(!await confirmAction()){return}
       let chats = this.highlightedChat
       for (let i = 0; i < chats.length; i++) {
         let deleteId= chats[i]

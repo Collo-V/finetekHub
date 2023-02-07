@@ -54,7 +54,8 @@ export default {
     async Login(){
       // signOut(getAuth())
       // return
-      document.getElementById('invalid-cred-error').classList.add('hidden')
+      let credError = document.getElementById('invalid-cred-error')
+      credError.classList.add('hidden')
       let username = this.creds.username
       let password = this.creds.password
       if(!username||!password){
@@ -64,9 +65,14 @@ export default {
       let email
       if(!isEmail(username)){
         let c = (await getDocs(query(team, where('username', '==', username)))).docs[0]
+        console.log(c)
         email = c?c.id:'no-email'
       }else{
         email = username
+      }
+      if(!isEmail(email)){
+        credError.classList.remove('hidden')
+        return
       }
       try {
         let user = await signInWithEmailAndPassword(getAuth(), email, password)
@@ -76,7 +82,7 @@ export default {
         if(error.code=='auth/wrong-password' || error.code == 'auth/user-not-found'
             || error.code == 'auth/wrong-email') {
             console.log(error.code)
-          document.getElementById('invalid-cred-error').classList.remove('hidden')
+          credError.classList.remove('hidden')
         }
       }
       // let email = !isEmail(username)?

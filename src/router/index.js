@@ -6,6 +6,7 @@ import Blogs from "@/views/Blogs";
 import Login from "@/views/Login";
 import ClientMessages from "@/views/ClientMessages";
 import Chats from "@/views/Chats";
+import Settings from "@/views/Settings";
 
 const routes = [
     {
@@ -37,6 +38,12 @@ const routes = [
         path: '/chats',
         name: 'chats',
         component: Chats,
+        props: true
+    },
+    {
+        path: '/settings',
+        name: 'settings',
+        component: Settings,
         props: true
     },
     {

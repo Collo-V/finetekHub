@@ -8,7 +8,22 @@ function GetUser(email){
     })
     console.log('beforechange')
 }
+function filterData(data,[field, op, value]){
+    let filteredKeys=[]
+    let keys = Object.keys(data)
+    keys.forEach(key=>{
+        if(op === '==' && data[key][field]===value){
+            filteredKeys.push(key)
+        }
+    })
+    let filteredData = {}
+    filteredKeys.forEach(key=>{
+        filteredData[key] = data[key]
+    })
+    return filteredData
+
+}
 
 export {
-    GetUser
+    GetUser,filterData
 }

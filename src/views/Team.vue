@@ -1,9 +1,9 @@
 <template>
  <div class="w-full mb-8">
-   <div class="w-full" v-show="viewTeam">
-     <div class="flex justify-end p-4">
-       <button class="h-10 w-150px focus:outline-none rounded-md bg-primary text-white" @click="viewTeam=false">+ Add member</button>
-     </div>
+   <div class="flex justify-end p-4">
+     <button class="h-10 w-150px focus:outline-none rounded-md bg-primary text-white" @click="showAddMember = true">+ Add member</button>
+   </div>
+   <div class="w-full" >
      <div class="flex flex-wrap p-4">
        <div class="w-250px h-48 bg- shadow-md flex items-center justify-center mb-2 mr-2 rounded-md relative"
        v-for="member in team">
@@ -35,136 +35,79 @@
        </div>
      </div>
    </div>
-   <div class="p-4" v-show="!viewTeam">
-     <div class="w-4/5 mx-auto max-w-800px">
-       <h2 class="mb-2" v-show="editing==''">Add a new member</h2>
+
+   <div class="h-screen-h w-full bg-gray-500/75 fixed top-0 left-0 z-10 flex justify-center items-center"
+        v-if="showAddMember" @click="(event)=>{ClickOutside(event)}">
+     <div class="bg-white w-90% h-300px lg:w-500px" ref="formRef">
+       <h2 class="mb-2 py-2 px-2" v-show="editing==''">
+         {{editing==''? 'Add new member':'Edit member'}}
+       </h2>
        <form action="" class="w-full" id="member-form">
-         <div class="flex flex-col lg:flex-row mb-3">
-           <fieldset class="h-36px w-full relative mr-3">
-             <input class="form-input pl-4 w-full h-full flex items-center rounded-sm focus:outline-none border-1px"
+         <div class="flex flex-col lg:flex-row gap-3 mb-3">
+           <fieldset class="h-10 w-full relative">
+             <input class="form-input pl-4 w-full h-10 flex items-center rounded-sm focus:outline-none border-1px"
                     id="firstName" @blur="Validate($event.target.id)" v-model="newMember.firstName">
              <div class="form-label h-0 w-full absolute pl-4 top-1/2 btm-1/2 flex items-center">
                <label class="bg-white cursor-text px-1">First Name*</label>
              </div>
-             <div class="validity-checker h-0 w-full absolute pr-2 top-1/2 btm-1/2 flex items-center justify-end">
-               <span class="hidden valid text-green"><i class="fa-solid fa-check"></i></span>
-               <span class="hidden invalid text-red"><i class="fa-solid fa-triangle-exclamation"></i></span>
+             <div class="validity-checker h-0 w-fit absolute mr-4 top-1/2 btm-1/2 right-0 flex items-center justify-end">
+               <span class="hidden valid text-green-500"><i class="fa-solid fa-check"></i></span>
+               <span class="hidden invalid text-red-500"><i class="fa-solid fa-triangle-exclamation"></i></span>
              </div>
            </fieldset>
-           <fieldset class="h-36px w-full relative mb-3">
-             <input class="form-input pl-4 w-full h-full flex items-center rounded-sm focus:outline-none border-1px"
+           <fieldset class="h-10 w-full relative">
+             <input class="form-input pl-4 w-full h-10 flex items-center rounded-sm focus:outline-none border-1px"
                     id="lastName" @blur="Validate($event.target.id)" v-model="newMember.lastName">
              <div class="form-label h-0 w-full absolute pl-4 top-1/2 btm-1/2 flex items-center">
                <label class="bg-white cursor-text px-1">Last Name*</label>
              </div>
-             <div class="validity-checker h-0 w-full absolute pr-2 top-1/2 btm-1/2 flex items-center justify-end">
-               <span class="hidden valid text-green"><i class="fa-solid fa-check"></i></span>
-               <span class="hidden invalid text-red"><i class="fa-solid fa-triangle-exclamation"></i></span>
+             <div class="validity-checker h-0 w-fit absolute mr-4 right-0 top-1/2 btm-1/2 flex items-center justify-end">
+               <span class="hidden valid text-green-500"><i class="fa-solid fa-check"></i></span>
+               <span class="hidden invalid text-red-500"><i class="fa-solid fa-triangle-exclamation"></i></span>
              </div>
            </fieldset>
-
          </div>
-         <div class="flex flex-col lg:flex-row mb-3">
-           <fieldset class="h-36px w-full relative mr-3">
-             <input class="form-input pl-4 w-full h-full flex items-center rounded-sm focus:outline-none border-1px"
+         <div class="flex flex-col lg:flex-row gap-3 mb-3">
+           <fieldset class="h-10 w-full relative">
+             <input class="form-input pl-4 w-full h-10 flex items-center rounded-sm focus:outline-none border-1px"
                     id="email" @blur="Validate($event.target.id)" v-model="newMember.email">
              <div class="form-label h-0 w-full absolute pl-4 top-1/2 btm-1/2 flex items-center">
                <label class="bg-white cursor-text px-1">Email*</label>
              </div>
-             <div class="validity-checker h-0 w-full absolute pr-2 top-1/2 btm-1/2 flex items-center justify-end">
-               <span class="hidden valid text-green"><i class="fa-solid fa-check"></i></span>
-               <span class="hidden invalid text-red"><i class="fa-solid fa-triangle-exclamation"></i></span>
+             <div class="validity-checker h-0 w-fit absolute mr-4 right-0 top-1/2 btm-1/2 flex items-center justify-end">
+               <span class="hidden valid text-green-500"><i class="fa-solid fa-check"></i></span>
+               <span class="hidden invalid text-red-500"><i class="fa-solid fa-triangle-exclamation"></i></span>
              </div>
-             <div class="text-red text-12px hidden" id="duplicate-email-error">a user with the email already exists</div>
+             <div class="text-red-500 text-12px hidden" id="duplicate-email-error">a user with the email already exists</div>
            </fieldset>
-           <fieldset class="h-36px w-full relative mb-3">
-             <input class="form-input pl-4 w-full h-full flex items-center rounded-sm focus:outline-none border-1px"
-                    id="username" @blur="Validate($event.target.id)" v-model="newMember.username">
-             <div class="form-label h-0 w-full absolute pl-4 top-1/2 btm-1/2 flex items-center">
-               <label class="bg-white cursor-text px-1">Username*</label>
-             </div>
-             <div class="validity-checker h-0 w-full absolute pr-2 top-1/2 btm-1/2 flex items-center justify-end">
-               <span class="hidden valid text-green"><i class="fa-solid fa-check"></i></span>
-               <span class="hidden invalid text-red"><i class="fa-solid fa-triangle-exclamation"></i></span>
-             </div>
-             <div class="text-red text-12px hidden" id="duplicate-username-error">username already taken</div>
-           </fieldset>
-
          </div>
-         <div class="flex flex-col lg:flex-row mb-3">
-           <fieldset class="h-36px w-full relative mr-3">
-             <input class="form-input pl-4 w-full h-full flex items-center rounded-sm focus:outline-none border-1px"
-                    id="phone" @blur="Validate($event.target.id)" v-model="newMember.phone">
-             <div class="form-label h-0 w-full absolute pl-4 top-1/2 btm-1/2 flex items-center">
-               <label class="bg-white cursor-text px-1">Phone*</label>
-             </div>
-             <div class="validity-checker h-0 w-full absolute pr-2 top-1/2 btm-1/2 flex items-center justify-end">
-               <span class="hidden valid text-green"><i class="fa-solid fa-check"></i></span>
-               <span class="hidden invalid text-red"><i class="fa-solid fa-triangle-exclamation"></i></span>
-             </div>
-           </fieldset>
-           <fieldset class="h-36px w-full relative mb-3">
-             <input class="form-input pl-4 w-full h-full flex items-center rounded-sm focus:outline-none border-1px"
+         <div class="flex flex-col lg:flex-row gap-3 mb-3 items-center">
+          <fieldset class="h-10 w-full relative mb-3">
+             <input class="form-input pl-4 w-full h-10 flex items-center rounded-sm focus:outline-none border-1px"
                     id="position" @blur="Validate($event.target.id)" v-model="newMember.position">
              <div class="form-label h-0 w-full absolute pl-4 top-1/2 btm-1/2 flex items-center">
                <label class="bg-white cursor-text px-1">Position*</label>
              </div>
-             <div class="validity-checker h-0 w-full absolute pr-2 top-1/2 btm-1/2 flex items-center justify-end">
-               <span class="hidden valid text-green"><i class="fa-solid fa-check"></i></span>
-               <span class="hidden invalid text-red"><i class="fa-solid fa-triangle-exclamation"></i></span>
+             <div class="validity-checker h-0 w-fit absolute mr-4 right-0 top-1/2 btm-1/2 flex items-center justify-end">
+               <span class="hidden valid text-green-500"><i class="fa-solid fa-check"></i></span>
+               <span class="hidden invalid text-red-500"><i class="fa-solid fa-triangle-exclamation"></i></span>
              </div>
            </fieldset>
-
-         </div>
-         <div class="flex flex-col lg:flex-row mb-3" id="password-fields-cont">
-           <fieldset class="h-36px w-full relative mr-3">
-             <input class="form-input pl-4 w-full h-full flex items-center rounded-sm focus:outline-none border-1px"
-                    id="password1" @blur="Validate($event.target.id)" v-model="newMember.password1" type="password">
-             <div class="form-label h-0 w-full absolute pl-4 top-1/2 btm-1/2 flex items-center">
-               <label class="bg-white cursor-text px-1">Password*</label>
-             </div>
-             <div class="validity-checker h-0 w-full absolute pr-2 top-1/2 btm-1/2 flex items-center justify-end">
-               <span class="hidden valid text-green"><i class="fa-solid fa-check"></i></span>
-               <span class="hidden invalid text-red"><i class="fa-solid fa-triangle-exclamation"></i></span>
-             </div>
-             <div class="text-10px">
-               at least 8 characters,a special character,
-               uppercase, lowercase and number
-             </div>
-           </fieldset>
-           <fieldset class="h-36px w-full relative mb-3">
-             <input class="form-input pl-4 w-full h-full flex items-center rounded-sm focus:outline-none border-1px"
-                    id="password2" @blur="Validate($event.target.id)" v-model="newMember.password2" type="password">
-             <div class="form-label h-0 w-full absolute pl-4 top-1/2 btm-1/2 flex items-center">
-               <label class="bg-white cursor-text px-1">Re-enter password*</label>
-             </div>
-             <div class="validity-checker h-0 w-full absolute pr-2 top-1/2 btm-1/2 flex items-center justify-end">
-               <span class="hidden valid text-green"><i class="fa-solid fa-check"></i></span>
-               <span class="hidden invalid text-red"><i class="fa-solid fa-triangle-exclamation"></i></span>
-             </div>
-           </fieldset>
-
-         </div>
-         <div class="flex">
-           <fieldset class="h-36px w-full relative mb-3 flex items-center mr-3">
+           <fieldset class="h-10 w-full relative mb-3 flex items-center mr-3 items-center">
              <input type="checkbox" v-model="newMember.isAdmin" id="isAdmin" class="mr-2 h-5 w-5">
              <label for="isAdmin">Give admin privileges</label>
            </fieldset>
-           <fieldset class="w-full">
-             <button class="w-100px h-10 focus:outline-none border-1px rounded-md"
-             type="button"  @click="Create()">Add Photo</button>
-             <span class="valid text-green" v-if="newMember.image!=''"><i class="fa-solid fa-check"></i></span>
-             <span class="text-red text-12px hidden" id="no-photo-error"> Please add profile photo</span>
-           </fieldset>
+
          </div>
-         <div class=" text-red text-12px hidden" id="error-alert">Please correct the mistake(s) before proceeding</div>
-         <div class="flex justify-end">
+         <div class=" text-red-500 text-12px hidden" id="error-alert">Please correct the mistake(s) before proceeding</div>
+         <div class="flex justify-end px-2">
            <button class="h-10 w-150px focus:outline-none bg-grey-light rounded-md mr-2"
                    type="button" @click="ClearForm()">Cancel</button>
            <button class="h-10 w-150px focus:outline-none bg-primary text-white rounded-md"
-                   type="button" @click="CheckValidity()">Add</button>
+                   type="button" @click="AddMember()">Add</button>
          </div>
        </form>
+
      </div>
    </div>
  </div>
@@ -175,20 +118,27 @@
 import {team,db} from "@/firebase";
 import {getDoc,onSnapshot,setDoc,doc,query,where,getDocs,deleteDoc,updateDoc} from 'firebase/firestore'
 import { getStorage, ref, uploadBytes,getDownloadURL } from "firebase/storage";
-import {getAuth, createUserWithEmailAndPassword,deleteUser} from 'firebase/auth'
-import {Validate} from "@/commons";
-import {Alert,Report} from "@/commons/swal";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  deleteUser,
+  sendSignInLinkToEmail,
+  signInWithEmailAndPassword
+} from 'firebase/auth'
+import {formIsValid, Validate} from "@/commons";
+import {confirmAction,Report} from "@/commons/swal";
 
 export default {
+
   name: "Team",
   data(){
     return{
       viewTeam:true,
+      showAddMember:false,
       team:'',
       editing:false,
       newMember:{
-        firstName:'',lastName:'',email:'',phone:'',username:'',position:'',
-        password1:'',password2:'',image:'',isAdmin:false,isOnline:false,lastSeen:''
+
       }
     }
   },
@@ -210,55 +160,6 @@ export default {
     },
     Validate(id){
       Validate(id)
-    },
-    async CheckValidity(){
-      if(this.editing!=''){
-        return this.CheckEdited(this.editing)
-      }
-      let valid = true
-      let member  = this.newMember
-      let keys = Object.keys(member)
-      // for (let i = 0; i < keys.length ; i++) {
-      //   if (keys[i]!='isAdmin' && member[keys[i]]==''){
-      //     valid = false
-      //   }
-      // }
-      if(document.getElementsByClassName('input-invalid').length>0){
-        valid = false
-      }
-      if(member.image==''){
-        document.getElementById('no-photo-error').classList.remove('hidden')
-        valid = false
-      }else{
-        document.getElementById('no-photo-error').classList.add('hidden')
-      }
-      try{
-        let email = (await getDoc(doc(db, 'team', member.email))).data()
-        if (email){
-          document.getElementById('duplicate-email-error').classList.remove('hidden')
-          valid = false
-        }else {
-          document.getElementById('duplicate-email-error').classList.add('hidden')
-        }
-      }catch{}
-      try{
-        let username = (await getDocs(query(team,where('username','==',member.username)))).docs
-        if (username.length>0){
-          document.getElementById('duplicate-username-error').classList.remove('hidden')
-          valid = false
-        }else{
-          document.getElementById('duplicate-username-error').classList.add('hidden')
-        }
-      }catch (e) {
-        console.log(e)
-      }
-      if(!valid){
-        document.getElementById('error-alert').classList.remove('hidden')
-      }
-      else {
-        document.getElementById('error-alert').classList.add('hidden')
-        await this.AddMember()
-      }
     },
     async CheckEdited(id){
       let valid = true
@@ -307,22 +208,31 @@ export default {
       input.click()
     },
     async AddMember(){
+      const actionCodeSettings = {
+        // url: 'https://wincos.co.ke/',
+        url: 'https://admin-finetek.netlify.app/?email='+user.email,
+        // This must be true.
+        handleCodeInApp: true,
+
+      }
+      document.getElementById('duplicate-email-error').classList.add('hidden')
+      if(!formIsValid('member-form'))return
+      console.log(this.newMember)
+      let member = {...this.newMember}
+      const data = (await getDoc(doc(db, 'team', member.email))).data()
+      if(data){
+        document.getElementById('duplicate-email-error').classList.remove('hidden')
+        return
+      }
       try{
-        await createUserWithEmailAndPassword(getAuth(), this.newMember.email, this.newMember.password1)
-        try{
-          let imgRef = ref(getStorage(), 'team/' + this.newMember.email)
-          await uploadBytes(imgRef, this.newMember.image)
-          let imgPath = await getDownloadURL(imgRef)
-          this.newMember.image = imgPath
-          delete this.newMember.password2
-          delete this.newMember.password1
-          await setDoc(doc(db, 'team', this.newMember.email), this.newMember)
-        }catch (e) {
-          console.log(e)
-        }
+        await sendSignInLinkToEmail(getAuth(), this.newMember.email,actionCodeSettings)
+        await setDoc(doc(db, 'team', this.newMember.email), {
+          ...this.newMember,
+          dateJoined: new Date()
+        })
       }catch (e) {
         console.log(e)
-        
+
       }
       this.ClearForm()
     },
@@ -339,21 +249,8 @@ export default {
       }
     },
     ClearForm(){
-      this.newMember = {
-        firstName:'',lastName:'',email:'',phone:'',username:'',position:'',
-        password1:'',password2:'',image:'',isAdmin:false
-      }
-      document.getElementById('member-form').classList.remove('prefilled-form')
-      document.getElementById('password-fields-cont').classList.replace('hidden','flex')
-      let a = document.getElementsByClassName('input-invalid')
-      let b = document.getElementsByClassName('input-valid')
-      for (let i = 0; i < a.length; i++) {
-        a[i].classList.remove('input-invalid')
-      }
-      for (let i = 0; i < b.length; i++) {
-        b[i].classList.remove('input-valid')
-      }
-      this.viewTeam = true
+      this.newMember = {}
+      this.showAddMember = false
     },
     EditMember(id){
       this.newMember = JSON.parse(JSON.stringify(this.team[id]))
@@ -363,12 +260,32 @@ export default {
       document.getElementById('email').disabled=true
       document.getElementById('username').disabled=true
     },
-    DeleteMember(id){
-      if(Alert()===true){
-        deleteDoc(doc(db,'team',id))
+    async DeleteMember(email){
+      if(await confirmAction('delete member')){
+        try{
+          await deleteDoc(doc(db, 'team', email))
+          Report({title:'Member deleted',icon:'success'})
+        }catch{
+          Report({title:'Error occurred',icon:'error'})
+        }
       }
 
+    },
+    ClickOutside(event){
+      try {
+        if(!this.$refs.formRef.contains(event.target)){
+          this.showAddMember = false
+        }
+      }catch {}
+
     }
+  },
+  watch:{
+
+  } ,
+  mounted() {
+    // this.ClickOutside
+
   }
 }
 </script>

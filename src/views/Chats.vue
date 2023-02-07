@@ -1,8 +1,8 @@
 <template>
-  <div class="hidden lg:block">
+  <div class="hidden lg:block h-full w-full">
     <MainChat/>
   </div>
-  <div class="lg:hidden">
+  <div class="lg:hidden w-full h-full">
     <MobChat/>
   </div>
 
@@ -11,10 +11,12 @@
 <script>
 import MainChat from "@/components/MainChat";
 import MobChat from "@/components/MobChat";
+import Test from "@/components/Test";
 export default {
   name: "Chats",
   components:{
-    MainChat,MobChat
+    MainChat,MobChat,
+    // Test
   }
 
 

@@ -1,11 +1,12 @@
 import Swal from "sweetalert2";
 
-async function Alert() {
+async function confirmAction(action) {
+    action = action??'delete'
     let c = await Swal.fire({
-        title: 'Confirm delete',
+        title: 'Confirm '+ action,
         text: 'Do you want to continue',
         // icon: 'error',
-        confirmButtonText: 'Delete',
+        confirmButtonText: 'Yes',
         showCancelButton:true,
         cancelButtonText:'cancel'
     })
@@ -22,7 +23,7 @@ async function Report(obj){
     const Toast = Swal.mixin({
         toast: true,
         timer:3000,
-        position: obj.position,
+        position: 'top',
         showConfirmButton: false,
         showClass: {
             popup: 'animate__animated animate__fadeInUP'
@@ -39,5 +40,5 @@ async function Report(obj){
 }
 
 export {
-    Alert,Report
+    confirmAction,Report
 }

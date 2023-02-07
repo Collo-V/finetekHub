@@ -5,7 +5,7 @@
         <i class="fa-solid fa-bars"></i>
       </button>
     <div class="fixed top-0 left-0 z-3" v-if="expanded" >
-      <div class="w-screen-w h-screen-h bg-grey absolute top-0 w-0 opacity-50"></div>
+<!--      <div class="w-screen-w h-screen-h bg-grey absolute top-0 w-0 opacity-50"></div>-->
       <div>
         <div class="h-screen-h w-screen-h min-w-screen-w min-h-screen-w rounded-full bg-primary-purple animate__animated animate__fadeInDown
       -ml-screen-h-50 -mt-screen-h-50 relative z-2 mb-10">
@@ -29,8 +29,8 @@
             </router-link>
           </div>
         </div>
-        <div class="absolute let-0 top-0 h-screen-h w-screen-h rounded-full bg-primary-purple
-       opacity-50 -ml-screen-h-45 min-w-screen-w min-h-screen-w -mt-screen-h-45 z-1">
+        <div class="absolute left-0 top-25% h-screen-h w-screen-h rounded-full bg-primary-purple
+       opacity-50  z-1 vh-center ">
         </div>
       </div>
       </div>
