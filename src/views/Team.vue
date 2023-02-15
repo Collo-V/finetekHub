@@ -208,9 +208,11 @@ export default {
       input.click()
     },
     async AddMember(){
+      let member = {...this.newMember}
       const actionCodeSettings = {
         // url: 'https://wincos.co.ke/',
-        url: 'https://admin-finetek.netlify.app/?email='+user.email,
+        // url: 'https://admin-finetek.netlify.app/?email='+user.email,
+        url: 'http://localhost:8080/#user?email='+member.email,
         // This must be true.
         handleCodeInApp: true,
 
@@ -218,7 +220,6 @@ export default {
       document.getElementById('duplicate-email-error').classList.add('hidden')
       if(!formIsValid('member-form'))return
       console.log(this.newMember)
-      let member = {...this.newMember}
       const data = (await getDoc(doc(db, 'team', member.email))).data()
       if(data){
         document.getElementById('duplicate-email-error').classList.remove('hidden')

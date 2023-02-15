@@ -68,7 +68,7 @@ import {getDownloadURL, getStorage, ref, uploadBytes,uploadBytesResumable} from 
 
 import {blogs,db} from "@/firebase";
 import AddBlog from "@/components/AddBlog";
-import {filterData} from "@/commons/data";
+import {filterData} from "@/commons/objects";
 
 
 
