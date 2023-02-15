@@ -212,7 +212,7 @@ export default {
       const actionCodeSettings = {
         // url: 'https://wincos.co.ke/',
         // url: 'https://admin-finetek.netlify.app/?email='+user.email,
-        url: 'http://localhost:8080/#user?email='+member.email,
+        url: 'https://admin-finetek.netlify.app/#user?email='+member.email,
         // This must be true.
         handleCodeInApp: true,
 
