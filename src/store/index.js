@@ -1,24 +1,26 @@
 import {createStore} from 'vuex'
-import {team,db,chats} from "@/firebase";
+import {team,db,dbChats} from "@/firebase";
 import {getDoc,onSnapshot,setDoc,doc,query,where,getDocs,deleteDoc,updateDoc,collection} from 'firebase/firestore'
-import {getAuth, signOut} from 'firebase/auth'
-import router from "@/router";
-import {GetUser} from '@/commons/data'
+import {onValue,set,getDatabase,ref} from "firebase/database";
 import {RemoveFromArray} from "@/commons";
-import {onValue,ref,set} from 'firebase/database'
 import {realDb} from "@/firebase";
+import chats from './modules/chats'
 
 export default createStore({
+    modules:{
+        chats
+    },
     state:{
+        time: (new Date()).getTime(),
         clientMessages:'',
         user:'',
         userExists:false,
         checkedUser:false,
         team:'',
-        status:{},
-        chats: {},
         chatIds:{},
-        newChats:0
+        newChats:0,
+        statusInvterval:'',
+        timeInterval:''
     },
     getters:{
         getClientMessages(state){
@@ -37,6 +39,9 @@ export default createStore({
         },
         GetStatus(state){
             return state.status
+        },
+        GetCheckedUser(state){
+            return state.checkedUser
         }
     },
     mutations:{
@@ -54,7 +59,6 @@ export default createStore({
            onSnapshot(doc(db, 'team', email),data=>{
                state.user = data.data()
                state.checkedUser = true
-
             })
         },
         GetTeam(state){
@@ -68,91 +72,53 @@ export default createStore({
             })
         },
 
-        WriteChats(state,chats){
-            let newChats = 0
-            let currentUser = state.user.username
-            let team = state.team
-            let userKeys = RemoveFromArray(Object.keys(team),currentUser)
-            let chatKeys = Object.keys(chats)
-            for (let i = 0; i < chatKeys.length; i++) {
-                let c  = chats[chatKeys[i]]
-                for (let j = 0; j < userKeys.length; j++) {
-                    let user =team[userKeys[j]]
-                    if (c.participants.includes(user.username)){
-                        state.chatIds[user.username] = c.id
-                        let z =Object.keys(c.chats).sort()
-                        let chat=[]
-                        for (let k = 0; k < z.length; k++){
-                            let p = c.chats[z[k]]
-                            if(p.isDeleted){continue}
-                            chat.push({...p,id:z[k]})
-                            if(!p.isRead && p.sender!=state.user.username){
-                                newChats+=1
-                            }
-                        }
-                        state.chats[user.username] = chat
-                        state.newChats = newChats
-                    }
-                }
-
-            }
-            // console.log(this.chats)
-            // this.ReadMsg()
-        },
-        WriteStatus(state,status){
-            status.forEach(user=>{
-                state.status[user.email] = user.lastSeen
-            })
-
+        WriteCheckedUser(state,checked){
+            state.checkedUser = true
         }
     },
     actions:{
-        CheckUser(context){
-            getAuth().onAuthStateChanged(user=>{
-                if(user==null){
-                    context.state.checkedUser = true
-                    context.state.userExists = false
-                    router.push({name:'login'})
-               }else {
-                    context.state.userExists = true
-                    context.commit("GetUser",user.email)
-                    context.dispatch('GetChats',user.email).then()
-
-                }
-            })
-        },
-        async OnlineStatus(context){
-
-            try{
-                let statusRef = ref(realDb,'/status/')
-                onValue(statusRef,snapshot => {
-                    let data = snapshot.val()
-                    context.commit('WriteStatus',Object.values(data))
-                })
-            }catch (e) {
-                console.log(e)
-            }
-
-        },
-        async GetChats(context,email){
-            let username = (await getDoc(doc(db, 'team', email))).data().username
-            let q = query(chats,where('participants','array-contains',username))
-            let tmpChats = {}
-            onSnapshot(q,snaps=>{
-                for (let i = 0; i < snaps.docs.length; i++) {
-                    let d = snaps.docs[i]
-                    tmpChats[d.id] = {...d.data(),id:d.id}
-                }
-                context.commit('WriteChats',JSON.parse(JSON.stringify(tmpChats)))
-            })
-
-        },
         async Gets(context){
+            await context.dispatch('SetTime')
             context.commit('GetClientMessages')
-            await context.dispatch('CheckUser')
             await context.commit('GetTeam')
             await context.dispatch('OnlineStatus')
+            await context.dispatch('GetChats')
+            await context.dispatch('OnlineStatus')
 
+
+        },
+        GetUser(context,email){
+            onSnapshot(doc(db, 'team', email),data=>{
+                context.state.user = data.data()
+                context.state.checkedUser = true
+            })
+            context.dispatch('GetChats')
+        },
+        SetTime(context){
+            console.log('here')
+            context.state.timeInterval = setInterval(()=>{
+                context.state.time = (new Date()).getTime()
+            },1000)
+        },
+        ClearIntervals(context){
+            clearInterval(context.state.timeInterval)
+            clearInterval(context.state.statusInvterval)
+        },
+        async WriteOnlineStatus(context){
+            clearInterval(context.state.statusInverval)
+            context.state.statusInvterval = setInterval(async ()=>{
+                const database = getDatabase()
+                const reference = ref(database, 'status/' + context.state.user.username)
+                let lastSeen = (new Date()).getTime()
+                try{
+                    let c = await set( reference, {
+                        lastSeen,
+                    })
+                }catch (e){
+                    console.log(e)
+                }
+
+            },3000)
         }
     }
 })

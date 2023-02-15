@@ -239,10 +239,50 @@ export function CodeGenerator(){
             if(code.length>10){
                 code= code.slice(0,10)
             }
-            console.log(code)
             break
         }
     }
     return code
 }
+export function dateFormatter(date,format,reverse){
+    const d = isNaN(parseInt(date)) || parseInt(date).toString().length<6? new Date(date): new Date(parseInt(date))
+    const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    let day = d.getDate()
+    let monthNo = d.getMonth()
+    let  month = months[monthNo]
+    monthNo+=1
+    let year  = d.getFullYear()
+    let hour  = d.getHours()
+    let mins  = d.getMinutes()
+    if (mins<10)mins = '0'+mins
+    let abr = hour>=12?'p.m':'a.m'
+    let x = day.toString()[-1]
+    let sup = x==='1'?'st':
+        x==='2'?'nd':
+            x==='3'?'rd':'th'
+    if(format === 'long-sup' || !format){
+        return `${day}<sup>${sup}</sup> ${month}, ${year}, ${hour}:${mins} ${abr}`
+    }else if(format === 'long-slash'){
+        return reverse?`${year}/${monthNo}/${day},  ${hour}:${mins} ${abr}`
+            :`${day}/${monthNo}/${year},  ${hour}:${mins} ${abr}`
+    }else if(format === 'short-sup'){
+        return `${day}<sup>${sup}</sup> ${month}, ${year}`
+    }
+    else if(format === 'short-slash'){
+        return reverse?`${year}/${monthNo}/${day}`:`${day}/${monthNo}/${year}`
+    }
+    else if(format === 'formal'){
+        let dayOfWeek = ['sunday','monday','tuesday','Wednesday','thursday','friday','saturday'] [d.getDay()]
+        dayOfWeek = dayOfWeek.replace(dayOfWeek[0],dayOfWeek[0].toUpperCase())
+        return `${dayOfWeek}, ${month} ${day}, ${year}`
+    }
+    else if(format === 'formal-short'){
+        let dayOfWeek = ['sunday','monday','tuesday','Wednesday','thursday','friday','saturday'] [d.getDay()]
+        dayOfWeek = dayOfWeek.replace(dayOfWeek[0],dayOfWeek[0].toUpperCase())
+        return `${dayOfWeek.slice(0,3)}, ${month.slice(0,3)} ${day}, ${year}`
+    }
+    else if(format === 'short-hyphen'){
+        return reverse?`${year}-${monthNo}-${day}`:`${day}-${monthNo}-${year}`
+    }
 
+}

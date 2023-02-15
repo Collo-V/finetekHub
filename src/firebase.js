@@ -19,10 +19,10 @@ const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 const messages =  collection(db,'messages')
 const team =  collection(db,'team')
-const chats =  collection(db,'chats')
+const dbChats =  collection(db,'chats')
 const blogs =  collection(db,'blogs')
 const storage = getStorage(firebaseApp)
 const realDb = getDatabase()
 export {
-    messages,getDocs,addDoc,doc,setDoc,onSnapshot,team,db,storage,chats,blogs,realDb
+    messages,getDocs,addDoc,doc,setDoc,onSnapshot,team,db,storage,dbChats,blogs,realDb
 }

@@ -7,18 +7,26 @@ import Login from "@/views/Login";
 import ClientMessages from "@/views/ClientMessages";
 import Chats from "@/views/Chats";
 import Settings from "@/views/Settings";
+import Welcome from "@/views/Welcome";
+import NavBar from '@/components/Nav'
 
 const routes = [
     {
         path: '/team',
         name: 'team',
-        component: Team,
+        components: {
+            default: Team,
+            NavBar
+        },
         props: true
     },
     {
         path: '/blogs/:title?',
         name: 'blogs',
-        component: Blogs,
+        components: {
+            default:Blogs,
+            NavBar
+        },
         props: true
     },
 
@@ -31,19 +39,34 @@ const routes = [
     {
         path: '/client-messages',
         name: 'messages',
-        component: ClientMessages,
+        components: {
+            default:ClientMessages,
+            NavBar
+        },
         props: true
     },
     {
         path: '/chats',
         name: 'chats',
-        component: Chats,
+        components: {
+            default:Chats,
+            NavBar
+        },
         props: true
     },
     {
         path: '/settings',
         name: 'settings',
-        component: Settings,
+        components: {
+            default:Settings,
+            NavBar
+        },
+        props: true
+    },
+    {
+        path: '/welcome',
+        name: 'welcome',
+        component: Welcome,
         props: true
     },
     {
@@ -53,6 +76,7 @@ const routes = [
         // component: Login,
         // props: true
     },
+
 
 
 ]

@@ -1,14 +1,8 @@
 <template>
   <div class="fixed h-screen-h w-full text-14px flex" v-if="$store.state.checkedUser">
-    <div class="hidden lg:block">
-      <Nav/>
-    </div>
-    <div class="lg:hidden">
-      <MobNav/>
-    </div>
-    <div class="page-cont w-full mt-16" id="page-cont">
+    <router-view name="NavBar"></router-view>
+    <div class="page-cont w-full lg:mt-16" id="page-cont">
       <router-view></router-view>
-
     </div>
   </div>
   <Loader v-else/>
@@ -22,7 +16,8 @@ import Loader from "@/components/Loader";
 import {Report} from "@/commons/swal";
 import {getAuth,onAuthStateChanged} from "firebase/auth";
 import {ref, set} from "firebase/database";
-import {realDb} from "@/firebase";
+import {db, realDb} from "@/firebase";
+import {doc, getDoc} from "firebase/firestore";
 
 
 
@@ -54,8 +49,9 @@ export default {
 
         }catch {}
       },60000)
-    }
+    },
   },
+
   mounted() {
     if (window.performance) {
       // console.info("window.performance works fine on this browser");
@@ -66,16 +62,37 @@ export default {
     } else {
       // console.info( "This page is not reloaded");
     }
-    window.addEventListener('offline',this.OnlineStatus(false))
-    window.addEventListener('online',this.OnlineStatus(true))
+    // window.addEventListener('offline',this.OnlineStatus(false))
+    // window.addEventListener('online',this.OnlineStatus(true))
 
-    onAuthStateChanged(getAuth(),user=>{
-      if(user ===null){
-        this.$router.push({name:'login'})
+    let c = window.location.href.split('?').filter(a=>a.includes('email'))
+    if(c.length > 0){
+      let email = c[0].replace('email=','')
+      this.$store.commit('GetUser',email)
+      this.$router.push({name:'welcome'})
+    }else{
+      onAuthStateChanged(getAuth(),user=>{
+        if(user ===null){
+          this.$router.push({name:'login'})
+          this.$store.commit("WriteUser",{})
+          this.$store.dispatch("ClearIntervals")
+        }else{
+          this.$store.dispatch('GetUser',user.email)
+          this.$store.dispatch('WriteOnlineStatus')
+        }
+      })
     }
-    })
+    this.$store.commit('WriteCheckedUser',true)
 
   },
+  watch:{
+    '$store.state.user'(user){
+      if(user.username && Object.keys(this.$store.state.chats.chats).length == 0){
+        this.$store.dispatch('GetChats')
+      }
+    },
+  },
+
   beforeMount() {
     this.$store.dispatch('Gets')
   }

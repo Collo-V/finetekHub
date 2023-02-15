@@ -16,7 +16,7 @@
             </button>
           </div>
           <div class="nav-cont absolute top-1/2 left-1/2 w-10 pt-3 pl-3">
-            <router-link v-for="nav in tabs" :to="{name:nav.linkName}" @click="[currentTab = nav.title,expanded = false]"
+            <router-link v-for="nav in GetNavs" :to="{name:nav.linkName}" @click="[currentTab = nav.title,expanded = false]"
                          class="block h-10 flex items-center text-white pl-3 hover:pl-4">
               <span v-if="currentTab!=nav.title">{{nav.title}}</span>
               <span v-else class="text-primary-yellow">{{nav.title}}</span>
@@ -66,6 +66,8 @@
 
 <script>
 import {getAuth,signOut} from 'firebase/auth'
+import {mapState} from "vuex";
+import {dateFormatter} from "@/commons";
 export default {
   name: "Nav",
   data(){
@@ -93,6 +95,31 @@ export default {
 
 
   },
+  computed: mapState({
+    Time(state){
+      return dateFormatter(state.time,'long-slash')
+    },
+    GetNavs({user}){
+      if(!user.username)return []
+      if(user.isAdmin){
+        return [
+          {title:"Team",linkName:'team'},
+          {title:"Blogs",linkName:'blogs'},
+          {title:"Messages",linkName:'messages'},
+          {title:"Chats",linkName:'chats'},
+          {title:"Settings",linkName:'settings'},
+        ]
+      }else {
+        return [
+          {title:"Blogs",linkName:'blogs'},
+          {title:"Chats",linkName:'chats'},
+          {title:"Settings",linkName:'settings'},
+        ]
+      }
+
+    }
+
+  }),
   mounted() {
     // this.user = this.$router.getters.GetUser
   }
