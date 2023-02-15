@@ -177,6 +177,7 @@ export function filterData(data,[field,opStr,value,matchCase]){
         }
 
     }else if(opStr === 'array-contains'){
+        console.log('here in arrays')
         if(matchCase && isMatchable){
             filteredData = data.filter(a => {
                 return a[field] && a[field].includes(value)
@@ -216,7 +217,7 @@ export function filterData(data,[field,opStr,value,matchCase]){
         }
 
     }else {
-        filteredData =  data
+        filteredData =  []
     }
     if(isObject){
         let tempObject = {}

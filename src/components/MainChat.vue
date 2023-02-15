@@ -462,7 +462,7 @@ export default {
       let recipient = this.selectedRecipient
       let myChats = {}
       if(recipient.username){
-        myChats = filterData(chats, ['participants','array-includes',recipient.username])
+        myChats = filterData(chats, ['participants','array-contains',recipient.username])
       }
       let timeDivs = {}
       Object.values(myChats).forEach(chat=>{
