@@ -102,7 +102,7 @@ import {getDatabase, set, ref as realDbRef} from "firebase/database";
 
 export default {
   name: "ChatInput",
-  props:['replyFor','selectedRecipient','uploadTask'],
+  props:['replyFor','recipientId','uploadTask'],
   data(){
     return {
       sending:false,
@@ -168,17 +168,17 @@ export default {
       if(file){
         [images,files] = await this.GetFiles(chatId)
       }
-      let myRecipient = this.selectedRecipient
       let myChat = {
         message:input,
         sender:this.user.username,
         files,images,
         replyFor:this.replyFor !== undefined?this.replyFor.id:null,
-        recipient:myRecipient.username?myRecipient.username:myRecipient.id,
-        isDelivered:myRecipient.username?false:[],
-        isRead:myRecipient.username?false:[],
+        recipient:this.recipientId,
+        isDelivered:this.recipient.username?false:[],
+        isRead:this.recipient.username?false:[],
+        isDeleted:false,
         time:firebase.firestore.FieldValue.serverTimestamp(),
-        participants:[this.user.username,myRecipient.username],
+        isChannelChat:this.recipient.username?false:true
       }
       // myChat.time =  (new Date('2023-01-11').getTime())
       try{
@@ -366,7 +366,7 @@ export default {
       try{
         let c = await set( reference, {
           typing:true,
-          recipient:this.selectedRecipient.username
+          recipient:this.recipientId
         })
       }catch (e){
         console.log(e)
@@ -386,6 +386,10 @@ export default {
   computed: mapState({
     user:state => state.user,
     time:state => state.time,
+    recipient(state){
+      let colleague = state.team[this.recipientId]
+      return colleague?colleague:state.channels[this.recipientId]
+    }
   }),
 }
 </script>

@@ -3,32 +3,35 @@
   <div class="absolute lg:relative top-0 bottom-0 z-3
   team-cont w-full lg:min-w-250px lg:w-250px shadow-md bg-white overflow-hidden" id="team-cont">
     <div class="absolute bottom-full h-16 bg-white w-full"></div>
-    <div class="channels mt-2 border-b-2px border-primary-purple pb-4">
-      <h1 class="text-center">Channels</h1>
+    <div class="channels mt-2 border-b-2px border-primary-purple">
+      <h1 class="text-center text-primary-purple font-bold">Channels</h1>
       <div class="mt-2">
-        <div v-for="channel in channels" @click="$emit('Select-Chat',channel)">
-          <div  className="h-18 flex border-b-1px cursor-pointer">
+        <div v-for="channel in channels" @click="$emit('SelectChat',channel.id)">
+          <div  className="h-18 flex border-b-1px cursor-pointer pl-1">
             <div className="h-full min-w-12 flex items-center relative">
-              <img :src="channel.image" class="w-12 h-12 rounded-full">
+              <img :src="channel.image" class="w-10 h-10 rounded-full" v-if="channel.image">
+              <div v-else class="w-10 h-10 rounded-full border-1px flex items-center justify-center font-bold text-6">
+                {{channel.name[0]}}
+              </div>
             </div>
             <div  className="h-full flex justify-between w-full">
               <div className="ml-3 h-full flex flex-col justify-center w-full">
                 <div className="w-full mb-2 flex items-center justify-between pr-2">
                   <span className="text-16px mr-2 whitespace-nowrap">{{ channel.name }}</span>
                   <span className="whitespace-nowrap text-3  w-fit" v-if="lastChats[channel.id]">
-                  {{GetDate(lastChats[channel.id].time)}}
-              </span>
+                    {{GetDate(lastChats[channel.id].time)}}
+                  </span>
                 </div>
                 <div className="w-full mb-2 flex items-center justify-between pr-2">
                   <span v-if="typingStatus[channel.username]" class="text-primary">Typing...</span>
                   <span v-else>
-                <span className="whitespace-nowrap  max-w-200px pr-2 text-ellipsis" v-if="lastChats[channel.username]">
-                <span v-if="lastChats[channel.username].images.length>0">
-                  <i class="fas fa-camera"></i>
-                </span>
-                {{lastChats[channel.username].message}}
-              </span>
-              </span>
+                    <span className="whitespace-nowrap  max-w-200px pr-2 text-ellipsis" v-if="lastChats[channel.username]">
+                      <span v-if="lastChats[channel.username].images.length>0">
+                        <i class="fas fa-camera"></i>
+                      </span>
+                        {{lastChats[channel.username].message}}
+                    </span>
+                  </span>
                 </div>
 
               </div>
@@ -36,7 +39,8 @@
           </div>
         </div>
       </div>
-      <button class="h-8 w-full flex items-center gap-2 px-2 hover:bg-primary-purple hover:text-white">
+      <button class="h-8 w-full flex items-center gap-2 px-2 hover:bg-primary-purple hover:text-white my-2"
+              @click="showAddChannel = true">
         <span class="h-5 w-5 bg-primary-purple/50 text-white rounded-sm">
           <i class="fas fa-plus"></i>
         </span>
@@ -44,9 +48,9 @@
       </button>
     </div>
     <div class="colleagues mt-2">
-      <h1 class="text-center">Direct messages</h1>
+      <h1 class="text-center text-primary-purple font-bold">Direct messages</h1>
       <div class="mt-2">
-        <div v-for="member in colleagues" @click="$emit('Select-Chat',member)">
+        <div v-for="member in colleagues" @click="$emit('SelectChat',member.username)">
           <div v-if="member.email"  className="h-18 flex border-b-1px cursor-pointer">
             <div className="h-full min-w-12 flex items-center relative">
               <div className="h-4 w-4 rounded-full absolute bottom-0 right-0 bg-primary mb-2 border-2px border-white"
@@ -92,14 +96,15 @@
 import {filterData} from "@/commons/objects";
 import {mapState} from "vuex";
 import {dateFormatter} from "@/commons";
-import AddChannels from "@/components/AddChannels";
+import AddChannels from "@/components/channels/AddChannels";
 
 export default {
   name: "TeamCont",
   components: {AddChannels},
+  emits:['SelectChat'],
   data(){
     return{
-      showAddChannel:true
+      showAddChannel:false
     }
   },
   methods:{
@@ -124,7 +129,7 @@ export default {
     colleagues: state => {
       let my = state.user
       let tempTeam = state.team
-      tempTeam = filterData(tempTeam,['email','!=',my.email])
+      tempTeam = filterData(tempTeam,['username','!=',my.username])
       return tempTeam
     },
     channels: state => state.channels,

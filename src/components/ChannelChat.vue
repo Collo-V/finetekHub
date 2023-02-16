@@ -2,23 +2,41 @@
     <div class="w-full h-full chat-section relative">
       <div class="h-full flex flex-col" >
         <div>
-          <div class="header h-16 bg-white lg:bg-slate-300 p-2 flex shadow-md lg:shadow-0" v-if="colleague">
+          <div class="header h-16 bg-white lg:bg-slate-300 p-2 flex shadow-md lg:shadow-0" v-if="selectedRecipient.username">
             <button class="focus:outline-none text-18px mx-5 lg:hidden" @click="$emit('RemoveSelected')">
               <i class="fas fa-long-arrow-left"></i>
             </button>
-            <img :src="colleague.image" alt="" class="h-12 w-12 rounded-full">
+            <img :src="selectedRecipient.image" alt="" class="h-12 w-12 rounded-full">
             <div class="flex flex-col ml-3">
-              <div class="mb-2">{{colleague.firstName}} {{colleague.lastName}}</div>
-              <div v-if="typingStatus[colleague.username]">
+              <div class="mb-2">{{selectedRecipient.firstName}} {{selectedRecipient.lastName}}</div>
+              <div v-if="typingStatus[selectedRecipient.username]">
                 <span class="text-primary">Typing...</span>
               </div>
               <div class="" v-else>
-                <span v-if=" time- status[colleague.username] < 4000 " class="text-primary">Online</span>
+                <span v-if=" time- status[selectedRecipient.username] < 4000 " class="text-primary">Online</span>
                 <span v-else >Last seen: {{lastSeen}}</span>
               </div>
             </div>
           </div>
-          <ChannelHeader v-else :channel-id="channel.id"/>
+          <div class="header h-16 bg-white lg:bg-slate-300 p-2 flex shadow-md lg:shadow-0" v-else>
+            <button class="focus:outline-none text-18px mx-5 lg:hidden" @click="$emit('RemoveSelected')">
+              <i class="fas fa-long-arrow-left"></i>
+            </button>
+            <img :src="selectedRecipient.image" class="w-10 h-10 rounded-full" v-if="selectedRecipient.image">
+            <div v-else class="w-10 h-10 rounded-full border-1px border-white flex items-center justify-center font-bold text-6">
+              {{selectedRecipient.name[0]}}
+            </div>
+            <div class="flex flex-col ml-3">
+              <div class="mb-2">{{selectedRecipient.firstName}} {{selectedRecipient.lastName}}</div>
+              <div v-if="selectedRecipient.username && typingStatus[selectedRecipient.username]">
+                <span class="text-primary">Typing...</span>
+              </div>
+              <div class="" v-else>
+                <span v-if=" time- status[selectedRecipient.username] < 4000 " class="text-primary">Online</span>
+                <span v-else >Last seen: {{lastSeen}}</span>
+              </div>
+            </div>
+          </div>
         </div>
         <div class="chats-cont bg-primary h-full overflow-auto custom-scroll px-3 relative"
              @scroll="SeeScroll($event)"
@@ -47,8 +65,8 @@
                       <div class="w-2 h-full bg-primary mr-2"></div>
                       <div class="w-full h-full flex justify-center flex-col">
                         <div class="mb-2 text-primary-red"
-                             v-if="SearchChat(chat.replyFor).sender==colleague.username">
-                          {{colleague.firstName}} {{colleague.lastName}}
+                             v-if="SearchChat(chat.replyFor).sender==selectedRecipient.username">
+                          {{selectedRecipient.firstName}} {{selectedRecipient.lastName}}
                         </div>
                         <div class="mb-2 text-primary-red" v-else>You</div>
                         <div class="w-full overflow-y-hidden">
@@ -126,7 +144,8 @@
                       </span>
                   </div></div>
               </div>
-              <div class="w-full pl-3" v-else >
+              <div class="w-full pl-3"
+                   v-else >
                 <div class="bg-primary text-white shadow min-h-10 flex justify-center w-fit p-4 flex-col
                   chat-bubble chat-bubble-left rounded-b-md rounded-tr-md dropdown-cont relative">
                   <div class="triangle-left absolute right-full top-0"></div>
@@ -136,8 +155,8 @@
                       <div class="w-2 h-full bg-primary mr-2"></div>
                       <div class="w-full h-full flex justify-center">
                         <div class="mb-2 text-primary-red"
-                             v-if="SearchChat(chat.replyFor).sender==colleague.username">
-                          {{colleague.firstName}} {{colleague.lastName}}
+                             v-if="SearchChat(chat.replyFor).sender==selectedRecipient.username">
+                          {{selectedRecipient.firstName}} {{selectedRecipient.lastName}}
                         </div>
                         <div class="mb-2 text-primary-red" v-else>You</div>
                         <div class="w-full overflow-y-hidden">
@@ -254,7 +273,7 @@
         <ChatInput :uploadTask="uploadTask"
                    @set-upload-task="(task)=>SetUploadTask(task)"
                    :reply-for="replyFor"
-                   :recipient-id="selectedId"
+                   :selected-recipient="selectedRecipient"
                    @set-reply-for="(reply)=>SetReplyFor(reply)"
         />
       </div>
@@ -276,14 +295,12 @@ import {filterData} from "@/commons/objects";
 import {checkLink} from "@/commons/chatting";
 import ChatInput from "@/components/chats/ChatInput";
 import {db} from "@/firebase";
-import ChannelHeader from "@/components/channels/ChannelHeader";
 
 export default {
-  name: "MainChat",
-  props:['selectedRecipient','selectedId'],
+  name: "ChannelChat",
+  props:['selectedRecipient','id'],
   data(){
     return {
-      chatIds:{},
       sending:false,
       input:"",
       replyFor:undefined,
@@ -293,14 +310,12 @@ export default {
       filePrev:'',
       inputFile:'',
       uploadTask:'',
-      onlineStatus:{},
 
 
     }
 
   },
   components:{
-    ChannelHeader,
     ChatInput,
     TeamCont,
     Picker
@@ -352,7 +367,7 @@ export default {
     },
     async DeleteMsg(deleteId){
       if(!await confirmAction({
-        title:'Delete message?',
+        title:'Delete chat?',
         btnText:'Delete',
         text:''
       })){return}
@@ -385,7 +400,7 @@ export default {
     },
     SearchChat(id){
       try{
-        let user = this.colleague.username
+        let user = this.selectedRecipient.username
         let userChats = this.chats[user]
         if (!userChats) {
           return
@@ -446,10 +461,8 @@ export default {
   },
   computed: mapState({
     colleague(state){
-      return state.team[this.selectedId]
-    },
-    channel(state){
-      return state.channels[this.selectedId]
+      console.log(state.team[this.id])
+      return state.team[this.id]
     },
     user:state => state.user,
     time:state => state.time,
@@ -457,7 +470,7 @@ export default {
     typingStatus:state => state.chats.typingStatus,
     lastSeen(state) {
       try {
-        const last = new Date( state.chats.status[this.colleague.username])
+        const last = new Date( state.chats.status[this.selectedRecipient.username])
         let d  =  new Date (state.time)
         let today = (new Date (`${d.getFullYear()}-${d.getMonth()+1}-${d.getDate()}`)).getTime()
         let mins = last.getMinutes()
@@ -480,15 +493,10 @@ export default {
     },
     chats({chats:storeChats}) {
       let chats = storeChats.chats
+      let recipient = this.selectedRecipient
       let myChats = {}
-      if(this.colleague){
-        let recipient = this.colleague
-          myChats = filterData({
-            ...filterData(chats, ['recipient', '==', recipient.username]),
-            ...filterData(chats, ['sender', '==', recipient.username])
-          },['isChannelChat','!=',true])
-      }else {
-        myChats = filterData(chats, ['recipient','==',this.channel.id])
+      if(recipient.username){
+        myChats = filterData(chats, ['participants','array-contains',recipient.username])
       }
       let timeDivs = {}
       Object.values(myChats).forEach(chat=>{

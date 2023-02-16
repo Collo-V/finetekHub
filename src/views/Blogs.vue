@@ -132,7 +132,11 @@ export default {
       this.addPost = true
     },
     async DeleteBlog(id){
-      if(!await confirmAction()){return}
+      if(!await confirmAction({
+        title:'Delete blog?',
+        btnText:'Delete',
+        text:''
+      })){return}
       try {
         await deleteDoc(doc(db,'blogs',id))
       }catch (e) {

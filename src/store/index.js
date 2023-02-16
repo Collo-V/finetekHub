@@ -1,5 +1,5 @@
 import {createStore} from 'vuex'
-import {team,db,dbChats} from "@/firebase";
+import {team, db, dbChats, dbChannels} from "@/firebase";
 import {getDoc,onSnapshot,setDoc,doc,query,where,getDocs,deleteDoc,updateDoc,collection} from 'firebase/firestore'
 import {onValue,set,getDatabase,ref} from "firebase/database";
 import {RemoveFromArray} from "@/commons";
@@ -55,16 +55,7 @@ export default createStore({
                 state.clientMessages = msg
             })
         },
-        async GetChannels(state){
-            onSnapshot(collection(db,'channels'),(snap)=>{
-                let channels ={}
-                for (let i = 0; i < snap.docs.length; i++) {
-                    let doc = snap.docs[i]
-                    channels[doc.id] = {...doc.data(),id:doc.id}
-                }
-                state.channels = channels
-            })
-        },
+
         async GetUser(state,email){
            onSnapshot(doc(db, 'team', email),data=>{
                state.user = data.data()
@@ -84,9 +75,13 @@ export default createStore({
 
         WriteCheckedUser(state,checked){
             state.checkedUser = true
+        },
+        WriteChannels(state,channels){
+            state.channels = channels
         }
     },
     actions:{
+
         async Gets(context){
             await context.dispatch('SetTime')
             context.commit('GetClientMessages')
@@ -94,9 +89,6 @@ export default createStore({
             await context.dispatch('OnlineStatus')
             await context.dispatch('GetChats')
             await context.dispatch('OnlineStatus')
-
-
-
         },
         GetUser(context,email){
             onSnapshot(doc(db, 'team', email),data=>{
@@ -105,8 +97,18 @@ export default createStore({
             })
             context.dispatch('GetChats')
         },
+        async GetChannels(context){
+            onSnapshot(dbChannels,(snap)=>{
+                let channels ={}
+                for (let i = 0; i < snap.docs.length; i++) {
+                    let doc = snap.docs[i]
+                    channels[doc.id] = {...doc.data(),id:doc.id}
+                }
+                context.commit('WriteChannels',channels)
+                context.dispatch('GetChannelChats',channels)
+            })
+        },
         SetTime(context){
-            console.log('here')
             context.state.timeInterval = setInterval(()=>{
                 context.state.time = (new Date()).getTime()
             },1000)

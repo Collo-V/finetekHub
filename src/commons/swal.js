@@ -1,12 +1,11 @@
 import Swal from "sweetalert2";
 
-async function confirmAction(action) {
-    action = action??'delete'
+export async function confirmAction({title,text,btnText}) {
     let c = await Swal.fire({
-        title: 'Confirm '+ action,
-        text: 'Do you want to continue',
+        title,
+        text,
         // icon: 'error',
-        confirmButtonText: 'Yes',
+        confirmButtonText: btnText,
         showCancelButton:true,
         cancelButtonText:'cancel'
     })
@@ -19,7 +18,7 @@ async function confirmAction(action) {
 
 }
 
-async function Report(obj){
+export async function Report({icon,title}){
     const Toast = Swal.mixin({
         toast: true,
         timer:3000,
@@ -34,11 +33,8 @@ async function Report(obj){
     })
 
     await Toast.fire({
-        icon: obj.icon,
-        title: obj.title
+        icon,
+        title
     })
 }
 
-export {
-    confirmAction,Report
-}

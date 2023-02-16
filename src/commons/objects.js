@@ -177,7 +177,6 @@ export function filterData(data,[field,opStr,value,matchCase]){
         }
 
     }else if(opStr === 'array-contains'){
-        console.log('here in arrays')
         if(matchCase && isMatchable){
             filteredData = data.filter(a => {
                 return a[field] && a[field].includes(value)
@@ -189,6 +188,57 @@ export function filterData(data,[field,opStr,value,matchCase]){
             })
 
         }
+
+    }else if(opStr === 'not-array-contains'){
+        if(matchCase && isMatchable){
+            filteredData = data.filter(a => {
+                return a[field] && !a[field].includes(value)
+            })
+        }
+        else {
+            filteredData = data.filter(a => {
+                return a[field] && !a[field].includes(value)
+            })
+
+        }
+
+    }else if(opStr === 'array-contains-items'){
+        let temp = data
+        for (let i = 0; i < value.length; i++) {
+            let val = value[i]
+            temp = temp.filter(a => {
+                return a[field] && a[field].includes(val)
+            })
+        }
+        filteredData = temp
+
+    }else if(opStr === 'not-array-contains-items'){
+        let temp = data
+        for (let i = 0; i < value.length; i++) {
+            let val = value[i]
+            temp = temp.filter(a => {
+                return a[field] && !a[field].includes(val)
+            })
+        }
+        filteredData = temp
+
+    }else if(opStr === 'in'){
+        let temp = data
+        for (let i = 0; i < value.length; i++) {
+            temp = temp.filter(a => {
+                return a[field] && (value).includes(a[field])
+            })
+        }
+        filteredData = temp
+
+    }else if(opStr === 'not-in'){
+        let temp = data
+        for (let i = 0; i < value.length; i++) {
+            temp = temp.filter(a => {
+                return a[field] && !(value).includes(a[field])
+            })
+        }
+        filteredData = temp
 
     }else if(opStr === '<'){
         if(matchCase && isMatchable){

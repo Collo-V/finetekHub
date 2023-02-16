@@ -1,14 +1,14 @@
 <template>
   <div class="fixed top-0 bottom-0 w-screen-w left-0 bg-slate-600/50 z-10 flex items-center justify-center"
-       @click="CheckClickOutside($event)">
+       @click="CheckClickOutside($event)" v-if="!created">
     <div class="w-full max-w-500px max-h-400px bg-white rounded-lg p-4 relative" ref="contRef">
       <button class="float-right h-5 w-5 text-gray-600" @click="$emit('HideModal')">
         <i class="fas fa-xmark"></i>
       </button>
-      <div v-if="!created">
+      <div >
         <h1 class="text-5">Create a channel</h1>
         <p class="mt-2">Channels are where you communicate with colleagues</p>
-        <form class="mt-4" @submit.prevent id="channel-form">
+        <form class="mt-4" @submit.prevent="" id="channel-form">
           <div class="flex flex-col gap-3 mb-3">
             <fieldset class="h-10 w-full relative">
               <input class="form-input pl-4 w-full h-10 flex items-center rounded-sm focus:outline-none border-1px"
@@ -23,7 +23,7 @@
             </fieldset>
             <fieldset class="h-10 w-full relative">
               <input class="form-input pl-4 w-full h-10 flex items-center rounded-sm focus:outline-none border-1px optional"
-                     id="lastName" v-model="channel.description">
+                     id="lastName" v-model="channel.description" @blur="Validate($event.target.id)">
               <div class="form-label h-0 w-full absolute pl-4 top-1/2 btm-1/2 flex items-center">
                 <label class="bg-white cursor-text px-1">Description</label>
               </div>
@@ -43,7 +43,7 @@
                       v-if="channel.isPrivate"
                       @click="channel.isPrivate = false"
               >
-              <span class="h-5 w-5 inline-block text-white text-5 font-bold ml-2">
+              <span class="inline-block text-white text-5 font-bold ml-2">
                 <i class="fas fa-check"></i>
               </span>
                 <span class="h-5 w-5 rounded-full bg-white inline-block"></span>
@@ -62,76 +62,108 @@
           </div>
         </form>
       </div>
-      <div v-else>
-        <h1 class="text-5">Add people to {{channel.name}}</h1>
-        <div class="mt-4">
-          <fieldset class="h-10 w-full relative">
-            <input class="form-input pl-4 w-full h-10 flex items-center rounded-sm focus:outline-none border-1px optional"
-                   id="member-list" v-model="channel.name">
-            <div class="form-label h-0 w-full absolute pl-4 top-1/2 btm-1/2 flex items-center">
-              <label class="bg-white cursor-text px-1">Add members</label>
-            </div>
-            <div class="validity-checker h-0 w-fit absolute mr-4 top-1/2 btm-1/2 right-0 flex items-center justify-end">
-              <span class="hidden valid text-green-500"><i class="fa-solid fa-check"></i></span>
-              <span class="hidden invalid text-red-500"><i class="fa-solid fa-triangle-exclamation"></i></span>
-            </div>
-          </fieldset>
-          <div class="mt-8 flex justify-end gap-4">
-            <button class="w-120px h-8 rounded-md border-1px" @click="CreateChannel">
-              Skip for now
-            </button>
-            <button class="w-120px h-8 rounded-md bg-primary text-white" @click="CreateChannel">
-              Create
-            </button>
-          </div>
-        </div>
-      </div>
     </div>
+  </div>
+  <div v-else>
+    <AddChannelMembers :channel-id="channelId" @hide-modal="$emit('HideModal')" :first="true"/>
   </div>
 </template>
 
 <script>
-import {formIsValid, Validate} from "@/commons";
-import {addDoc} from "firebase/firestore";
+import {formIsValid, validateInp} from "@/commons";
+import {addDoc, doc, updateDoc} from "firebase/firestore";
 import firebase from "firebase/compat";
+import {Select} from "ant-design-vue";
+import 'ant-design-vue/dist/antd.compact.css'
+import {mapState} from "vuex";
+import {filterData} from "@/commons/objects";
+import AddChannelMembers from "@/components/channels/AddChannelMembers";
+import {dbChannels} from "@/firebase";
 
 export default {
   name: "AddChannels",
+  components:{
+    AddChannelMembers,
+    Select
+  },
+  emits:['HideModal'],
   data(){
     return{
       channel:{
         isPrivate:false,
         members:[]
       },
-      created:true,
-      channelId:undefined
+      created:false,
+      channelId:undefined ,
+      tempChannelMembers:[]
     }
   },
+  watch:{
+    channelId(val){
+      if(val && this.channels[val]){
+        this.created = true
+      }
+    }
+  } ,
   methods:{
     Validate(id){
-      Validate(id)
+      validateInp(id)
     },
     async CreateChannel(){
       if(!formIsValid('channel-form'))return
+      let date =  (new Date()).getTime()
+      let channel = {...this.channel}
+      channel.members = [{
+        username:this.user.username,
+        dateJoined: date,
+        isOwner:true,
+        isAdmin:true
+      }]
       try{
         let c = await addDoc(dbChannels,{
-          ...this.channel,
-          created:firebase.firestore.FieldValue.serverTimestamp()
+          ...channel,
+          created:date,
+          createdBy:this.user.username
         })
         this.channelId = c.id
-        this.created = true
-      }catch{}
+      }catch (e){
+        console.log(e)
+      }
 
     },
     CheckClickOutside(event){
-      if(this.$refs.contRef && !this.$refs.contRef.contains(event.target)){
-        // this.$emit('HideModal')
+      let target = event.target
+      let isOutside = this.$refs.contRef && !this.$refs.contRef.contains(target) &&
+      target.tagName !== 'BUTTON' && target.parentNode.tagName !== 'BUTTON' &&
+          target.parentNode.parentNode.tagName !== 'BUTTON'
+
+
+      if(isOutside){
+        this.$emit('HideModal')
       }
     }
-  }
+  },
+  computed:mapState({
+    user:state => state.user,
+    channels:state => {
+      return state.channels
+    },
+    colleagues: state => {
+      let my = state.user
+      let tempTeam = state.team
+      tempTeam = filterData(tempTeam,['username','!=',my.username])
+      return tempTeam
+    },
+  })
 }
 </script>
 
-<style scoped>
+<style>
+.ant-select-selection-overflow{
+  @apply h-10;
+}
+.ant-select-item-empty{
+  @apply hidden;
+}
 
 </style>

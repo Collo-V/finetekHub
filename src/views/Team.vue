@@ -125,7 +125,7 @@ import {
   sendSignInLinkToEmail,
   signInWithEmailAndPassword
 } from 'firebase/auth'
-import {formIsValid, Validate} from "@/commons";
+import {formIsValid, validateInp} from "@/commons";
 import {confirmAction,Report} from "@/commons/swal";
 
 export default {
@@ -159,7 +159,7 @@ export default {
       }
     },
     Validate(id){
-      Validate(id)
+      validateInp(id)
     },
     async CheckEdited(id){
       let valid = true
@@ -262,7 +262,11 @@ export default {
       document.getElementById('username').disabled=true
     },
     async DeleteMember(email){
-      if(await confirmAction('delete member')){
+      if(await confirmAction({
+        title:'Delete member?',
+        btnText:'Delete',
+        text:''
+      })){
         try{
           await deleteDoc(doc(db, 'team', email))
           Report({title:'Member deleted',icon:'success'})

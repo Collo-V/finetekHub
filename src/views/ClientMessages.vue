@@ -125,7 +125,11 @@ export default {
       await updateDoc(doc(db,'messages',id),{isRead:true})
     },
     async DeleteMsg(){
-      if(!await confirmAction('delete message'))return
+      if(!await confirmAction({
+        title:'Delete message?',
+        btnText:'Delete',
+        text:''
+      }))return
       try{
         await deleteDoc(doc(db, 'messages', this.selectedMsg.id))
         Report({title: "Message deleted", icon: 'success'})

@@ -1,5 +1,5 @@
 import {RemoveFromArray} from "@/commons";
-import {doc, getDoc, onSnapshot, query, where, orderBy, updateDoc} from "firebase/firestore";
+import {doc, getDoc, onSnapshot, query, where, orderBy, updateDoc, getDocs} from "firebase/firestore";
 import {dbChats, db, realDb} from "@/firebase";
 import {onValue, ref} from "firebase/database";
 import {createCommentVNode} from "vue";
@@ -23,7 +23,7 @@ export default {
     },
     mutations:{
         WriteChats(state,chats){
-            state.chats = chats
+            state.chats = {...sortData({...state.chats,...chats},'time','id')}
         },
         WriteStatus(state,status){
             state.status = status
@@ -38,24 +38,64 @@ export default {
             let username = context.rootState.user.username
                 // || (await getDoc(doc(db, 'team', email))).data().username
             if(!username)return
-            let q = query(
+            let senderQuery = query(
                 dbChats,
-                where('participants','array-contains',username),
+                where('sender','==',username),
                 where('isDeleted' ,'==', false)
             )
+            let receiverQuery = query(
+                dbChats,
+                where('recipient','==',username),
+                where('isDeleted' ,'==', false)
+            )
+
+            onSnapshot(senderQuery,snaps=>{
             let tmpChats = {}
-            onSnapshot(q,snaps=>{
                 for (let i = 0; i < snaps.docs.length; i++) {
                     let d = snaps.docs[i]
                     let data = d.data()
                     tmpChats[d.id] = {...data,id:d.id,time:data.time.seconds*1000}
                 }
-                let c = {...sortData(tmpChats,'time','id')}
-                context.commit('WriteChats',{...c})
-                context.dispatch('WriteIsDelivered',{...c})
-            //    set is delivered
+                context.commit('WriteChats',tmpChats)
+                context.dispatch('WriteIsDelivered',{...tmpChats})
             //    notifications
             })
+            onSnapshot(receiverQuery,snaps=>{
+                let tmpChats = {}
+                for (let i = 0; i < snaps.docs.length; i++) {
+                    let d = snaps.docs[i]
+                    let data = d.data()
+                    tmpChats[d.id] = {...data,id:d.id,time:data.time.seconds*1000}
+                }
+                context.commit('WriteChats',tmpChats)
+                context.dispatch('WriteIsDelivered',{...tmpChats})
+            //    notifications
+            })
+        },
+        async GetChannelChats(context,channels){
+            let channelIds = Object.keys(channels)
+            let tmpChats = {}
+            for (let i = 0; i < channelIds.length; i++) {
+                let channelQuery = query(
+                    dbChats,
+                    where('recipient','==',channelIds[i]),
+                    where('isDeleted' ,'==', false)
+                )
+                onSnapshot(channelQuery,snaps=>{
+                    for (let i = 0; i < snaps.docs.length; i++) {
+                        let d = snaps.docs[i]
+                        let data = d.data()
+                        tmpChats[d.id] = {...data,id:d.id,time:data.time.seconds*1000}
+                    }
+                    let c = {...sortData(tmpChats,'time','id')}
+                    context.commit('WriteChats',{...c})
+                    context.dispatch('WriteIsDelivered',{...c})
+                    //    notifications
+                })
+
+
+            }
+
 
         },
         WriteIsDelivered(context,chats){

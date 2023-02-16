@@ -7,8 +7,13 @@ export function isEmail(email){
 
 export function Validate(id){
     let inp = document.getElementById(id)
-    if(inp.classList.contains('optional'))return;
     let val = inp.value
+    if(inp.classList.contains('optional')){
+        if(val !==''){
+            inp.classList.add('input-valid')
+        }
+        return;
+    }
     if(id=='firstName'){
         if(val=='' || val.length<2){
             inp.classList.add('input-invalid')
@@ -88,8 +93,15 @@ export function Validate(id){
     }
 export function validateInp(id){
     let inp = document.getElementById(id)
-    if(inp.classList.contains('optional'))return;
     let val = inp.value
+    if(inp.classList.contains('optional')){
+        if(val !==''){
+            inp.classList.add('input-valid')
+        }else{
+            inp.classList.remove('input-valid')
+        }
+        return;
+    }
     if(id==='firstName'){
         if(val==='' || val.length<2){
             inp.classList.add('input-invalid')

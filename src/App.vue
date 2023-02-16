@@ -78,7 +78,6 @@ export default {
           this.$store.dispatch("ClearIntervals")
         }else{
           this.$store.dispatch('GetUser',user.email)
-          this.$store.dispatch('WriteOnlineStatus')
         }
       })
     }
@@ -88,6 +87,8 @@ export default {
   watch:{
     '$store.state.user'(user){
       if(user.username){
+        this.$store.dispatch('WriteOnlineStatus')
+        this.$store.dispatch('GetChannels')
         this.$store.dispatch('GetTypingStatus')
       }
       if(user.username && Object.keys(this.$store.state.chats.chats).length == 0){

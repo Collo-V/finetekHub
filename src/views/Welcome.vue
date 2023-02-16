@@ -188,7 +188,7 @@
 </template>
 
 <script>
-import {formIsValid, Validate} from "@/commons";
+import {formIsValid, validateInp} from "@/commons";
 import CropImage from "@/components/CropImage";
 import {getDownloadURL, getStorage, ref, uploadBytes} from "firebase/storage";
 import {doc, updateDoc} from "firebase/firestore";
@@ -276,7 +276,7 @@ export default {
       }
     } ,
     Validate(id){
-      Validate(id)
+      validateInp(id)
     },
     async SetProfile(){
       try{
