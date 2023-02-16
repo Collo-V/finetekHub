@@ -28,7 +28,7 @@
           </div>
           <div v-for="div in chats" class="mt-10 chat-div" :id="'chat-div-'+div.date">
             <div class="h-0 border-b-1px flex items-center justify-center">
-              <div class="w-200px h-8 bg-white rounded-pill flex items-center chat-div-display
+              <div class="w-200px h-8 bg-white rounded-pill flex items-center chat-div-display vue-shadow-md
                justify-center top-16 top-16 lg:top-32 z-4 bg-gray-400"
                    :id="'chat-div-display-'+div.date"
               >

@@ -112,6 +112,7 @@ export default {
       imagePrev:'',
       filePrev:'',
       inputFile:'',
+      timeOut:''
 
 
     }
@@ -275,8 +276,6 @@ export default {
       }
       else if(event.code === 'Enter'){
         this.UploadFiles()
-      }else{
-        this.SetTyping()
       }
     },
     async UploadFiles(){
@@ -361,6 +360,7 @@ export default {
       this.$emit('SetUploadTask','')
     },
     async SetTyping(){
+      clearTimeout(this.timeOut)
       const database = getDatabase()
       const reference = realDbRef(database, 'typing-status/' + this.user.username)
       try{
@@ -371,7 +371,7 @@ export default {
       }catch (e){
         console.log(e)
       }
-      setTimeout(async()=>{
+      this.timeOut = setTimeout(async()=>{
         try{
           let c = await set( reference, {
             typing:false,
@@ -381,6 +381,13 @@ export default {
         }
       },3000)
 
+    }
+  },
+  watch:{
+    input(value,old){
+      if(value!==''){
+        this.SetTyping()
+      }
     }
   },
   computed: mapState({
