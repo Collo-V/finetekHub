@@ -5,6 +5,7 @@ import {onValue,set,getDatabase,ref} from "firebase/database";
 import {RemoveFromArray} from "@/commons";
 import {realDb} from "@/firebase";
 import chats from './modules/chats'
+import firebase from "firebase/compat";
 
 export default createStore({
     modules:{
@@ -17,10 +18,9 @@ export default createStore({
         userExists:false,
         checkedUser:false,
         team:'',
-        chatIds:{},
-        newChats:0,
         statusInvterval:'',
-        timeInterval:''
+        timeInterval:'',
+        channels:{}
     },
     getters:{
         getClientMessages(state){
@@ -55,6 +55,16 @@ export default createStore({
                 state.clientMessages = msg
             })
         },
+        async GetChannels(state){
+            onSnapshot(collection(db,'channels'),(snap)=>{
+                let channels ={}
+                for (let i = 0; i < snap.docs.length; i++) {
+                    let doc = snap.docs[i]
+                    channels[doc.id] = {...doc.data(),id:doc.id}
+                }
+                state.channels = channels
+            })
+        },
         async GetUser(state,email){
            onSnapshot(doc(db, 'team', email),data=>{
                state.user = data.data()
@@ -86,6 +96,7 @@ export default createStore({
             await context.dispatch('OnlineStatus')
 
 
+
         },
         GetUser(context,email){
             onSnapshot(doc(db, 'team', email),data=>{
@@ -109,7 +120,7 @@ export default createStore({
             context.state.statusInvterval = setInterval(async ()=>{
                 const database = getDatabase()
                 const reference = ref(database, 'status/' + context.state.user.username)
-                let lastSeen = (new Date()).getTime()
+                let lastSeen = firebase.database.ServerValue.TIMESTAMP
                 try{
                     let c = await set( reference, {
                         lastSeen,

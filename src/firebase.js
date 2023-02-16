@@ -13,16 +13,14 @@ const firebaseConfig = {
     appId: "1:331636695526:web:ddbb34838cb07f1284b627",
     measurementId: "G-CWDJ0LDB7M"
 }
-const firebaseApp=  initializeApp(firebaseConfig)
-const db =  getFirestore()
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
-const messages =  collection(db,'messages')
-const team =  collection(db,'team')
-const dbChats =  collection(db,'chats')
-const blogs =  collection(db,'blogs')
-const storage = getStorage(firebaseApp)
-const realDb = getDatabase()
-export {
-    messages,getDocs,addDoc,doc,setDoc,onSnapshot,team,db,storage,dbChats,blogs,realDb
-}
+export const firebaseApp=  initializeApp(firebaseConfig)
+export const db =  getFirestore()
+export const app = initializeApp(firebaseConfig);
+export const messages =  collection(db,'messages')
+export const team =  collection(db,'team')
+export const dbChats =  collection(db,'chats')
+export const blogs =  collection(db,'blogs')
+export const dbChannels =  collection(db,'channels')
+export const storage = getStorage(firebaseApp)
+export const realDb = getDatabase()
+

@@ -7,6 +7,7 @@ export function isEmail(email){
 
 export function Validate(id){
     let inp = document.getElementById(id)
+    if(inp.classList.contains('optional'))return;
     let val = inp.value
     if(id=='firstName'){
         if(val=='' || val.length<2){
@@ -87,6 +88,7 @@ export function Validate(id){
     }
 export function validateInp(id){
     let inp = document.getElementById(id)
+    if(inp.classList.contains('optional'))return;
     let val = inp.value
     if(id==='firstName'){
         if(val==='' || val.length<2){
@@ -276,7 +278,7 @@ export function dateFormatter(date,format,reverse){
         dayOfWeek = dayOfWeek.replace(dayOfWeek[0],dayOfWeek[0].toUpperCase())
         return `${dayOfWeek}, ${month} ${day}, ${year}`
     }
-    else if(format === 'formal-short'){
+    else if(format === 'short-formal'){
         let dayOfWeek = ['sunday','monday','tuesday','Wednesday','thursday','friday','saturday'] [d.getDay()]
         dayOfWeek = dayOfWeek.replace(dayOfWeek[0],dayOfWeek[0].toUpperCase())
         return `${dayOfWeek.slice(0,3)}, ${month.slice(0,3)} ${day}, ${year}`

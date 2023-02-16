@@ -97,6 +97,8 @@ import {doc, setDoc, updateDoc} from "firebase/firestore";
 import {Picker} from "emoji-picker-element";
 import {mapState} from "vuex";
 import {db} from "@/firebase";
+import firebase from "firebase/compat";
+import {getDatabase, set, ref as realDbRef} from "firebase/database";
 
 export default {
   name: "ChatInput",
@@ -175,7 +177,7 @@ export default {
         recipient:myRecipient.username?myRecipient.username:myRecipient.id,
         isDelivered:myRecipient.username?false:[],
         isRead:myRecipient.username?false:[],
-        time:(new Date().getTime()),
+        time:firebase.firestore.FieldValue.serverTimestamp(),
         participants:[this.user.username,myRecipient.username],
       }
       // myChat.time =  (new Date('2023-01-11').getTime())
@@ -273,6 +275,8 @@ export default {
       }
       else if(event.code === 'Enter'){
         this.UploadFiles()
+      }else{
+        this.SetTyping()
       }
     },
     async UploadFiles(){
@@ -356,6 +360,28 @@ export default {
       this.inputFile=''
       this.$emit('SetUploadTask','')
     },
+    async SetTyping(){
+      const database = getDatabase()
+      const reference = realDbRef(database, 'typing-status/' + this.user.username)
+      try{
+        let c = await set( reference, {
+          typing:true,
+          recipient:this.selectedRecipient.username
+        })
+      }catch (e){
+        console.log(e)
+      }
+      setTimeout(async()=>{
+        try{
+          let c = await set( reference, {
+            typing:false,
+          })
+        }catch (e){
+          console.log(e)
+        }
+      },3000)
+
+    }
   },
   computed: mapState({
     user:state => state.user,

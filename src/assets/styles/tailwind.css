@@ -550,6 +550,22 @@
   width: 50%;
 }
 
+.w-8{
+  width: 32px;
+}
+
+.w-120px{
+  width: 120px;
+}
+
+.w-60px{
+  width: 60px;
+}
+
+.w-80px{
+  width: 80px;
+}
+
 .min-w-100px{
   min-width: 100px;
 }
@@ -612,6 +628,18 @@
 
 .max-w-80{
   max-width: 320px;
+}
+
+.max-w-50px{
+  max-width: 50px;
+}
+
+.max-w-200px{
+  max-width: 200px;
+}
+
+.max-w-500px{
+  max-width: 500px;
 }
 
 .transform{
@@ -682,6 +710,10 @@
   gap: 12px;
 }
 
+.gap-2{
+  gap: 8px;
+}
+
 .self-end{
   align-self: flex-end;
 }
@@ -734,6 +766,10 @@
   border-radius: 9999px;
 }
 
+.rounded-lg{
+  border-radius: 16px;
+}
+
 .rounded-b-md{
   border-bottom-right-radius: 8px;
   border-bottom-left-radius: 8px;
@@ -779,6 +815,11 @@
 .border-primary{
   --tw-border-opacity: 1;
   border-color: rgb(0 175 238 / var(--tw-border-opacity));
+}
+
+.border-primary-purple{
+  --tw-border-opacity: 1;
+  border-color: rgb(38 33 98 / var(--tw-border-opacity));
 }
 
 .bg-white{
@@ -890,6 +931,14 @@
 .bg-gray-400{
   --tw-bg-opacity: 1;
   background-color: rgb(156 163 175 / var(--tw-bg-opacity));
+}
+
+.bg-primary-purple\/50{
+  background-color: rgb(38 33 98 / 0.5);
+}
+
+.bg-slate-600\/50{
+  background-color: rgb(71 85 105 / 0.5);
 }
 
 .p-4{
@@ -1030,6 +1079,10 @@
 
 .pt-150px{
   padding-top: 150px;
+}
+
+.pb-4{
+  padding-bottom: 16px;
 }
 
 .text-left{
@@ -1512,6 +1565,16 @@ img, svg, video, canvas, audio, iframe, embed, object {
   background-color: rgb(241 245 249 / var(--tw-bg-opacity));
 }
 
+.hover\:bg-primary-purple:hover{
+  --tw-bg-opacity: 1;
+  background-color: rgb(38 33 98 / var(--tw-bg-opacity));
+}
+
+.hover\:bg-white:hover{
+  --tw-bg-opacity: 1;
+  background-color: rgb(255 255 255 / var(--tw-bg-opacity));
+}
+
 .hover\:pl-4:hover{
   padding-left: 16px;
 }
@@ -1519,6 +1582,11 @@ img, svg, video, canvas, audio, iframe, embed, object {
 .hover\:text-primary:hover{
   --tw-text-opacity: 1;
   color: rgb(0 175 238 / var(--tw-text-opacity));
+}
+
+.hover\:text-white:hover{
+  --tw-text-opacity: 1;
+  color: rgb(255 255 255 / var(--tw-text-opacity));
 }
 
 .hover\:underline:hover{

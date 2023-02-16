@@ -87,6 +87,9 @@ export default {
   },
   watch:{
     '$store.state.user'(user){
+      if(user.username){
+        this.$store.dispatch('GetTypingStatus')
+      }
       if(user.username && Object.keys(this.$store.state.chats.chats).length == 0){
         this.$store.dispatch('GetChats')
       }

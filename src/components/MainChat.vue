@@ -1,16 +1,37 @@
 <template>
     <div class="w-full h-full chat-section relative">
       <div class="h-full flex flex-col" >
-        <div class="header h-16 bg-white lg:bg-slate-300 p-2 flex shadow-md lg:shadow-0">
-          <button class="focus:outline-none text-18px mx-5 lg:hidden" @click="$emit('RemoveSelected')">
-            <i class="fas fa-long-arrow-left"></i>
-          </button>
-          <img :src="selectedRecipient.image" alt="" class="h-12 w-12 rounded-full">
-          <div class="flex flex-col ml-3">
-            <div class="mb-2">{{selectedRecipient.firstName}} {{selectedRecipient.lastName}}</div>
-            <div class="">
-              <span v-if=" time- status[selectedRecipient.username] < 5000 " class="text-primary">Online</span>
-              <span v-else >Last seen: {{lastSeen}}</span>
+        <div>
+          <div class="header h-16 bg-white lg:bg-slate-300 p-2 flex shadow-md lg:shadow-0" v-if="selectedRecipient.username">
+            <button class="focus:outline-none text-18px mx-5 lg:hidden" @click="$emit('RemoveSelected')">
+              <i class="fas fa-long-arrow-left"></i>
+            </button>
+            <img :src="selectedRecipient.image" alt="" class="h-12 w-12 rounded-full">
+            <div class="flex flex-col ml-3">
+              <div class="mb-2">{{selectedRecipient.firstName}} {{selectedRecipient.lastName}}</div>
+              <div v-if="typingStatus[selectedRecipient.username]">
+                <span class="text-primary">Typing...</span>
+              </div>
+              <div class="" v-else>
+                <span v-if=" time- status[selectedRecipient.username] < 4000 " class="text-primary">Online</span>
+                <span v-else >Last seen: {{lastSeen}}</span>
+              </div>
+            </div>
+          </div>
+          <div class="header h-16 bg-white lg:bg-slate-300 p-2 flex shadow-md lg:shadow-0" v-else>
+            <button class="focus:outline-none text-18px mx-5 lg:hidden" @click="$emit('RemoveSelected')">
+              <i class="fas fa-long-arrow-left"></i>
+            </button>
+            <img :src="selectedRecipient.image" alt="" class="h-12 w-12 rounded-full">
+            <div class="flex flex-col ml-3">
+              <div class="mb-2">{{selectedRecipient.firstName}} {{selectedRecipient.lastName}}</div>
+              <div v-if="selectedRecipient.username && typingStatus[selectedRecipient.username]">
+                <span class="text-primary">Typing...</span>
+              </div>
+              <div class="" v-else>
+                <span v-if=" time- status[selectedRecipient.username] < 4000 " class="text-primary">Online</span>
+                <span v-else >Last seen: {{lastSeen}}</span>
+              </div>
             </div>
           </div>
         </div>
@@ -55,7 +76,7 @@
                       </div>
                     </a>
                   </div>
-                  <div v-if="chat.images.length>0" class="relative dropdown-cont">
+                  <div v-if="chat.images.length>0" class="relative dropdown-cont mb-2">
                     <div v-for="image in chat.images">
                       <div class="dropdown absolute top-0 mt-3 right-0 mr-2
                       animate__animated  animate__fadeInDown">
@@ -68,7 +89,7 @@
 
                     </div>
                   </div>
-                  <div v-if="chat.files.length >0" class="relative dropdown-cont">
+                  <div v-if="chat.files.length >0" class="relative dropdown-cont mb-2">
                     <div v-for="file in chat.files">
                       <div class="dropdown absolute top-0 mt-3 right-0 mr-2
                       animate__animated  animate__fadeInDown">
@@ -108,7 +129,12 @@
                 <div class="text-3 mt-1 flex">
                   {{GetTime(chat.time)}}
                   <div class="flex justify-end text-8px ml-1">
-                    <span class="text-grey" v-if="!chat.isRead"><i class="fa-solid fa-check"></i></span>
+                    <span class="text-grey relative" v-if="!chat.isRead">
+                      <span><i class="fa-solid fa-check"></i></span>
+                        <span class="absolute right-0 mr-1" v-if="chat.isDelivered">
+                          <i class="fa-solid fa-check"></i>
+                        </span>
+                    </span>
                     <span class="text-primary relative" v-else>
                         <span><i class="fa-solid fa-check"></i></span>
                         <span class="absolute right-0 mr-1"><i class="fa-solid fa-check"></i></span>
@@ -140,7 +166,7 @@
                       </div>
                     </a>
                   </div>
-                  <div v-if="chat.images.length>0" class="relative dropdown-cont">
+                  <div v-if="chat.images.length>0" class="relative dropdown-cont mb-2">
                     <div v-for="image in chat.images">
                       <div class="dropdown absolute top-0 mt-3 right-0 mr-2
                       animate__animated animate__fadeOutUps animate__fadeInDown">
@@ -152,7 +178,7 @@
                       <img :src="image.url" alt="" class="max-w-300px h-auto">
                     </div>
                   </div>
-                  <div v-if="chat.files.length>0" class="relative dropdown-cont">
+                  <div v-if="chat.files.length>0" class="relative dropdown-cont mb-2">
                     <div v-for="file in chat.files">
                       <div class="dropdown absolute top-0 mt-3 right-0 mr-2
                       animate__animated animate__fadeOutUps animate__fadeInDown">
@@ -265,6 +291,7 @@ import TeamCont from "@/components/chats/TeamCont";
 import {filterData} from "@/commons/objects";
 import {checkLink} from "@/commons/chatting";
 import ChatInput from "@/components/chats/ChatInput";
+import {db} from "@/firebase";
 
 export default {
   name: "MainChat",
@@ -306,7 +333,9 @@ export default {
     GetTime(time){
       time = new Date(time)
       let hour = time.getHours()
-      return  hour<12? `${hour}:${time.getMinutes()} a.m`:`${hour-12}:${time.getMinutes()} p.m`
+      let mins = time.getMinutes()
+      if(mins<10) mins = '0'+mins
+      return  hour<12? `${hour}:${mins} a.m`:`${hour-12}:${mins} p.m`
     },
     GetDate(date){
       let today = new Date()
@@ -317,7 +346,7 @@ export default {
       if(todayTime- date < 86400000*2){ //The length of a day
         return 'Yesterday'
       }
-      return  dateFormatter(date,'formal-short')
+      return  dateFormatter(date,'short-formal')
     },
     SeeScroll(event){
       let divs  = event.target.getElementsByClassName('chat-div')
@@ -337,28 +366,13 @@ export default {
     },
     async DeleteMsg(deleteId){
       if(!await confirmAction()){return}
-      let user = this.selectedRecipient.username
-      let id = this.$store.state.chatIds[user]
-      let temp = {}
-      let userChats = this.chats[user]
-      if (!userChats){return}
-      userChats.forEach(chat => {
-        chat = JSON.parse(JSON.stringify(chat))
-        let chatId = chat.id
-        delete chat.id
-        if(deleteId==chatId){
-          chat.isDeleted = true
-        }
-        temp[chatId] = chat
-      })
       try{
-        await updateDoc((doc(db, 'chats', id)), {
-          chats: temp
+        await updateDoc((doc(db, 'chats', deleteId)), {
+          isDeleted: true
         })
       }catch (e) {
         console.log(e)
       }
-      this.InputFocus()
     },
     DisplayModify(id,hide){
       try{
@@ -431,23 +445,34 @@ export default {
         this.UploadFiles()
       }
     },
+    WriteIsRead(chats){
+      chats = Object.values(chats).filter(a=>a.sender!==this.user.username)
+      for (let i = 0; i < chats.length; i++) {
+        updateDoc(doc(db,'chats',chats[i].id),{
+          isRead:true
+        })
+      }
+    },
   },
   computed: mapState({
     user:state => state.user,
     time:state => state.time,
     status:state => state.chats.status,
+    typingStatus:state => state.chats.typingStatus,
     lastSeen(state) {
       try {
         const last = new Date( state.chats.status[this.selectedRecipient.username])
         let d  =  new Date (state.time)
         let today = (new Date (`${d.getFullYear()}-${d.getMonth()+1}-${d.getDate()}`)).getTime()
+        let mins = last.getMinutes()
+        if(mins < 10) mins = '0'+mins
         if(today-last.getTime() < 86400000){ //The length of a day
           let hour = last.getHours()
-          return  hour<12? `${hour}:${last.getMinutes()} a.m`:`${hour-12}:${last.getMinutes()} p.m`
+          return  hour<12? `${hour}:${mins} a.m`:`${hour-12}:${mins} p.m`
         }
         if(today-last.getTime() < 86400000*2){ //The length of a day
           let hour = last.getHours()
-          let time =  hour<12? `${hour}:${last.getMinutes()} a.m`:`${hour-12}:${last.getMinutes()} p.m`
+          let time =  hour<12? `${hour}:${mins} a.m`:`${hour-12}:${mins} p.m`
           return 'Yesterday, '+ time
         }
         return dateFormatter(last,'formal')
@@ -479,6 +504,7 @@ export default {
           }
         }
       })
+      this.WriteIsRead(myChats)
       return timeDivs
 
     }
