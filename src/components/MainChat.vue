@@ -38,79 +38,7 @@
             <div class="mb-3 w-full focus:bg-red-500 mt-5" v-for="chat in div.chats" :id="'chat-'+chat.id">
               <div class="w-full pl-3 flex flex-col items-end"
                    v-if="chat.sender ===user.username">
-                <div class="bg-white self-end shadow min-h-10 flex justify-center w-fit p-4 flex-col
-                  chat-bubble chat-bubble-right rounded-b-md rounded-tl-md dropdown-cont relative mr-2">
-                  <div class="triangle-right absolute left-full top-0"></div>
-                  <div v-if="chat.replyFor  !==null">
-                    <a :href="'#chat-'+chat.replyFor" class="block w-fit min-w-full h-16 rounded-sm
-                       flex overflow-hidden bg-slate-300 pr-1px justify-between">
-                      <div class="w-2 h-full bg-primary mr-2"></div>
-                      <div class="w-full h-full flex justify-center flex-col">
-                        <div class="mb-2 text-primary-red"
-                             v-if="SearchChat(chat.replyFor).sender==colleague.username">
-                          {{colleague.firstName}} {{colleague.lastName}}
-                        </div>
-                        <div class="mb-2 text-primary-red" v-else>You</div>
-                        <div class="w-full overflow-y-hidden">
-                          <span class="mr-2" v-if="SearchChat(chat.replyFor).image!=''"><i class="fa-solid fa-camera"></i></span>
-                          {{ SearchChat(chat.replyFor).message}}
-                        </div>
-                      </div>
-                      <div class="h-full" v-if="SearchChat(chat.replyFor).image!=''">
-                        <img :src="SearchChat(chat.replyFor).image.link" class="h-full w-auto">
-                      </div>
-                    </a>
-                  </div>
-                  <div v-if="chat.images.length>0" class="relative dropdown-cont mb-2">
-                    <div v-for="image in chat.images">
-                      <div class="dropdown absolute top-0 mt-3 right-0 mr-2
-                      animate__animated  animate__fadeInDown">
-                        <button class="px-2 py-1 w-16 focus:outline-none border-1px rounded-md text-black bg-white"
-                                @click="DownloadImage(image.url)">
-                          <i class="fa-solid fa-cloud-arrow-down"></i>
-                        </button>
-                      </div>
-                      <img :src="image.url" class="max-w-300px h-auto">
-
-                    </div>
-                  </div>
-                  <div v-if="chat.files.length >0" class="relative dropdown-cont mb-2">
-                    <div v-for="file in chat.files">
-                      <div class="dropdown absolute top-0 mt-3 right-0 mr-2
-                      animate__animated  animate__fadeInDown">
-                        <button class="px-2 py-1 w-16 focus:outline-none border-1px rounded-md text-black bg-white"
-                                @click="DownloadImage(file.url)">
-                          <i class="fa-solid fa-cloud-arrow-down"></i>
-                        </button>
-                      </div>
-                      <iframe :src="file.url" class="max-w-300px h-auto"></iframe>
-                      <div class="absolute w-full h-10 btm-0 left-0 flex items-center bg-slate-200">
-                        {{file.name}}
-                      </div>
-                    </div>
-                  </div>
-                  <span v-html="CheckLink(chat.message)"></span>
-                  <div class="dropdown absolute right-0 top-0 mr-1 dropdown-cont">
-                    <button class="focus:outline-none" @mouseover="DisplayModify('modify-chat'+chat.id)">
-                      <i class="fa-solid fa-angle-down"></i>
-                    </button>
-                    <div class="dropdown modify-chat absolute right-0 w-150px h-18 py-1 bg-white shadow-md mt-1px top-full z-1"
-                         :id="'modify-chat'+chat.id" @blur="InputFocus()">
-                      <button class="w-full focus:outline-none hover:bg-slate-200 h-8"
-                              @click.prevent="[replyFor = chat,ReplyMsg()]">
-                             <span class="w-full pl-8 block text-left">
-                               <i class="fa-solid fa-reply"></i> Reply
-                             </span>
-                      </button>
-                      <button class="w-full focus:outline-none hover:bg-slate-200 h-8" @click='DeleteMsg(chat.id)'>
-                           <span class="w-full pl-8 block text-left">
-                            <i class="fa-solid fa-trash"></i> Delete
-                           </span>
-                      </button>
-
-                    </div>
-                  </div>
-                </div>
+                <ChatBubble :chat="chat" @SetReplyFor="replyFor = chat"/>
                 <div class="text-3 mt-1 flex">
                   {{GetTime(chat.time)}}
                   <div class="flex justify-end text-8px ml-1">
@@ -127,79 +55,7 @@
                   </div></div>
               </div>
               <div class="w-full pl-3" v-else >
-                <div class="bg-primary text-white shadow min-h-10 flex justify-center w-fit p-4 flex-col
-                  chat-bubble chat-bubble-left rounded-b-md rounded-tr-md dropdown-cont relative">
-                  <div class="triangle-left absolute right-full top-0"></div>
-                  <div v-if="chat.replyFor !== null">
-                    <a :href="'#chat-'+chat.replyFor" class="block w-fit min-w-full h-16 rounded-sm
-                       flex overflow-hidden bg-slate-300 pr-1px justify-between">
-                      <div class="w-2 h-full bg-primary mr-2"></div>
-                      <div class="w-full h-full flex justify-center">
-                        <div class="mb-2 text-primary-red"
-                             v-if="SearchChat(chat.replyFor).sender==colleague.username">
-                          {{colleague.firstName}} {{colleague.lastName}}
-                        </div>
-                        <div class="mb-2 text-primary-red" v-else>You</div>
-                        <div class="w-full overflow-y-hidden">
-                          <span class="mr-2" v-if="SearchChat(chat.replyFor).image!=''"><i class="fa-solid fa-camera"></i></span>
-                          {{ SearchChat(chat.replyFor).message}}
-                        </div>
-                      </div>
-                      <div class="h-full" v-if="SearchChat(chat.replyFor).image!=''">
-                        <img :src="SearchChat(chat.replyFor).image.link" class="h-full w-auto">
-                      </div>
-                    </a>
-                  </div>
-                  <div v-if="chat.images.length>0" class="relative dropdown-cont mb-2">
-                    <div v-for="image in chat.images">
-                      <div class="dropdown absolute top-0 mt-3 right-0 mr-2
-                      animate__animated animate__fadeOutUps animate__fadeInDown">
-                        <button class="px-2 py-1 w-16 focus:outline-none border-1px rounded-md text-black bg-white"
-                                @click="DownloadImage(image.url)">
-                          <i class="fa-solid fa-cloud-arrow-down"></i>
-                        </button>
-                      </div>
-                      <img :src="image.url" alt="" class="max-w-300px h-auto">
-                    </div>
-                  </div>
-                  <div v-if="chat.files.length>0" class="relative dropdown-cont mb-2">
-                    <div v-for="file in chat.files">
-                      <div class="dropdown absolute top-0 mt-3 right-0 mr-2
-                      animate__animated animate__fadeOutUps animate__fadeInDown">
-                        <button class="px-2 py-1 w-16 focus:outline-none border-1px rounded-md text-black bg-white"
-                                @click="DownloadImage(file.url)">
-                          <i class="fa-solid fa-cloud-arrow-down"></i>
-                        </button>
-                      </div>
-                      <iframe :src="file.url" alt="" class="max-w-300px h-auto"></iframe>
-                      <div class="absolute w-full h-10 btm-0 left-0 flex items-center bg-slate-300">
-                        {{chat.file.name}}
-                      </div>
-                    </div>
-                  </div>
-                  <span v-html="CheckLink(chat.message)"></span>
-                  <div class="dropdown absolute right-0 top-0 mr-1 dropdown-cont">
-                    <button class="focus:outline-none" @mouseover="DisplayModify('modify-chat'+chat.id)">
-                      <i class="fa-solid fa-angle-down"></i>
-                    </button>
-                    <div class="dropdown modify-chat modify-chat-left absolute right-0 w-150px text-black
-                      h-18 py-1 bg-white shadow-md -mt-1 top-full z-1"
-                         :id="'modify-chat'+chat.id" @blur="InputFocus()">
-                      <button class="w-full focus:outline-none hover:bg-slate-100 h-8"
-                              @click.prevent="[replyFor = chat]">
-                             <span class="w-full pl-8 block text-left">
-                               <i class="fa-solid fa-reply"></i> Reply
-                             </span>
-                      </button>
-                      <button class="w-full focus:outline-none hover:bg-slate-100 h-8" @click='DeleteMsg(chat.id)'>
-                           <span class="w-full pl-8 block text-left">
-                            <i class="fa-solid fa-trash"></i> Delete
-                           </span>
-                      </button>
-
-                    </div>
-                  </div>
-                </div>
+                <ChatBubble :chat="chat" @SetReplyFor="replyFor = chat"/>
                 <div class="text-3 mt-1">{{GetTime(chat.time)}}</div>
               </div>
 
@@ -277,6 +133,8 @@ import {checkLink} from "@/commons/chatting";
 import ChatInput from "@/components/chats/ChatInput";
 import {db} from "@/firebase";
 import ChannelHeader from "@/components/channels/ChannelHeader";
+import {sortData} from "@/commons/objects-arrays";
+import ChatBubble from "@/components/chats/ChatBubble";
 
 export default {
   name: "MainChat",
@@ -285,7 +143,6 @@ export default {
     return {
       chatIds:{},
       sending:false,
-      input:"",
       replyFor:undefined,
       showEmoji:false,
       inputImage:'',
@@ -300,6 +157,7 @@ export default {
 
   },
   components:{
+    ChatBubble,
     ChannelHeader,
     ChatInput,
     TeamCont,
@@ -350,39 +208,6 @@ export default {
         }
       }
     },
-    async DeleteMsg(deleteId){
-      if(!await confirmAction({
-        title:'Delete message?',
-        btnText:'Delete',
-        text:''
-      })){return}
-      try{
-        await updateDoc((doc(db, 'chats', deleteId)), {
-          isDeleted: true
-        })
-      }catch (e) {
-        console.log(e)
-      }
-    },
-    DisplayModify(id,hide){
-      try{
-        let c = document.getElementById(id)
-        let offsetTop = c.getBoundingClientRect().top
-        if ((c.clientHeight + 300) > (screen.height - offsetTop)) {
-          c.classList.replace('top-full', 'btm-full')
-        } else {
-          c.classList.replace('btm-full', 'top-full')
-        }
-        if (c.classList.contains('modify-chat-left')) {
-          c.classList.replace('right-0', 'left-full')
-          c.classList.replace('top-full', 'btm-full')
-          c.classList.add('-ml-3')
-        } else {
-          c.classList.replace('left-full', 'right-0')
-          c.classList.remove('-ml-3')
-        }
-      }catch {}
-    },
     SearchChat(id){
       try{
         let user = this.colleague.username
@@ -398,43 +223,6 @@ export default {
         }
       }catch{}
     },
-    ShowEmoji(show){
-      let all = this
-      this.showEmoji= show
-      if(!show){return}
-      if(document.getElementById('emoji-picker')){
-        this.InputFocus()
-        return;
-      }
-      let picker = new Picker()
-      picker.classList.add('w-full','h-full')
-      picker.id = 'emoji-picker'
-      picker.addEventListener('emoji-click', event => {
-        all.input+=event.detail.emoji.unicode
-        this.InputFocus()
-      })
-      document.getElementById('emoji-picker-cont').appendChild(picker)
-
-    },
-    DownloadImage(link){
-      let element = document.createElement('a');
-      element.setAttribute('href',link);
-      // element.setAttribute('download', 'Img_'+new Date());
-      // element.download
-      element.target = '_blank'
-      element.click()
-    },
-    CheckLink(message){
-      return checkLink(message)
-    },
-    CheckKey(event){
-      if(event.altKey && event.code === 'Enter' && this.input!=''){
-        this.input+='\n'
-      }
-      else if(event.code === 'Enter'){
-        this.UploadFiles()
-      }
-    },
     WriteIsRead(chats){
       chats = Object.values(chats).filter(a=>a.sender!==this.user.username)
       for (let i = 0; i < chats.length; i++) {
@@ -445,6 +233,7 @@ export default {
     },
   },
   computed: mapState({
+    team:state => state.team,
     colleague(state){
       return state.team[this.selectedId]
     },
@@ -490,18 +279,20 @@ export default {
       }else {
         myChats = filterData(chats, ['recipient','==',this.channel.id])
       }
+      myChats = sortData(myChats,'time')
       let timeDivs = {}
       Object.values(myChats).forEach(chat=>{
+        // console.log(dateFormatter(chat.time,'long-slash'),chat.message)
         let chatTime = new Date (chat.time)
         let dateCat = (new Date(`${chatTime.getFullYear()}-${chatTime.getMonth()+1}-${chatTime.getDate()}`)).getTime()
         if(timeDivs[dateCat]){
           let divChats = timeDivs[dateCat].chats
-          divChats.push(myChats[chat.id])
+          divChats.push(chat)
           timeDivs[dateCat].chats  = divChats
         }else {
           timeDivs[dateCat]  = {
             date:dateCat,
-            chats:[myChats[chat.id]]
+            chats:[chat]
           }
         }
       })

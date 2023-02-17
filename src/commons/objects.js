@@ -92,7 +92,7 @@ export function removeFromArray(array,item){
     }
 
 }
-export function filterData(data,[field,opStr,value,matchCase]){
+export function filterData(data,[field,opStr,value,wildCard]){
     let types = ['string','number',null]
     let isMatchable = types.includes(typeof (value))
     let isObject
@@ -113,7 +113,7 @@ export function filterData(data,[field,opStr,value,matchCase]){
         }
 
     }else if(opStr === '=='){
-        if(matchCase && isMatchable){
+        if(wildCard && isMatchable){
             filteredData = data.filter(a => {
                 return a[field] && a[field].toString().toLowerCase() === value.toString().toLowerCase()
             })
@@ -125,7 +125,7 @@ export function filterData(data,[field,opStr,value,matchCase]){
 
         }
     }else if(opStr === '!='){
-        if(matchCase && isMatchable){
+        if(wildCard && isMatchable){
             filteredData = data.filter(a => {
                 return a[field] && a[field].toString().toLowerCase() !== value.toString().toLowerCase()
             })
@@ -138,7 +138,7 @@ export function filterData(data,[field,opStr,value,matchCase]){
         }
 
     }else if(opStr === 'includes'){
-        if(matchCase && isMatchable){
+        if(wildCard && isMatchable){
             filteredData = data.filter(a => {
                 return a[field] && a[field].toString().toLowerCase().includes(value.toString().toLowerCase())
             })
@@ -151,7 +151,7 @@ export function filterData(data,[field,opStr,value,matchCase]){
         }
 
     }else if(opStr === '>'){
-        if(matchCase && isMatchable){
+        if(wildCard && isMatchable){
             filteredData = data.filter(a => {
                 return a[field] && a[field].toString().toLowerCase() > value.toString().toLowerCase()
             })
@@ -164,7 +164,7 @@ export function filterData(data,[field,opStr,value,matchCase]){
         }
 
     }else if(opStr === '>='){
-        if(matchCase && isMatchable){
+        if(wildCard && isMatchable){
             filteredData = data.filter(a => {
                 return a[field] && a[field].toString().toLowerCase() >= value.toString().toLowerCase()
             })
@@ -177,7 +177,7 @@ export function filterData(data,[field,opStr,value,matchCase]){
         }
 
     }else if(opStr === 'array-contains'){
-        if(matchCase && isMatchable){
+        if(wildCard && isMatchable){
             filteredData = data.filter(a => {
                 return a[field] && a[field].includes(value)
             })
@@ -190,7 +190,7 @@ export function filterData(data,[field,opStr,value,matchCase]){
         }
 
     }else if(opStr === 'not-array-contains'){
-        if(matchCase && isMatchable){
+        if(wildCard && isMatchable){
             filteredData = data.filter(a => {
                 return a[field] && !a[field].includes(value)
             })
@@ -241,7 +241,7 @@ export function filterData(data,[field,opStr,value,matchCase]){
         filteredData = temp
 
     }else if(opStr === '<'){
-        if(matchCase && isMatchable){
+        if(wildCard && isMatchable){
             filteredData = data.filter(a => {
                 return a[field] && a[field].toString().toLowerCase() < value.toString().toLowerCase()
             })
@@ -254,7 +254,7 @@ export function filterData(data,[field,opStr,value,matchCase]){
         }
 
     }else if(opStr === '<='){
-        if(matchCase && isMatchable){
+        if(wildCard && isMatchable){
             filteredData = data.filter(a => {
                 return a[field] && a[field].toString().toLowerCase() <= value.toString().toLowerCase()
             })

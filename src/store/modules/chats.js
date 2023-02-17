@@ -3,8 +3,8 @@ import {doc, getDoc, onSnapshot, query, where, orderBy, updateDoc, getDocs} from
 import {dbChats, db, realDb} from "@/firebase";
 import {onValue, ref} from "firebase/database";
 import {createCommentVNode} from "vue";
-import {changeKey, insertKey, sortData} from "@/commons/objects";
-
+import {changeKey, insertKey} from "@/commons/objects";
+import {sortData} from '@/commons/objects-arrays'
 export default {
     state:{
         chats:{},
@@ -23,7 +23,8 @@ export default {
     },
     mutations:{
         WriteChats(state,chats){
-            state.chats = {...sortData({...state.chats,...chats},'time','id')}
+            let allChats = {...state.chats,...chats}
+            state.chats = {...sortData(allChats,'time','id')}
         },
         WriteStatus(state,status){
             state.status = status

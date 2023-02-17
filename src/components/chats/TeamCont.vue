@@ -16,22 +16,28 @@
             </div>
             <div  className="h-full flex justify-between w-full">
               <div className="ml-3 h-full flex flex-col justify-center w-full">
-                <div className="w-full mb-2 flex items-center justify-between pr-2">
-                  <span className="text-16px mr-2 whitespace-nowrap">{{ channel.name }}</span>
+                <div className="w-full flex items-center justify-between pr-2">
+                  <span className="text-16px mr-2 whitespace-nowrap font-bold">{{ channel.name }}</span>
                   <span className="whitespace-nowrap text-3  w-fit" v-if="lastChats[channel.id]">
                     {{GetDate(lastChats[channel.id].time)}}
                   </span>
                 </div>
-                <div className="w-full mb-2 flex items-center justify-between pr-2">
+                <div className="w-full -mt-1 flex items-center justify-between pr-2">
                   <span v-if="typingStatus[channel.username]" class="text-primary">Typing...</span>
                   <span v-else>
-                    <span className="whitespace-nowrap  max-w-200px pr-2 text-ellipsis" v-if="lastChats[channel.username]">
-                      <span v-if="lastChats[channel.username].images.length>0">
+                    <span className="whitespace-nowrap max-w-250px lg:max-w-180px pr-2 text-ellipsis overflow-hidden inline-block" v-if="lastChats[channel.id]">
+                      <span v-if="lastChats[channel.id].sender === this.user.username">
+                        You :
+                      </span>
+                      <span v-else>
+                        {{GetName(lastChats[channel.id].sender)}} :
+                      </span>
+                      <span v-if="lastChats[channel.id].images.length>0">
                         <i class="fas fa-camera"></i>
                       </span>
-                        {{lastChats[channel.username].message}}
+                        {{lastChats[channel.id].message}}
+                      </span>
                     </span>
-                  </span>
                 </div>
 
               </div>
@@ -65,10 +71,10 @@
             <div  className="h-full flex justify-between w-full">
               <div className="ml-3 h-full flex flex-col justify-center w-full">
                 <div className="w-full mb-2 flex items-center justify-between pr-2">
-                  <span className="text-16px mr-2 whitespace-nowrap">{{ member.firstName }} {{ member.lastName }}</span>
+                  <span className="text-16px mr-2 whitespace-nowrap font-bold">{{GetName(member.username)}}</span>
                   <span className="whitespace-nowrap text-3  w-fit" v-if="lastChats[member.username]">
-                {{GetDate(lastChats[member.username].time)}}
-              </span>
+                    {{GetDate(lastChats[member.username].time)}}
+                  </span>
                 </div>
                 <div className="w-full mb-2 flex items-center justify-between pr-2">
                   <span v-if="typingStatus[member.username]" class="text-primary">Typing...</span>
@@ -97,6 +103,7 @@ import {filterData} from "@/commons/objects";
 import {mapState} from "vuex";
 import {dateFormatter} from "@/commons";
 import AddChannels from "@/components/channels/AddChannels";
+import {sortData} from "@/commons/objects-arrays";
 
 export default {
   name: "TeamCont",
@@ -123,9 +130,13 @@ export default {
       }
       return  dateFormatter(date,'short-slash')
     },
+    GetName(username){
+      return !this.team[username]?'':`${this.team[username].firstName} ${this.team[username].lastName}`
+    }
   },
   computed: mapState({
     user:state => state.user,
+    team:state => state.team,
     colleagues: state => {
       let my = state.user
       let tempTeam = state.team
@@ -138,13 +149,20 @@ export default {
     typingStatus:(state) => {
       return state.chats.typingStatus
     },
-    lastChats(state) {
+    lastChats({chats}) {
       let mylastChats = {}
       Object.values(this.colleagues).forEach(colleague=>{
-        if(colleague.username){
-          let colleagueChats = filterData(state.chats.chats, ['recipient','==',colleague.username])
-            mylastChats[colleague.username] = Object.values(colleagueChats)[Object.keys(colleagueChats).length-1]
-        }
+        let colleagueChats = filterData({
+          ...filterData(chats.chats, ['recipient', '==', colleague.username]),
+          ...filterData(chats.chats, ['sender', '==', colleague.username])
+        },['isChannelChat','!=',true])
+        colleagueChats = sortData(colleagueChats,'time')
+        mylastChats[colleague.username] = Object.values(colleagueChats)[Object.keys(colleagueChats).length-1]
+      })
+      Object.values(this.channels).forEach(channel=>{
+        let channelChats = filterData(chats.chats, ['recipient', '==', channel.id])
+        channelChats = sortData(channelChats,'time')
+        mylastChats[channel.id] = Object.values(channelChats)[Object.keys(channelChats).length-1]
       })
       return mylastChats
     }
