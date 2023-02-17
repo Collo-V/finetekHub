@@ -74,7 +74,6 @@
 import {mapState} from "vuex";
 import AddChannelMembers from "@/components/channels/AddChannelMembers";
 import {Tooltip} from "ant-design-vue";
-import {Fragment} from "vue-fragment";
 import ChannelDetails from "@/components/channels/ChannelDetails";
 
 export default {
@@ -83,7 +82,7 @@ export default {
   components:{
     ChannelDetails,
     AddChannelMembers,
-    Tooltip,Fragment
+    Tooltip
   },
   data(){
     return{

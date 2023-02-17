@@ -35,10 +35,14 @@
                 {{GetDate(div.date)}}
               </div>
             </div>
-            <div class="mb-3 w-full focus:bg-red-500 mt-5" v-for="chat in div.chats" :id="'chat-'+chat.id">
+            <div class="mb-3 w-full focus:bg-red-500 mt-5" v-for="chat in div.chats" :id="chat.id+'-div'">
               <div class="w-full pl-3 flex flex-col items-end"
                    v-if="chat.sender ===user.username">
-                <ChatBubble :chat="chat" @SetReplyFor="replyFor = chat"/>
+                <ChatBubble
+                  :chat="chat"
+                  @set-reply-for="replyFor = chat"
+                  @go-to-chat="(chatId)=>GoToChat(chatId)"
+                />
                 <div class="text-3 mt-1 flex">
                   {{GetTime(chat.time)}}
                   <div class="flex justify-end text-8px ml-1">
@@ -55,7 +59,11 @@
                   </div></div>
               </div>
               <div class="w-full pl-3" v-else >
-                <ChatBubble :chat="chat" @SetReplyFor="replyFor = chat"/>
+                <ChatBubble
+                    :chat="chat"
+                    @set-reply-for="replyFor = chat"
+                    @go-to-chat="(chatId)=>GoToChat(chatId)"
+                />
                 <div class="text-3 mt-1">{{GetTime(chat.time)}}</div>
               </div>
 
@@ -111,7 +119,7 @@
                    @set-upload-task="(task)=>SetUploadTask(task)"
                    :reply-for="replyFor"
                    :recipient-id="selectedId"
-                   @set-reply-for="(reply)=>SetReplyFor(reply)"
+                   @set-reply-for="replyFor = undefined"
         />
       </div>
     </div>
@@ -122,14 +130,11 @@
 <script>
 import 'emoji-picker-element'
 import {Picker} from "emoji-picker-element";
-import {getDoc, onSnapshot, setDoc, doc, query, where, getDocs, deleteDoc, updateDoc, addDoc} from 'firebase/firestore'
-import {TextAreaAdjust, RemoveFromArray, ReverseArray, isEmail, CodeGenerator, dateFormatter} from "@/commons";
-import {confirmAction, Report} from "@/commons/swal";
+import {doc,updateDoc,} from 'firebase/firestore'
+import {dateFormatter} from "@/commons";
 import {mapState} from 'vuex'
-import {getDownloadURL, getStorage, ref, uploadBytes,uploadBytesResumable} from "firebase/storage";
 import TeamCont from "@/components/chats/TeamCont";
 import {filterData} from "@/commons/objects";
-import {checkLink} from "@/commons/chatting";
 import ChatInput from "@/components/chats/ChatInput";
 import {db} from "@/firebase";
 import ChannelHeader from "@/components/channels/ChannelHeader";
@@ -164,6 +169,10 @@ export default {
     Picker
   },
   methods:{
+    GoToChat(chatID){
+      let div = document.getElementById(chatID+'-div')
+      div.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
+    },
     DateFormat(date,prev){
       return dateFormatter(date)
 
@@ -179,7 +188,7 @@ export default {
       let hour = time.getHours()
       let mins = time.getMinutes()
       if(mins<10) mins = '0'+mins
-      return  hour<12? `${hour}:${mins} a.m`:`${hour-12}:${mins} p.m`
+      return  hour<=12? `${hour}:${mins} a.m`:`${hour-12}:${mins} p.m`
     },
     GetDate(date){
       let today = new Date()
@@ -282,7 +291,6 @@ export default {
       myChats = sortData(myChats,'time')
       let timeDivs = {}
       Object.values(myChats).forEach(chat=>{
-        // console.log(dateFormatter(chat.time,'long-slash'),chat.message)
         let chatTime = new Date (chat.time)
         let dateCat = (new Date(`${chatTime.getFullYear()}-${chatTime.getMonth()+1}-${chatTime.getDate()}`)).getTime()
         if(timeDivs[dateCat]){
@@ -300,35 +308,12 @@ export default {
       return timeDivs
 
     }
-
   }),
-  mounted() {
-
-  },
-  beforeUnmount() {
-    // document.getElementById('page-cont').classList.add('mt-16')
-  }
 }
 </script>
 
 <style scoped>
-*{box-sizing:border-box}
 .chats-cont{
   background: url(../assets/images/bg-offers.webp) no-repeat center/cover;
 }
-.triangle-left {
-  width: 0;
-  height: 0;
-  border-top: 5px solid transparent;
-  border-right: 10px solid #00afee;
-  border-bottom: 5px solid transparent;
-}
-.triangle-right {
-  width: 0;
-  height: 0;
-  border-top: 5px solid transparent;
-  border-left: 10px solid #fff;
-  border-bottom: 5px solid transparent;
-}
-
 </style>

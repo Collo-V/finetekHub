@@ -2,28 +2,37 @@
   <div :class="GetBubbleClass()">
     <div class="triangle-right absolute left-full top-0" v-if="chat.sender === user.username"></div>
     <div class="triangle-left absolute right-full top-0" v-else></div>
-    <span class="-mt-2" v-if="chat.isChannelChat">
+    <span class="-mt-2 font-bold text-primary-purple-light/75" v-if="chat.isChannelChat && chat.sender !== user.username">
                     {{GetName(chat.sender)}}
                   </span>
-    <div v-if="chat.replyFor !== null">
-      <a :href="'#chat-'+chat.replyFor" class="block w-fit min-w-full h-16 rounded-sm
-                       flex overflow-hidden bg-slate-300 pr-1px justify-between">
-        <div class="w-2 h-full bg-primary mr-2"></div>
-        <div class="w-full h-full flex justify-center">
-          <div class="mb-2 text-primary-red"
-               v-if="SearchChat(chat.replyFor).sender==colleague.username">
-            {{colleague.firstName}} {{colleague.lastName}}
+    <div v-if="replyFor">
+      <div class="w-full min-h-16 bg-inherit bottom-full flex items-center cursor-pointer"
+           @click="$emit('GoToChat',replyFor.id)"
+      >
+        <div class="reply-for-cont w-full h-16 rounded-sm flex bg-slate-300 overflow-hidden justify-between">
+          <div class="w-2 h-full bg-primary mr-2"></div>
+          <div class="w-full h-full flex justify-center flex-col">
+            <div class="mb-2 text-primary-red" v-if="replyFor.sender !==user.username">
+              {{GetName(replyFor.sender)}}
+            </div>
+            <div class="mb-2 text-primary-red" v-else>You</div>
+            <div class="flex items-center gap-2 max-h-50px overflow-hidden text-black">
+              <i class="fa-solid fa-camera" v-if="replyFor.images.length>0"/>
+              {{replyFor.message}}
+            </div>
           </div>
-          <div class="mb-2 text-primary-red" v-else>You</div>
-          <div class="w-full overflow-y-hidden">
-            <span class="mr-2" v-if="SearchChat(chat.replyFor).image!=''"><i class="fa-solid fa-camera"></i></span>
-            {{ SearchChat(chat.replyFor).message}}
+          <div class="h-full flex" v-if="replyFor.images.length>0">
+            <div class="h-full flex">
+              <div class="h-full" v-for="image in replyFor.images.slice(0,2)">
+                <img :src="image.url" class="h-full w-auto">
+              </div>
+            </div>
+            <span v-if="replyFor.images.length>2">
+            +{{replyFor.images.length-2}}
+          </span>
           </div>
         </div>
-        <div class="h-full" v-if="SearchChat(chat.replyFor).image!=''">
-          <img :src="SearchChat(chat.replyFor).image.link" class="h-full w-auto">
-        </div>
-      </a>
+      </div>
     </div>
     <div v-if="chat.images.length>0" class="relative dropdown-cont mb-2">
       <div v-for="image in chat.images">
@@ -60,7 +69,7 @@
       <div :class="GetModifyClass()"
            :id="'modify-chat'+chat.id">
         <button class="w-full focus:outline-none hover:bg-slate-100 h-8"
-                @click.prevent="$emit('SetReply')">
+                @click.prevent="$emit('SetReplyFor')">
                              <span class="w-full pl-8 block text-left">
                                <i class="fa-solid fa-reply"></i> Reply
                              </span>
@@ -87,15 +96,16 @@ import {db} from "@/firebase";
 export default {
   name: "ChatBubble",
   props:['chat'],
+  emits:['SetReplyFor','GoToChat'],
   data(){
     return{}
   },
   methods:{
     GetBubbleClass(){
-      let bubbleClass =  "shadow min-h-10 flex justify-center w-fit p-4 flex-col "+
+      let bubbleClass =  "shadow min-h-10 flex justify-center w-fit p-2 flex-col "+
       "chat-bubble rounded-b-md dropdown-cont relative "
       bubbleClass += this.chat.sender !== this.user.username?
-          'bg-primary text-white chat-bubble-left rounded-tr-md':
+          'bg-primary chat-bubble-left rounded-tr-md':
           'bg-white chat-bubble-right rounded-tl-md'
       return bubbleClass
     },
@@ -158,12 +168,27 @@ export default {
   computed:mapState({
     user:state => state.user,
     team:state => state.team,
+    chats:state => state.chats.chats,
+    replyFor(state){
+      if(this.chat.replyFor !== null){
+        return this.chats[this.chat.replyFor]
+      }else{
+        return
+      }
+    }
     // chat:ca
   })
 }
 </script>
 
 <style scoped>
+/*.chat-bubble-right .reply-for-cont{*/
+/*  @apply bg-slate-300*/
+/*}*/
+/*.chat-bubble-left .reply-for-cont{*/
+/*  @apply bg-white*/
+/*}*/
+
 .triangle-left {
   width: 0;
   height: 0;

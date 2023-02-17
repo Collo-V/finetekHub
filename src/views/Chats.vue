@@ -45,7 +45,6 @@ export default {
   methods:{
     SelectChat(id){
       if(id){
-        console.log(id)
         this.selectedId = id
         document.getElementById('team-cont').classList.add('w-0')
       }

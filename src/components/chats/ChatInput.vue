@@ -15,40 +15,29 @@
       <div class="w-full h-16 rounded-sm flex overflow-hidden bg-slate-300 justify-between">
         <div class="w-2 h-full bg-primary mr-2"></div>
         <div class="w-full h-full flex justify-center flex-col">
-          <div class="mb-2 text-primary-red" v-if="replyFor.sender==selectedRecipient.username">
-            {{selectedRecipient.firstName}} {{selectedRecipient.lastName}}
+          <div class="mb-2 text-primary-red" v-if="replyFor.sender==recipient.username">
+            {{GetName(replyFor.sender)}}
           </div>
           <div class="mb-2 text-primary-red" v-else>You</div>
-          <span class="mr-2" v-if="replyFor.image!=''"><i class="fa-solid fa-camera"></i></span>
-          <div>{{replyFor.message}}</div>
+          <div class="flex items-center gap-2 max-h-50px overflow-hidden">
+            <i class="fa-solid fa-camera" v-if="replyFor.images.length>0"/>
+            {{replyFor.message}}
+          </div>
         </div>
-        <div class="h-full" v-if="replyFor.image!=''">
-          <img :src="replyFor.image.link" class="h-full w-auto">
+        <div class="h-full flex" v-if="replyFor.images.length>0">
+          <div class="h-full flex">
+            <div class="h-full" v-for="image in replyFor.images.slice(0,2)">
+              <img :src="image.url" class="h-full w-auto">
+            </div>
+          </div>
+          <span v-if="replyFor.images.length>2">
+            +{{replyFor.images.length-2}}
+          </span>
         </div>
       </div>
       <div class="w-100px h-full flex items-center justify-center text-24px cursor-pointer"
-           @click="replyFor = ''">X</div>
+           @click="$emit('SetReplyFor')">X</div>
     </div>
-    <div class="reply-msg h-16 w-full flex pt-2 justify-center items-center fixed bottom-full left-0" v-if="replyFor!=undefined">
-      <!--            <div class="w-100px invisible"></div>-->
-      <div class="w-full h-16 rounded-sm flex overflow-hidden bg-slate-300 justify-between">
-        <div class="w-2 h-full bg-primary mr-2"></div>
-        <div class="w-full h-full flex justify-center flex-col">
-          <div class="mb-2 text-primary-red" v-if="replyFor.sender==selectedRecipient.username">
-            {{selectedRecipient.firstName}} {{selectedRecipient.lastName}}
-          </div>
-          <div class="mb-2 text-primary-red" v-else>You</div>
-          <span class="mr-2" v-if="replyFor.image!=''"><i class="fa-solid fa-camera"></i></span>
-          <div>{{replyFor.message}}</div>
-        </div>
-        <div class="h-full" v-if="replyFor.image!=''">
-          <img :src="replyFor.image.link" class="h-full w-auto">
-        </div>
-      </div>
-      <div class="w-100px h-full flex items-center justify-center text-24px cursor-pointer"
-           @click="replyFor = ''">X</div>
-    </div>
-
     <div class="input w-full h-fit min-h-16 flex items-center pl-4 text-gray-800">
       <button class="text-6 mr-2 focus:outline-none" id="emoji-attach"
               @click="ShowEmoji(true)" v-if="!showEmoji">
@@ -381,7 +370,10 @@ export default {
         }
       },3000)
 
-    }
+    },
+    GetName(username){
+      return !this.team[username]?'':`${this.team[username].firstName} ${this.team[username].lastName}`
+    },
   },
   watch:{
     input(value,old){
@@ -393,6 +385,7 @@ export default {
   computed: mapState({
     user:state => state.user,
     time:state => state.time,
+    team:state => state.team,
     recipient(state){
       let colleague = state.team[this.recipientId]
       return colleague?colleague:state.channels[this.recipientId]
