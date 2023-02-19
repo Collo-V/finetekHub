@@ -209,7 +209,8 @@ export default {
       }
       for (let i = 0; i < divs.length; i++) {
         let rect = divs[i].getBoundingClientRect()
-        if(rect.top<100 && rect.bottom>20){
+        let minTop = screen.width <961?100:150
+        if(rect.top<minTop && rect.bottom>20){
           let onView = divs[i]
           let display = document.getElementById(onView.id.replace('chat-div','chat-div-display'))
           // console.log(display)

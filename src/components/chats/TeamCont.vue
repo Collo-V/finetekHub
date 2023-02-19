@@ -35,6 +35,9 @@
                       <span v-if="lastChats[channel.id].images.length>0">
                         <i class="fas fa-camera"></i>
                       </span>
+                      <span v-if="lastChats[channel.id].files.length>0">
+                        <i class="fas fa-file"></i>
+                      </span>
                         {{lastChats[channel.id].message}}
                       </span>
                     </span>
@@ -82,6 +85,9 @@
                 <span className="whitespace-nowrap  max-w-200px pr-2 text-ellipsis" v-if="lastChats[member.username]">
                 <span v-if="lastChats[member.username].images.length>0">
                   <i class="fas fa-camera"></i>
+                </span>
+                  <span v-if="lastChats[member.username].files.length>0">
+                  <i class="fas fa-file"></i>
                 </span>
                 {{lastChats[member.username].message}}
               </span>

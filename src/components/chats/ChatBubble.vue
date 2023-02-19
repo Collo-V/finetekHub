@@ -34,30 +34,47 @@
         </div>
       </div>
     </div>
-    <div v-if="chat.images.length>0" class="relative dropdown-cont mb-2">
-      <div v-for="image in chat.images">
+    <div v-if="chat.images.length>0" class="relative dropdown-cont mb-2"
+         @click="[selectedFiles = chat.images,selectedIsImage = true]"
+    >
+        <div class="absolute top-0 left-0 right-0 bottom-0 bg-slate-500/50 z-2 dropdown"></div>
+      <div v-for="image in chat.images"      class="relative"
+
+      >
         <div class="dropdown absolute top-0 mt-3 right-0 mr-2
                       animate__animated animate__fadeOutUps animate__fadeInDown">
           <button class="px-2 py-1 w-16 focus:outline-none border-1px rounded-md text-black bg-white"
-                  @click="DownloadImage(image.url)">
+                  @click="DownloadFile(image)">
             <i class="fa-solid fa-cloud-arrow-down"></i>
           </button>
         </div>
         <img :src="image.url" alt="" class="max-w-300px h-auto">
       </div>
     </div>
-    <div v-if="chat.files.length>0" class="relative dropdown-cont">
+    <div v-if="chat.files.length>0" class="relative dropdown-cont cursor-zoom-in "
+         @click="[selectedFiles = chat.files,selectedIsImage = false]"
+    >
+      <div class="absolute top-0 left-0 right-0 bottom-0 bg-slate-500/50 z-2 dropdown"></div>
+      <div class="absolute top-0 left-0 right-0 h-2 bg-white z-2 dropdown"></div>
       <div v-for="file in chat.files">
         <div class="dropdown absolute top-0 mt-3 right-0 mr-2
                       animate__animated animate__fadeOutUps animate__fadeInDown">
           <button class="px-2 py-1 w-16 focus:outline-none border-1px rounded-md text-black bg-white"
-                  @click="DownloadImage(file.url)">
+                  @click="DownloadFile(file)">
             <i class="fa-solid fa-cloud-arrow-down"></i>
           </button>
         </div>
-        <iframe :src="file.url" alt="" class="max-w-300px h-auto"></iframe>
-        <div class="absolute w-full h-10 btm-0 left-0 flex items-center bg-slate-300">
-          {{chat.file.name}}
+        <div class="relative overflow-hidden w-300px h-300px border-1px mt-2">
+          <div class="absolute h-full w-5 bg-white top-0 right-0 z-1"></div>
+          <div class="absolute w-full h-5 bg-slate-200 top-0 right-0 z-1">
+            {{file.name}}
+          </div>
+          <div class="absolute -left-10px overflow-hidden bottom-0 -top-56px -right-10px">
+            <iframe :src="file.url" alt=""
+                    style="overflow: hidden"
+                    class="h-800px absolute left-0 w-300px overflow-hidden custom-scroll scroll-0"
+            ></iframe>
+          </div>
         </div>
       </div>
     </div>
@@ -83,6 +100,13 @@
       </div>
     </div>
   </div>
+  <FilePreviews
+      :files="selectedFiles"
+      :is-image="selectedIsImage"
+      @hide-modal="selectedFiles = undefined"
+      @download="(file)=>DownloadFile(file)"
+      v-if="selectedFiles"
+  />
 
 </template>
 
@@ -92,13 +116,18 @@ import {checkLink} from "@/commons/chatting";
 import {confirmAction} from "@/commons/swal";
 import {doc, updateDoc} from "firebase/firestore";
 import {db} from "@/firebase";
+import FilePreviews from "@/components/chats/FilePreviews";
 
 export default {
   name: "ChatBubble",
+  components: {FilePreviews},
   props:['chat'],
   emits:['SetReplyFor','GoToChat'],
   data(){
-    return{}
+    return{
+      selectedFiles:undefined,
+      selectedIsImage:true
+    }
   },
   methods:{
     GetBubbleClass(){
@@ -120,11 +149,12 @@ export default {
     GetName(username){
       return !this.team[username]?'':`${this.team[username].firstName} ${this.team[username].lastName}`
     },
-    DownloadImage(link){
+    DownloadFile({url,name}){
       let element = document.createElement('a');
-      element.setAttribute('href',link);
-      // element.setAttribute('download', 'Img_'+new Date());
-      // element.download
+      element.setAttribute('href',url);
+      name = name.replace('file-','').replace('IMG-','')
+      // element.setAttribute('download', name);
+      element.download = name
       element.target = '_blank'
       element.click()
     },
@@ -203,5 +233,6 @@ export default {
   border-left: 10px solid #fff;
   border-bottom: 5px solid transparent;
 }
+
 
 </style>
