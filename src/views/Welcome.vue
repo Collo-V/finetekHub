@@ -1,6 +1,6 @@
 <template>
   <div class="min-h-screen-h flex items-center justify-center">
-    <div v-if="!checked" class="w-full min-h-screen-h flex items-center justify-center">
+    <div v-if="checked" class="w-full min-h-screen-h flex items-center justify-center">
       <div v-if="!name" class="w-full min-h-screen-h flex items-center justify-center">
         <div v-if="!allSet"  class="w-full min-h-screen-h flex items-center justify-center">
           <div class="min-h-250px w-500px shadow-md border-t-1px p-8" v-if="view === 'set-password'">
@@ -194,7 +194,7 @@
       <div class="w-50% shadow-md border-t-1px p-8 " v-else>
         <div class="flex">
           <h1 class="text-5">
-            Hello, {{name}}}. Your profile is already set up
+            Hello, {{name}}. Your profile is already set up
           </h1>
         </div>
         <div class="flex justify-end">
@@ -223,7 +223,7 @@ import {getDownloadURL, getStorage, ref, uploadBytes} from "firebase/storage";
 import {doc, getDoc, updateDoc} from "firebase/firestore";
 import {db} from "@/firebase";
 import {createUserWithEmailAndPassword as createUser, getAuth} from 'firebase/auth'
-import {getDatabase, ref as databaseRef, set} from "firebase/database";
+import {getDatabase} from "firebase/database";
 
 export default {
   name: "Welcome",
@@ -283,7 +283,11 @@ export default {
       }else {
         this.passwordStatus = 'weak'
       }
-    }
+    },
+    "$store.state.user"(user){
+      if(user.email)this.GetUser()
+    },
+
   },
   computed:{
     GetName(){
@@ -295,6 +299,21 @@ export default {
     },
   },
   methods:{
+    async GetUser(){
+      let user =  this.$store.getters.GetUser
+      console.log(user)
+      if(!user.email)return
+      let name
+      try {
+        let {username,firstName}  = (await getDoc(doc(db, 'team',user.email))) .data()
+        if(username) {
+          this.name = firstName
+        }
+      } catch (e) {
+        console.log(e)
+      }
+      this.checked = true
+    },
     ShowPassword(show){
       if(show){
         document.getElementById('password1').type = 'text'
@@ -343,17 +362,6 @@ export default {
       }
     },
   },
-  mounted() {
-    let all = this
-    async function getUser(){
-      try {
-        let {username}  = (await getDoc(doc(db, 'team', this.user.email))) .data()
-        if(username)this.name = user.firstName
-      } catch {}
-      all.checked = true
-    }
-    getUser()
-  }
 }
 </script>
 

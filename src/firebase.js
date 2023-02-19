@@ -1,7 +1,6 @@
 import {initializeApp} from 'firebase/app'
-import {getAnalytics} from 'firebase/analytics'
 import {getFirestore,collection,getDocs,addDoc,doc,setDoc,onSnapshot} from 'firebase/firestore'
-import {getStorage,ref} from 'firebase/storage'
+import {getStorage} from 'firebase/storage'
 import {getDatabase} from 'firebase/database'
 
 const firebaseConfig = {
