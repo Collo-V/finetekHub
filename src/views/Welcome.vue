@@ -1,6 +1,6 @@
 <template>
   <div class="min-h-screen-h flex items-center justify-center">
-    <div v-if="checked" class="w-full min-h-screen-h flex items-center justify-center">
+    <div v-if="!checked" class="w-full min-h-screen-h flex items-center justify-center">
       <div v-if="!name" class="w-full min-h-screen-h flex items-center justify-center">
         <div v-if="!allSet"  class="w-full min-h-screen-h flex items-center justify-center">
           <div class="min-h-250px w-500px shadow-md border-t-1px p-8" v-if="view === 'set-password'">
