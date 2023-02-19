@@ -310,6 +310,7 @@ export default {
       validateInp(id)
     },
     async SetProfile(){
+      if(!formIsValid('member-form'))return
       try{
         await updateDoc(doc(db, 'team', this.user.email), this.user)
         let database = getDatabase()
