@@ -868,6 +868,14 @@
   border-width: 0px;
 }
 
+.border{
+  border-width: 1px;
+}
+
+.border-8px{
+  border-width: 8px;
+}
+
 .border-b-1px{
   border-bottom-width: 1px;
 }
@@ -897,6 +905,15 @@
 .border-primary-purple{
   --tw-border-opacity: 1;
   border-color: rgb(38 33 98 / var(--tw-border-opacity));
+}
+
+.border-transparent{
+  border-color: transparent;
+}
+
+.border-t-primary-purple{
+  --tw-border-opacity: 1;
+  border-top-color: rgb(38 33 98 / var(--tw-border-opacity));
 }
 
 .bg-white{
