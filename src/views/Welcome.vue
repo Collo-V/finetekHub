@@ -287,6 +287,12 @@ export default {
     "$store.state.user"(user){
       if(user.email)this.GetUser()
     },
+    view(val){
+      if(val === 'set-profile'){
+        validateInp('firstName')
+        validateInp('lastName')
+      }
+    }
 
   },
   computed:{
@@ -301,7 +307,6 @@ export default {
   methods:{
     async GetUser(){
       let user =  this.$store.getters.GetUser
-      console.log(user)
       if(!user.email)return
       let name
       try {
