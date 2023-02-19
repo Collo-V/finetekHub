@@ -31,7 +31,9 @@
                 <div class="h-full border-1px rounded-pill bg-green-500"  v-else-if="passwordStatus === 'very strong'"></div>
                 <div class="h-full border-1px rounded-pill"  v-if="passwordStatus !== 'very strong'"></div>
                 <div class="h-full border-1px rounded-pill bg-green-500"  v-else></div>
-
+              </div>
+              <div class="text-2 mb-2">
+                * Passwords must be at least 8 characters long containing lowercase, uppercase special character and a number
               </div>
               <fieldset class="h-10 w-full relative">
                 <input class="form-input pl-4 w-full h-10 flex items-center rounded-sm focus:outline-none border-1px"
