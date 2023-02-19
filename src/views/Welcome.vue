@@ -343,12 +343,13 @@ export default {
     },
   },
   mounted() {
+    let all = this
     async function getUser(){
       try {
         let user  = (await getDoc(doc(db, 'team', this.user.email))) .data()
         if(user)this.name = user.firstName
       } catch {}
-      this.checked = true
+      all.checked = true
     }
     getUser()
   }
