@@ -6,7 +6,10 @@
             <button class="focus:outline-none text-18px mx-5 lg:hidden" @click="$emit('RemoveSelected')">
               <i class="fas fa-long-arrow-left"></i>
             </button>
-            <img :src="colleague.image" alt="" class="h-12 w-12 rounded-full">
+            <img :src="colleague.image" class="w-12 h-12 rounded-full" v-if="colleague.image">
+            <div v-else class="w-10 h-10 rounded-full border-1px flex items-center justify-center font-bold text-6">
+              {{colleague.firstName[0]}}
+            </div>
             <div class="flex flex-col ml-3">
               <div class="mb-2">{{colleague.firstName}} {{colleague.lastName}}</div>
               <div v-if="typingStatus[colleague.username]">
@@ -172,6 +175,8 @@ export default {
     GoToChat(chatID){
       let div = document.getElementById(chatID+'-div')
       div.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
+      div.classList.add('bg-primary-purple/20')
+      setTimeout(()=>div.classList.remove('bg-primary-purple/20'),400)
     },
     DateFormat(date,prev){
       return dateFormatter(date)
@@ -234,6 +239,7 @@ export default {
       }catch{}
     },
     WriteIsRead(chats){
+      return
       chats = Object.values(chats).filter(a=>a.sender!==this.user.username)
       for (let i = 0; i < chats.length; i++) {
         updateDoc(doc(db,'chats',chats[i].id),{

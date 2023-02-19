@@ -69,7 +69,10 @@
               <div className="h-4 w-4 rounded-full absolute bottom-0 right-0 bg-slate-300 mb-2 border-2px border-white"
                    v-else
               ></div>
-              <img :src="member.image" class="w-12 h-12 rounded-full">
+              <img :src="member.image" class="w-12 h-12 rounded-full" v-if="member.image">
+              <div v-else class="w-10 h-10 rounded-full border-1px flex items-center justify-center font-bold text-6">
+                {{member.firstName[0]}}
+              </div>
             </div>
             <div  className="h-full flex justify-between w-full">
               <div className="ml-3 h-full flex flex-col justify-center w-full">
@@ -146,6 +149,7 @@ export default {
     colleagues: state => {
       let my = state.user
       let tempTeam = state.team
+      tempTeam = filterData(tempTeam,['username','!=',undefined])
       tempTeam = filterData(tempTeam,['username','!=',my.username])
       return tempTeam
     },

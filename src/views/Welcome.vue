@@ -139,8 +139,8 @@
         <!--      </div>-->
         <CropImage :profile-pic="profilePic" @set-profile-pic="(image)=>profilePic = image"/>
         <div class="flex justify-end gap-4">
-          <button class="w-150px h-8 border-1px rounded-md">
-            Skip
+          <button class="w-150px h-8 border-1px rounded-md" @click="allSet = true">
+            Skip for now
           </button>
           <button class="w-150px h-8 bg-primary/25 text-white rounded-md" v-if="profilePic === ''" disabled>
             Set profile picture
@@ -174,10 +174,10 @@
     <div class="h-150px w-50% shadow-md border-t-1px p-8 " >
       <div class="flex">
         <h1 class="text-5">
-          All set now
+          Congratulations, All set now
         </h1>
       </div>
-<!--      <p>Let's start by setting up your profile</p>-->
+      <p>Your awesome journey with Finetek starts here</p>
       <div class="flex justify-end">
         <button class="w-150px h-8 bg-primary text-white rounded-md" @click="$router.push('/')">
           Go to home page
