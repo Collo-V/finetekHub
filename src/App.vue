@@ -17,7 +17,7 @@ import {Report} from "@/commons/swal";
 import {getAuth,onAuthStateChanged} from "firebase/auth";
 import {ref, set} from "firebase/database";
 import {db, realDb} from "@/firebase";
-import {doc, getDoc} from "firebase/firestore";
+import '@/assets/styles/loaders.css'
 
 
 

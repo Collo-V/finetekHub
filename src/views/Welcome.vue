@@ -1,6 +1,6 @@
 <template>
   <div class="min-h-screen-h flex items-center justify-center">
-    <div v-if="checked" class="w-full min-h-screen-h flex items-center justify-center">
+    <div v-if="!checked" class="w-full min-h-screen-h flex items-center justify-center">
       <div v-if="!name" class="w-full min-h-screen-h flex items-center justify-center">
         <div v-if="!allSet"  class="w-full min-h-screen-h flex items-center justify-center">
           <div class="min-h-250px w-500px shadow-md border-t-1px p-8" v-if="view === 'set-password'">
@@ -90,20 +90,31 @@
               <div>
                 <fieldset class="h-10 w-full relative">
                   <input class="form-input pl-4 w-full h-10 flex items-center rounded-sm focus:outline-none border-1px"
-                         id="username" @blur="Validate($event.target.id)" v-model="user.username">
+                         id="username" v-model="user.username">
                   <div class="form-label h-0 w-full absolute pl-4 top-1/2 btm-1/2 flex items-center">
                     <label class="bg-white cursor-text px-1">Username*</label>
                   </div>
                   <div class="validity-checker h-0 w-fit absolute mr-4 right-0 top-1/2 btm-1/2 flex items-center justify-end">
+                    <div class=" bg-white absolute v-center mt-1 hidden top-0 right-0" id="username-check-loader">
+                      <div class="lds-ring">
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                      </div>
+                    </div>
                     <span class="hidden valid text-green-500"><i class="fa-solid fa-check"></i></span>
                     <span class="hidden invalid text-red-500"><i class="fa-solid fa-triangle-exclamation"></i></span>
                   </div>
-                  <p class="mt-2 text-3">
-                    Note that once you pick a username, you cannot change it
-                  </p>
                 </fieldset>
+                <p id="username-error" class="mt-1 text-red-500 text-3 hidden">
+                  A colleague with the same username already exists
+                </p>
+                <p class="mt-2 text-3">
+                  Note that once you pick a username, you cannot change it
+                </p>
               </div>
-              <div class="mt-8">
+              <div class="">
                 <fieldset class="h-10 w-full relative">
                   <input class="form-input pl-4 w-full h-10 flex items-center rounded-sm focus:outline-none border-1px"
                          id="phone" @blur="Validate($event.target.id)" v-model="user.phone">
@@ -220,8 +231,8 @@
 import {formIsValid, validateInp} from "@/commons";
 import CropImage from "@/components/CropImage";
 import {getDownloadURL, getStorage, ref, uploadBytes} from "firebase/storage";
-import {doc, getDoc, updateDoc} from "firebase/firestore";
-import {db} from "@/firebase";
+import {doc, getDoc, getDocs, query, updateDoc, where} from "firebase/firestore";
+import {db, team} from "@/firebase";
 import {createUserWithEmailAndPassword as createUser, getAuth} from 'firebase/auth'
 import {getDatabase} from "firebase/database";
 
@@ -237,7 +248,7 @@ export default {
       password:'',
       password2:'',
       profilePic:'',
-      view:'',
+      view:'set-profile',
       checked:false,
       name:undefined,
       option : {
@@ -285,12 +296,23 @@ export default {
       }
     },
     "$store.state.user"(user){
-      if(user.email)this.GetUser()
+      if(user.email && this.view === '')this.GetUser()
     },
     view(val){
       if(val === 'set-profile'){
         validateInp('firstName')
         validateInp('lastName')
+      }
+    },
+    'user.username'(username){
+      let inp = document.getElementById('username')
+      if(username){
+        if(username.length<4 ){
+          inp.classList.add('input-invalid')
+          inp.classList.remove('input-valid')
+        }else{
+          this.CheckUsername(username)
+        }
       }
     }
 
@@ -305,10 +327,32 @@ export default {
     },
   },
   methods:{
+    async CheckUsername(username){
+      let q = query(team,where('username','==', username))
+      let inp = document.getElementById('username')
+      let errorDiv = document.getElementById('username-error')
+      let loader = document.getElementById('username-check-loader')
+      loader.classList.remove('hidden')
+      try {
+        let users = (await getDocs(q)).docs
+        if(users.length>0){
+          inp.classList.remove('input-valid')
+          inp.classList.add('input-invalid')
+          errorDiv.classList.remove('hidden')
+        }else{
+          inp.classList.add('input-valid')
+          inp.classList.remove('input-invalid')
+          errorDiv.classList.add('hidden')
+        }
+
+      } catch {
+
+      }
+      loader.classList.add('hidden')
+    },
     async GetUser(){
       let user =  this.$store.getters.GetUser
       if(!user.email)return
-      let name
       try {
         let {username,firstName}  = (await getDoc(doc(db, 'team',user.email))) .data()
         if(username) {
@@ -334,7 +378,15 @@ export default {
       validateInp(id)
     },
     async SetProfile(){
-      if(!formIsValid('member-form'))return
+      let validForm = formIsValid('member-form')
+      let usernameErr = document.getElementById('username-error')
+      console.log(usernameErr.classList)
+      if (!usernameErr.classList.contains('hidden')){
+        document.getElementById('username')
+            .classList.replace('input-valid','input-invalid')
+        return
+      }
+      if(!validForm)return
       try{
         await updateDoc(doc(db, 'team', this.user.email), this.user)
         let database = getDatabase()
@@ -371,41 +423,6 @@ export default {
 </script>
 
 <style scoped>
-.lds-ring {
-  display: inline-block;
-  position: relative;
-  width: 80px;
-  height: 80px;
-}
-.lds-ring div {
-  @apply block absolute w-16 h-16 border-8px border-transparent border-t-primary-purple rounded-full;
-  /*display: block;*/
-  /*position: absolute;*/
-  /*width: 64px;*/
-  /*height: 64px;*/
-  /*margin: 8px;*/
-  /*border: 8px solid #fff;*/
-  /*border-radius: 50%;*/
-  animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
-  /*border-color: #fff transparent transparent transparent;*/
-}
-.lds-ring div:nth-child(1) {
-  animation-delay: -0.45s;
-}
-.lds-ring div:nth-child(2) {
-  animation-delay: -0.3s;
-}
-.lds-ring div:nth-child(3) {
-  animation-delay: -0.15s;
-}
-@keyframes lds-ring {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
 
 
 </style>
