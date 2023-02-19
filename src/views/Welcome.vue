@@ -346,8 +346,8 @@ export default {
     let all = this
     async function getUser(){
       try {
-        let user  = (await getDoc(doc(db, 'team', this.user.email))) .data()
-        if(user)this.name = user.firstName
+        let {username}  = (await getDoc(doc(db, 'team', this.user.email))) .data()
+        if(username)this.name = user.firstName
       } catch {}
       all.checked = true
     }
