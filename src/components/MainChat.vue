@@ -3,11 +3,11 @@
       <div class="h-full flex flex-col" >
         <div>
           <div class="header h-16 bg-white lg:bg-slate-300 p-2 flex shadow-md lg:shadow-0" v-if="colleague">
-            <button class="focus:outline-none text-18px mx-5 lg:hidden" @click="$emit('RemoveSelected')">
+            <button class="focus:outline-none text-18px mx-5 lg:hidden" @click="$emit('SetSelected',undefined)">
               <i class="fas fa-long-arrow-left"></i>
             </button>
             <img :src="colleague.image" class="w-12 h-12 rounded-full" v-if="colleague.image">
-            <div v-else class="w-10 h-10 rounded-full border-1px flex items-center justify-center font-bold text-6">
+            <div v-else class="w-10 h-10 rounded-full border-1px lg:border-white flex items-center justify-center font-bold text-6">
               {{colleague.firstName[0]}}
             </div>
             <div class="flex flex-col ml-3">
@@ -43,7 +43,7 @@
                    v-if="chat.sender ===user.username">
                 <ChatBubble
                   :chat="chat"
-                  @set-reply-for="replyFor = chat"
+                  @set-reply-for="replyId = chat"
                   @go-to-chat="(chatId)=>GoToChat(chatId)"
                 />
                 <div class="text-3 mt-1 flex">
@@ -64,8 +64,9 @@
               <div class="w-full pl-3" v-else >
                 <ChatBubble
                     :chat="chat"
-                    @set-reply-for="replyFor = chat"
+                    @set-reply-for="replyId = chat"
                     @go-to-chat="(chatId)=>GoToChat(chatId)"
+                    @reply-privately="ReplyPrivately(chat)"
                 />
                 <div class="text-3 mt-1">{{GetTime(chat.time)}}</div>
               </div>
@@ -120,9 +121,9 @@
         </div>
         <ChatInput :uploadTask="uploadTask"
                    @set-upload-task="(task)=>SetUploadTask(task)"
-                   :reply-for="replyFor"
+                   :reply-id="replyId"
                    :recipient-id="selectedId"
-                   @set-reply-for="replyFor = undefined"
+                   @set-reply-for="[replyId = undefined,$emit('RemovePrivateReply')]"
         />
       </div>
     </div>
@@ -137,7 +138,7 @@ import {doc,updateDoc,} from 'firebase/firestore'
 import {dateFormatter} from "@/commons";
 import {mapState} from 'vuex'
 import TeamCont from "@/components/chats/TeamCont";
-import {filterData} from "@/commons/objects";
+import {filterData, removeFromArray} from "@/commons/objects";
 import ChatInput from "@/components/chats/ChatInput";
 import {db} from "@/firebase";
 import ChannelHeader from "@/components/channels/ChannelHeader";
@@ -146,12 +147,13 @@ import ChatBubble from "@/components/chats/ChatBubble";
 
 export default {
   name: "MainChat",
-  props:['selectedRecipient','selectedId'],
+  props:['selectedId','privateReply'],
+  emits:['ReplyPrivately','RemovePrivateReply','SetSelected'],
   data(){
     return {
       chatIds:{},
       sending:false,
-      replyFor:undefined,
+      replyId:undefined,
       showEmoji:false,
       inputImage:'',
       imagePrev:'',
@@ -159,8 +161,6 @@ export default {
       inputFile:'',
       uploadTask:'',
       onlineStatus:{},
-
-
     }
 
   },
@@ -172,11 +172,23 @@ export default {
     Picker
   },
   methods:{
-    GoToChat(chatID){
-      let div = document.getElementById(chatID+'-div')
-      div.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
-      div.classList.add('bg-primary-purple/20')
-      setTimeout(()=>div.classList.remove('bg-primary-purple/20'),400)
+    GoToChat(chatId){
+      if(this.chats[chatId]){
+        let div = document.getElementById(chatId+'-div')
+        div.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
+        div.classList.add('bg-primary-purple/20')
+        setTimeout(()=>div.classList.remove('bg-primary-purple/20'),400)
+      } else {
+        let chat  = this.$store.state.chats.chats[chatId]
+        if(chat && chat.isChannelChat){
+          this.$emit('SetSelected',chat.recipient)
+          console.log()
+        }
+      }
+    },
+    ReplyPrivately({id,sender}){
+      this.$emit('ReplyPrivately',{id,sender})
+      this.replyId = [id]
     },
     DateFormat(date,prev){
       return dateFormatter(date)
@@ -186,7 +198,7 @@ export default {
       this.uploadTask = task
     },
     SetReplyFor(task){
-      this.replyFor = task
+      this.replyId = task
     },
     GetTime(time){
       time = new Date(time)
@@ -239,12 +251,19 @@ export default {
       }catch{}
     },
     WriteIsRead(chats){
-      return
-      chats = Object.values(chats).filter(a=>a.sender!==this.user.username)
+      chats = Object.values(chats).filter(a=>a.sender!==this.user.username && a.isRead !== true)
       for (let i = 0; i < chats.length; i++) {
-        updateDoc(doc(db,'chats',chats[i].id),{
-          isRead:true
-        })
+        let chat = chats[i]
+        if(chat.isChannelChat && !chat.isRead.includes(this.user.username)){
+          updateDoc(doc(db,'chats',chat.id),{
+            isRead:[...chat.isRead,this.user.username]
+          }).catch()
+        }else if(!chat.isChannelChat && !chat.isRead){
+            updateDoc(doc(db,'chats',chat.id),{
+              isRead:true
+            }).catch()
+
+        }
       }
     },
   },
@@ -296,6 +315,7 @@ export default {
         myChats = filterData(chats, ['recipient','==',this.channel.id])
       }
       myChats = sortData(myChats,'time')
+      // console.log(myChats)
       let timeDivs = {}
       Object.values(myChats).forEach(chat=>{
         let chatTime = new Date (chat.time)
@@ -316,6 +336,9 @@ export default {
 
     }
   }),
+  mounted() {
+    console.log(this.replyId)
+  }
 }
 </script>
 

@@ -6,6 +6,7 @@ import {RemoveFromArray} from "@/commons";
 import {realDb} from "@/firebase";
 import chats from './modules/chats'
 import firebase from "firebase/compat";
+import {filterData} from "@/commons/objects";
 
 export default createStore({
     modules:{
@@ -102,6 +103,8 @@ export default createStore({
                 let channels ={}
                 for (let i = 0; i < snap.docs.length; i++) {
                     let doc = snap.docs[i]
+                    let memberArr = doc.data().members.filter(member=>member.username === context.state.user.username)
+                    if (memberArr.length === 0)continue
                     channels[doc.id] = {...doc.data(),id:doc.id}
                 }
                 context.commit('WriteChannels',channels)

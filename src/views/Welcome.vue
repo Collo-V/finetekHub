@@ -187,7 +187,7 @@
           </div>
         </div>
         <div v-else class="h-200px w-50% shadow-md border-t-1px p-8">
-          <div class="h-150px w-50% shadow-md border-t-1px p-8 " >
+          <div class="w-full" >
             <div class="flex">
               <h1 class="text-5">
                 Congratulations, All set now

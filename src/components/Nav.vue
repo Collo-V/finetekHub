@@ -26,26 +26,16 @@
    </div>
     <div class="mt-16 full px-2">
       <router-link :to="{name:nav.linkName}" v-for="nav in GetNavs"
-          class="block h-10 flex items-center text-white pl-3 hover:pl-4 rounded-sm mb-2" >
+          class="block h-10 flex items-center text-white pl-3 hover:pl-4 rounded-sm mb-2 justify-between" >
         {{nav.title}}
+        <div class="w-6 h-6 rounded-full bg-white text-black flex items-center justify-center text-3"
+             v-if="nav.title === 'Chats' && newChats>0"
+        >
+          <span v-if="newChats<100">{{ newChats }}</span>
+          <span v-else>99+</span>
+        </div>
       </router-link>
-<!--      <router-link to="/blogs"-->
-<!--          class="block h-10 flex items-center text-white pl-3 hover:pl-4 rounded-sm mb-2" >-->
-<!--        Blogs-->
-<!--      </router-link>-->
-<!--      <router-link to="/chats"-->
-<!--          class="block h-10 flex items-center text-white pl-3 hover:pl-4 rounded-sm mb-2" >-->
-<!--        Chats-->
-<!--&lt;!&ndash;        <span class="ml-2 h-5 w-5 rounded-full flex items-center justify-center bg-primary text-white" v-if="$store.state.newChats>0">{{$store.state.newChats}}</span>&ndash;&gt;-->
-<!--      </router-link>-->
-<!--      <router-link to="/client-messages"-->
-<!--          class="block h-10 flex items-center text-white pl-3 hover:pl-4 rounded-sm mb-2" >-->
-<!--        Messages-->
-<!--      </router-link>-->
-<!--      <router-link to="/settings"-->
-<!--          class="block h-10 flex items-center text-white pl-3 hover:pl-4 rounded-sm mb-2" >-->
-<!--        Settings-->
-<!--      </router-link>-->
+
    </div>
   </div>
   <div class="lg:hidden">
@@ -74,7 +64,6 @@ export default {
       },
       currentTab:'Blogs',
       user:'',
-      newChats:this.$store.getters.GetNewChats
     }
   },
   methods:{
@@ -88,6 +77,12 @@ export default {
 
   },
   computed: mapState({
+    newChats: state => state.chats.newChats.length,
+    // NewChats(state) {
+    //   console.log(state.chats)
+    //   let newChats = state.chats.newChats
+    //   return state.chats.newChats
+    // },
     Time(state){
       return dateFormatter(state.time,'long-slash')
     },

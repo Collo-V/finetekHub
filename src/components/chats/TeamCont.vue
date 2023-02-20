@@ -25,7 +25,7 @@
                 <div className="w-full -mt-1 flex items-center justify-between pr-2">
                   <span v-if="typingStatus[channel.username]" class="text-primary">Typing...</span>
                   <span v-else>
-                    <span className="whitespace-nowrap max-w-250px lg:max-w-180px pr-2 text-ellipsis overflow-hidden inline-block" v-if="lastChats[channel.id]">
+                    <span className="whitespace-nowrap max-w-250px lg:max-w-100px pr-2 text-ellipsis overflow-hidden inline-block" v-if="lastChats[channel.id]">
                       <span v-if="lastChats[channel.id].sender === this.user.username">
                         You :
                       </span>
@@ -40,9 +40,14 @@
                       </span>
                         {{lastChats[channel.id].message}}
                       </span>
-                    </span>
+                  </span>
+                  <div class="w-5 h-5 rounded-full bg-primary-purple text-white flex items-center justify-center text-10px"
+                       v-if="newChats[channel.id]"
+                  >
+                    <span v-if="newChats[channel.id]<100">{{ newChats[channel.id] }}</span>
+                    <span v-else>99+</span>
+                  </div>
                 </div>
-
               </div>
             </div>
           </div>
@@ -61,7 +66,7 @@
       <div class="mt-2">
         <div v-for="member in colleagues" @click="$emit('SelectChat',member.username)">
           <div v-if="member.email"  className="h-18 flex border-b-1px cursor-pointer">
-            <div className="h-full min-w-12 flex items-center relative">
+            <div className="h-full min-w-10 flex items-center relative">
               <div className="h-4 w-4 rounded-full absolute bottom-0 right-0 bg-primary mb-2 border-2px border-white"
                    v-if=" time- status[member.username] < 5000 "
               >
@@ -69,12 +74,12 @@
               <div className="h-4 w-4 rounded-full absolute bottom-0 right-0 bg-slate-300 mb-2 border-2px border-white"
                    v-else
               ></div>
-              <img :src="member.image" class="w-12 h-12 rounded-full" v-if="member.image">
+              <img :src="member.image" class="w-10 h-10 rounded-full" v-if="member.image">
               <div v-else class="w-10 h-10 rounded-full border-1px flex items-center justify-center font-bold text-6">
                 {{member.firstName[0]}}
               </div>
             </div>
-            <div  className="h-full flex justify-between w-full">
+            <div  className="h-full flex justify-between w-90%">
               <div className="ml-3 h-full flex flex-col justify-center w-full">
                 <div className="w-full mb-2 flex items-center justify-between pr-2">
                   <span className="text-16px mr-2 whitespace-nowrap font-bold">{{GetName(member.username)}}</span>
@@ -85,16 +90,22 @@
                 <div className="w-full mb-2 flex items-center justify-between pr-2">
                   <span v-if="typingStatus[member.username]" class="text-primary">Typing...</span>
                   <span v-else>
-                <span className="whitespace-nowrap  max-w-200px pr-2 text-ellipsis" v-if="lastChats[member.username]">
-                <span v-if="lastChats[member.username].images.length>0">
-                  <i class="fas fa-camera"></i>
-                </span>
-                  <span v-if="lastChats[member.username].files.length>0">
-                  <i class="fas fa-file"></i>
-                </span>
-                {{lastChats[member.username].message}}
-              </span>
-              </span>
+                    <span className="inline-block whitespace-nowrap  max-w-200px lg:w-120px pr-2 text-ellipsis" v-if="lastChats[member.username]">
+                      <span v-if="lastChats[member.username].images.length>0">
+                        <i class="fas fa-camera"></i>
+                      </span>
+                      <span v-if="lastChats[member.username].files.length>0">
+                        <i class="fas fa-file"></i>
+                      </span>
+                      {{lastChats[member.username].message}}
+                   </span>
+                  </span>
+                  <div class="w-5 h-5 rounded-full bg-primary-purple text-white flex items-center justify-center text-10px"
+                       v-if="newChats[member.username]"
+                  >
+                    <span v-if="newChats[member.username]<100">{{ newChats[member.username] }}</span>
+                    <span v-else>99+</span>
+                  </div>
                 </div>
 
               </div>
@@ -175,7 +186,29 @@ export default {
         mylastChats[channel.id] = Object.values(channelChats)[Object.keys(channelChats).length-1]
       })
       return mylastChats
-    }
+    },
+    newChats:({chats:{newChats,chats}}) => {
+      let tempNew = {}
+      newChats.forEach(id=>{
+        let chat = chats[id]
+        if(chat.isChannelChat){
+          if(tempNew[chat.recipient]){
+            tempNew[chat.recipient]+=1
+          }else{
+            tempNew[chat.recipient] = 1
+          }
+        }else{
+          if(tempNew[chat.sender]){
+            tempNew[chat.sender]+=1
+          }else{
+            tempNew[chat.sender] = 1
+          }
+        }
+      })
+      return tempNew
+    },
+
+
   })
 }
 </script>

@@ -3,7 +3,13 @@
     <TeamCont @SelectChat="(chat)=>SelectChat(chat)"/>
     <div class="h-full w-full" v-if="selectedId !== undefined">
       <div class="block h-full w-full">
-        <MainChat :selected-recipient="selectedRecipient" :selected-id="selectedId" @remove-selected="RemoveSelected()"/>
+        <MainChat
+            :selected-id="selectedId"
+            :private-reply="privateReply"
+            @set-selected="(selected)=>SetSelected(selected)"
+            @reply-privately="(chat)=>ReplyPrivately(chat)"
+            @remove-private-reply="privateReply = undefined"
+        />
       </div>
 <!--      <div class="lg:hidden w-full h-full">-->
 <!--        <MobChat/>-->
@@ -33,10 +39,10 @@ export default {
   },
   data(){
     return{
-      selectedRecipient:undefined ,
       message:'',
       files:[],
-      selectedId:undefined
+      selectedId:undefined,
+      privateReply:undefined
     }
   },
   computed: mapState({
@@ -49,9 +55,15 @@ export default {
         document.getElementById('team-cont').classList.add('w-0')
       }
     },
-    RemoveSelected(){
-      this.selectedRecipient = undefined
-      document.getElementById('team-cont').classList.remove('w-0')
+    SetSelected(selected){
+      this.selectedId = selected
+      if(!selected){
+        document.getElementById('team-cont').classList.remove('w-0')
+      }
+    },
+    ReplyPrivately(chat){
+      this.SelectChat(chat.sender)
+      this.privateReply = chat.id
     }
 
   }

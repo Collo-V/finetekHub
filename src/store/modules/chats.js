@@ -3,11 +3,12 @@ import {doc, getDoc, onSnapshot, query, where, orderBy, updateDoc, getDocs} from
 import {dbChats, db, realDb} from "@/firebase";
 import {onValue, ref} from "firebase/database";
 import {createCommentVNode} from "vue";
-import {changeKey, insertKey} from "@/commons/objects";
+import {changeKey, insertKey, removeFromArray} from "@/commons/objects";
 import {sortData} from '@/commons/objects-arrays'
 export default {
     state:{
         chats:{},
+        newChats:[],
         status:{},
         typingStatus:{}
 
@@ -28,6 +29,17 @@ export default {
         },
         WriteStatus(state,status){
             state.status = status
+        },
+        WriteNewChats(state, {chatId, isNew}){
+            if(isNew)console.log(chatId,isNew)
+            let newChats = state.newChats
+            if(isNew && !newChats.includes(chatId)){
+                newChats.push(chatId)
+            }
+            else if(!isNew && newChats.includes(chatId)){
+                newChats = removeFromArray(newChats,chatId)
+            }
+            state.newChats = newChats
         },
         WriteTypingStatus(state,status){
             state.typingStatus = status
@@ -66,6 +78,11 @@ export default {
                 for (let i = 0; i < snaps.docs.length; i++) {
                     let d = snaps.docs[i]
                     let data = d.data()
+                    if(!data.isRead){
+                        context.commit('WriteNewChats',{chatId:d.id,isNew:true})
+                    }else {
+                        context.commit('WriteNewChats',{chatId:d.id})
+                    }
                     tmpChats[d.id] = {...data,id:d.id,time:data.time.seconds*1000}
                 }
                 context.commit('WriteChats',tmpChats)
@@ -74,6 +91,7 @@ export default {
             })
         },
         async GetChannelChats(context,channels){
+            let username = context.rootState.user.username
             let channelIds = Object.keys(channels)
             let tmpChats = {}
             for (let i = 0; i < channelIds.length; i++) {
@@ -86,6 +104,11 @@ export default {
                     for (let i = 0; i < snaps.docs.length; i++) {
                         let d = snaps.docs[i]
                         let data = d.data()
+                        if(data.sender !== username && !data.isRead.includes(username)){
+                            context.commit('WriteNewChats',{chatId:d.id,isNew:true})
+                        }else if(data.sender !== username && data.isRead.includes(username)) {
+                            context.commit('WriteNewChats',{chatId:d.id})
+                        }
                         tmpChats[d.id] = {...data,id:d.id,time:data.time.seconds*1000}
                     }
                     let c = {...sortData(tmpChats,'time','id')}

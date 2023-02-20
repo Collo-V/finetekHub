@@ -76,7 +76,7 @@ export default {
       }
       try {
         let user = await signInWithEmailAndPassword(getAuth(), email, password)
-        await this.$router.replace({name: 'home'})
+        this.$router.replace({name: 'chats'})
       }
       catch (error) {
         if(error.code=='auth/wrong-password' || error.code == 'auth/user-not-found'

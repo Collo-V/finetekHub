@@ -667,6 +667,10 @@
   min-width: 16px;
 }
 
+.min-w-10{
+  min-width: 40px;
+}
+
 .max-w-300px{
   max-width: 300px;
 }
@@ -1266,6 +1270,10 @@
   font-size: 8px;
 }
 
+.text-10px{
+  font-size: 10px;
+}
+
 .font-bold{
   font-weight: 700;
 }
@@ -1791,6 +1799,18 @@ img, svg, video, canvas, audio, iframe, embed, object {
     width: 250px;
   }
 
+  .lg\:w-150px{
+    width: 150px;
+  }
+
+  .lg\:w-120px{
+    width: 120px;
+  }
+
+  .lg\:w-100px{
+    width: 100px;
+  }
+
   .lg\:min-w-45\%{
     min-width: 45%;
   }
@@ -1815,8 +1835,21 @@ img, svg, video, canvas, audio, iframe, embed, object {
     max-width: 180px;
   }
 
+  .lg\:max-w-150px{
+    max-width: 150px;
+  }
+
+  .lg\:max-w-100px{
+    max-width: 100px;
+  }
+
   .lg\:flex-row{
     flex-direction: row;
+  }
+
+  .lg\:border-white{
+    --tw-border-opacity: 1;
+    border-color: rgb(255 255 255 / var(--tw-border-opacity));
   }
 
   .lg\:bg-slate-300{

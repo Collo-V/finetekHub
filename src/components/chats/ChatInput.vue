@@ -15,10 +15,13 @@
       <div class="w-full h-16 rounded-sm flex overflow-hidden bg-slate-300 justify-between">
         <div class="w-2 h-full bg-primary mr-2"></div>
         <div class="w-full h-full flex justify-center flex-col">
-          <div class="mb-2 text-primary-red" v-if="replyFor.sender==recipient.username">
-            {{GetName(replyFor.sender)}}
+          <div class="flex mb-2 text-primary-red gap-2">
+            <span class="" v-if="replyFor.sender==recipient.username">
+              {{GetName(replyFor.sender)}}
+            </span>
+            <span class="mb-2 text-primary-red" v-else>You</span>
+            <span v-if="replyFor.isChannelChat && recipient.username"> At {{channels[replyFor.recipient].name}}</span>
           </div>
-          <div class="mb-2 text-primary-red" v-else>You</div>
           <div class="flex items-center gap-2 max-h-50px overflow-hidden">
             <i class="fa-solid fa-camera" v-if="replyFor.images.length>0"/>
             {{replyFor.message}}
@@ -91,7 +94,7 @@ import {getDatabase, set, ref as realDbRef} from "firebase/database";
 
 export default {
   name: "ChatInput",
-  props:['replyFor','recipientId','uploadTask'],
+  props:['replyId','recipientId','uploadTask'],
   data(){
     return {
       sending:false,
@@ -380,12 +383,19 @@ export default {
       if(value!==''){
         this.SetTyping()
       }
+    },
+    replyFor(val){
+      console.log(val)
     }
   },
   computed: mapState({
     user:state => state.user,
     time:state => state.time,
     team:state => state.team,
+    channels:state => state.channels,
+    replyFor({chats:{chats}}) {
+      return chats[this.replyId]
+    },
     recipient(state){
       let colleague = state.team[this.recipientId]
       return colleague?colleague:state.channels[this.recipientId]

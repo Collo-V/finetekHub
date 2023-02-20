@@ -9,13 +9,17 @@
       <div class="w-full min-h-16 bg-inherit bottom-full flex items-center cursor-pointer"
            @click="$emit('GoToChat',replyFor.id)"
       >
-        <div class="reply-for-cont w-full h-16 rounded-sm flex bg-slate-300 overflow-hidden justify-between">
-          <div class="w-2 h-full bg-primary mr-2"></div>
+        <div class="reply-for-cont w-full h-16 rounded-sm flex bg-slate-300 overflow-hidden justify-between pr-2">
+          <div class="w-2 h-full bg-primary mr-2" v-if="chat.sender === user.username"></div>
+          <div class="w-2 h-full bg-primary-purple mr-2" v-else></div>
           <div class="w-full h-full flex justify-center flex-col">
-            <div class="mb-2 text-primary-red" v-if="replyFor.sender !==user.username">
+            <div class="flex text-primary-red gap-2">
+            <span class="" v-if="replyFor.sender!==user.username">
               {{GetName(replyFor.sender)}}
+            </span>
+              <span class="mb-2 text-primary-red" v-else>You</span>
+              <span v-if="replyFor.isChannelChat && team[chat.recipient]"> At {{channels[replyFor.recipient].name}}</span>
             </div>
-            <div class="mb-2 text-primary-red" v-else>You</div>
             <div class="flex items-center gap-2 max-h-50px overflow-hidden text-black">
               <i class="fa-solid fa-camera" v-if="replyFor.images.length>0"/>
               {{replyFor.message}}
@@ -91,6 +95,14 @@
                                <i class="fa-solid fa-reply"></i> Reply
                              </span>
         </button>
+        <button class="w-full focus:outline-none hover:bg-slate-100 h-8"
+                @click.prevent="$emit('ReplyPrivately')"
+                v-if="chat.isChannelChat && chat.sender !== this.user.channel"
+        >
+                             <span class="w-full pl-8 block text-left">
+                               <i class="fa-solid fa-reply"></i> Reply Privately
+                             </span>
+        </button>
         <button class="w-full focus:outline-none hover:bg-slate-100 h-8" @click='DeleteMsg(chat.id)'>
                            <span class="w-full pl-8 block text-left">
                             <i class="fa-solid fa-trash"></i> Delete
@@ -122,7 +134,7 @@ export default {
   name: "ChatBubble",
   components: {FilePreviews},
   props:['chat'],
-  emits:['SetReplyFor','GoToChat'],
+  emits:['SetReplyFor','GoToChat','ReplyPrivately'],
   data(){
     return{
       selectedFiles:undefined,
@@ -140,7 +152,7 @@ export default {
     },
     GetModifyClass(){
       let modifyClass =  "dropdown modify-chat absolute right-0" +
-          " w-150px h-18 py-1 bg-white shadow-md mt-1px top-full z-1"
+          " w-200px h-18 py-1 bg-white shadow-md mt-1px top-full z-1"
       modifyClass += this.chat.sender !== this.user.username?
           ' modify-chat-left text-black':
           ''
@@ -199,6 +211,7 @@ export default {
     user:state => state.user,
     team:state => state.team,
     chats:state => state.chats.chats,
+    channels:state => state.channels,
     replyFor(state){
       if(this.chat.replyFor !== null){
         return this.chats[this.chat.replyFor]
