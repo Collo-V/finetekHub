@@ -56,8 +56,9 @@ export default {
       }
     },
     SetSelected(selected){
+      console.log(selected)
       this.selectedId = selected
-      if(!selected){
+      if(selected === undefined){
         document.getElementById('team-cont').classList.remove('w-0')
       }
     },

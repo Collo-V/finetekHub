@@ -21,9 +21,9 @@
               </div>
             </div>
           </div>
-          <ChannelHeader v-else :channel-id="channel.id"/>
+          <ChannelHeader v-else :channel-id="channel.id"  @set-selected="$emit('SetSelected',undefined)"/>
         </div>
-        <div class="chats-cont bg-primary h-full overflow-auto custom-scroll px-3 relative"
+        <div class="chats-cont bg-primary h-full overflow-auto custom-scroll px-3 relative pb-100px"
              @scroll="SeeScroll($event)"
         >
           <div class="block w-full h-10 bg-orange-100 flex items-center justify-center shadow mb-5 mt-10 xl:mt-16 2xl:mt-24">
@@ -144,6 +144,8 @@ import {db} from "@/firebase";
 import ChannelHeader from "@/components/channels/ChannelHeader";
 import {sortData} from "@/commons/objects-arrays";
 import ChatBubble from "@/components/chats/ChatBubble";
+import TextArea from "@/components/chats/TextArea";
+import Membercard from "@/components/MemberCard";
 
 export default {
   name: "MainChat",
@@ -165,6 +167,8 @@ export default {
 
   },
   components:{
+    Membercard,
+    TextArea,
     ChatBubble,
     ChannelHeader,
     ChatInput,

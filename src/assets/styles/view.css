@@ -11,3 +11,10 @@
     all:initial;
     @apply text-primary hover:underline cursor-pointer;
 }
+
+.chat-bubble .ql-editor{
+    @apply p-0;
+}
+.chat-bubble .ql-container.ql-snow{
+    @apply border-0;
+}

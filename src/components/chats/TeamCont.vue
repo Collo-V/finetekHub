@@ -1,7 +1,7 @@
 <template>
   <AddChannels v-if="showAddChannel" @hide-modal="showAddChannel = false"/>
   <div class="absolute lg:relative top-0 bottom-0 z-3
-  team-cont w-full lg:min-w-250px lg:w-250px shadow-md bg-white overflow-hidden" id="team-cont">
+  team-cont w-full lg:min-w-250px lg:w-250px shadow-md bg-white overflow-x-hidden overflow-y-auto custom-scroll" id="team-cont">
     <div class="absolute bottom-full h-16 bg-white w-full"></div>
     <div class="channels mt-2 border-b-2px border-primary-purple">
       <h1 class="text-center text-primary-purple font-bold">Channels</h1>
@@ -143,7 +143,9 @@ export default {
         let hour = time.getHours()
         let mins = time.getMinutes()
         if(mins<10) mins = '0'+mins
-        return  hour<12? `${hour}:${mins} a.m`:`${hour-12}:${mins} p.m`
+        let pref = hour<12?'a.m':'p.m'
+        hour = hour === 0?12:hour <=12?hour:hour-12
+        return `${hour}:${mins} ${pref}`
       }
       if(todayTime- date < 86400000*2){ //The length of a day
         return 'Yesterday'

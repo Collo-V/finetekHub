@@ -10,6 +10,6 @@ import {VueCropper} from "vue-cropper";
 
 //FROALA
 
-createApp(App).use(router).use(store).use(VueCropper)
+createApp(App).use(router).use(store).use(VueCropper).use(window.quillEditor)
     .mount('#app')
 

@@ -22,7 +22,7 @@
             </div>
             <div class="flex items-center gap-2 max-h-50px overflow-hidden text-black">
               <i class="fa-solid fa-camera" v-if="replyFor.images.length>0"/>
-              {{replyFor.message}}
+              message<!--{{replyFor.message}}-->
             </div>
           </div>
           <div class="h-full flex" v-if="replyFor.images.length>0">
@@ -52,7 +52,7 @@
             <i class="fa-solid fa-cloud-arrow-down"></i>
           </button>
         </div>
-        <img :src="image.url" alt="" class="max-w-300px h-auto">
+        <img :src="image.url" alt="" class="max-w-300px h-auto max-h-250px" >
       </div>
     </div>
     <div v-if="chat.files.length>0" class="relative dropdown-cont cursor-zoom-in "
@@ -82,7 +82,17 @@
         </div>
       </div>
     </div>
-    <span v-html="CheckLink(chat.message)"></span>
+    <div>
+      <span v-html="CheckLink(chat.message)" v-if="typeof (chat.message) === 'string'"></span>
+      <QuillEditor
+          v-else
+          ref="chatMessage"
+           class="chat-quill"
+          :options="quillOptions"
+          :content="message"
+      />
+
+    </div>
     <div class="dropdown absolute right-0 top-0 mr-1 dropdown-cont">
       <button class="focus:outline-none" @mouseover="DisplayModify('modify-chat'+chat.id)">
         <i class="fa-solid fa-angle-down"></i>
@@ -128,17 +138,27 @@ import {checkLink} from "@/commons/chatting";
 import {confirmAction} from "@/commons/swal";
 import {doc, updateDoc} from "firebase/firestore";
 import {db} from "@/firebase";
+import {QuillEditor,Delta} from "@vueup/vue-quill";
 import FilePreviews from "@/components/chats/FilePreviews";
 
 export default {
   name: "ChatBubble",
-  components: {FilePreviews},
+  components: {
+    FilePreviews ,
+    QuillEditor
+  },
   props:['chat'],
   emits:['SetReplyFor','GoToChat','ReplyPrivately'],
   data(){
     return{
       selectedFiles:undefined,
-      selectedIsImage:true
+      selectedIsImage:true,
+      quillOptions:{
+        modules:{
+          toolbar:false,
+        },
+        readOnly:true
+      }
     }
   },
   methods:{
@@ -212,6 +232,11 @@ export default {
     team:state => state.team,
     chats:state => state.chats.chats,
     channels:state => state.channels,
+    message(){
+      let delta = new Delta(this.chat.message)
+      // this.$refs.chatMessage.getQuill().setContents(delta)
+      return delta
+    },
     replyFor(state){
       if(this.chat.replyFor !== null){
         return this.chats[this.chat.replyFor]
@@ -220,11 +245,14 @@ export default {
       }
     }
     // chat:ca
-  })
+  }),
+  mounted() {
+    this.message
+  }
 }
 </script>
 
-<style scoped>
+<style>
 /*.chat-bubble-right .reply-for-cont{*/
 /*  @apply bg-slate-300*/
 /*}*/
@@ -245,6 +273,12 @@ export default {
   border-top: 5px solid transparent;
   border-left: 10px solid #fff;
   border-bottom: 5px solid transparent;
+}
+.chat-quill .ql-container.quill-snow{
+  @apply border-0 h-fit;
+}
+.chat-quill .quill-editor{
+  @apply p-0
 }
 
 

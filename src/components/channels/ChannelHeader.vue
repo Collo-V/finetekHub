@@ -10,7 +10,7 @@
   />
     <div class="header h-16 bg-white lg:bg-slate-300 p-2 flex shadow-md lg:shadow-0 justify-between items-center" >
     <div class="flex">
-      <button class="focus:outline-none text-18px mx-5 lg:hidden" @click="$emit('RemoveSelected')">
+      <button class="focus:outline-none text-18px mx-5 lg:hidden" @click="$emit('SetSelected')">
         <i class="fas fa-long-arrow-left"></i>
       </button>
       <div class="flex">
@@ -79,6 +79,7 @@ import ChannelDetails from "@/components/channels/ChannelDetails";
 export default {
   name: "ChannelHeader",
   props:['channelId'],
+  emits:['SetSelected'],
   components:{
     ChannelDetails,
     AddChannelMembers,

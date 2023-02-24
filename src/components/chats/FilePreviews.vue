@@ -11,18 +11,31 @@
       <div class="mx-auto w-full h-full relative z-1 p-4" ref="contRef" id="prev-cont">
         <div v-for="(file,index) in files" class="relative w-full h-full flex items-center justify-between flex-col">
           <div class="h-full w-full flex items-center justify-center overflow-hidden">
-            <img :src="selectedFile.url" alt="" v-if="isImage" :class="imageClass"
-                 :style="zoomStyle"
-            >
+            <div class="img-cont full h-full flex justify-center" v-if="isImage" :style="rotateStyle">
+              <img :src="selectedFile.url" alt="" :class="imageClass"
+                   :style="zoomStyle"
+              >
+            </div>
             <div v-else class="w-full h-full">
               <iframe :src="selectedFile.url" class="w-full h-full" :style="zoomStyle"/>
             </div>
           </div>
           <div class="mt-4 flex justify-between w-full">
             <div class="scaling flex gap-4 text-white">
-              <button class="w-8 h-8 rounded-sm border-1px">
-                <i class="fas fa-refresh"></i>
-              </button>
+              <span>
+                <Tooltip
+                    v-if="isImage"
+                    placement="top"
+                    overlayClassName=""
+                >
+                <template #title>
+                  Rotate R
+                </template>
+                <button class="w-8 h-8 border-1px rounded-sm rotate-90"  @click="Rotate">
+                  <i class="fas fa-refresh"></i>
+                </button>
+              </Tooltip>
+              </span>
               <div class="border-1px w-150px rounded-sm flex gap-2">
 
                 <Tooltip
@@ -108,7 +121,8 @@ export default {
   data(){
     return{
       fileIndex:0,
-      zoom:50,
+      rotate:0,
+      zoom:100,
       minZoom:30,
       maxZoom:100,
     }
@@ -131,6 +145,10 @@ export default {
       }
       this.zoom +=n
     },
+    Rotate(){
+      this.rotate+=90
+      if(this.rotate === 360)this.rotate = 0
+    }
   },
   computed:{
     imageClass(){
@@ -142,6 +160,7 @@ export default {
       image.src = this.files[this.fileIndex].url
       // let ratio = image.naturalWidth/image.naturalHeight
       this.maxZoom = Math.round((contWidth/image.naturalWidth)*100)
+      if(this.maxZoom<100)this.maxZoom = 100
       if(this.zoom>this.maxZoom)this.zoom = this.maxZoom
       // if(image.naturalHeight > contHeight){
       //   renderHeight = (80/100)*contHeight
@@ -155,6 +174,11 @@ export default {
     zoomStyle(){
       return{
         transform: `scale(${this.zoom/100})`
+      }
+    },
+    rotateStyle(){
+      return{
+        rotate: `${this.rotate}deg`
       }
     },
     selectedFile(){
