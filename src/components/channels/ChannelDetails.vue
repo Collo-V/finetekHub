@@ -51,7 +51,7 @@ export default {
   props:['channelId','tempView'],
   data(){
     return{
-      selectedView:this.view?this.view:'members',
+      selectedView:'about',
       views:['about','members','settings'],
     }
   },
@@ -81,7 +81,13 @@ export default {
       let usernames = this.channel.members.map(member => member.username)
       return usernames.map(username => state.team[username])
     },
-  })
+  }),
+  mounted() {
+    if(this.tempView){
+      this.selectedView = this.tempView
+    }
+  }
+
 }
 </script>
 

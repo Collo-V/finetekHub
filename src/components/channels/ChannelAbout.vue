@@ -1,9 +1,19 @@
 <template>
   <div class="px-4">
-    <div class="p-4 border-1px rounded-md cursor-pointer hover:bg-slate-200" @click="showEditName = true">
+    <div class="p-4 border-1px rounded-md cursor-pointer hover:bg-slate-200" @click="showEditName = true"
+         v-if="channel.createdBy === user.username"
+    >
       <button class="text-primary hover:underline float-right">
         Edit
       </button>
+      <h1 class="font-bold">Channel name</h1>
+      <div class="flex gap-2">
+        <i class="fas fa-lock" v-if="channel.isPrivate"></i>
+        <i class="fas fa-hashtag" v-else></i>
+        {{channel.name}}
+      </div>
+    </div>
+    <div class="p-4 border-1px rounded-md cursor-pointer hover:bg-slate-200" v-else>
       <h1 class="font-bold">Channel name</h1>
       <div class="flex gap-2">
         <i class="fas fa-lock" v-if="channel.isPrivate"></i>

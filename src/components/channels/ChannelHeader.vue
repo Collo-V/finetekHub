@@ -6,27 +6,44 @@
       @HideModal="showChannelDetails = false"
       v-if="showChannelDetails"
       :channel-id="channel.id"
-      :view="detailsView"
+      :temp-view="detailsView"
   />
     <div class="header h-16 bg-white lg:bg-slate-300 p-2 flex shadow-md lg:shadow-0 justify-between items-center" >
     <div class="flex">
       <button class="focus:outline-none text-18px mx-5 lg:hidden" @click="$emit('SetSelected')">
         <i class="fas fa-long-arrow-left"></i>
       </button>
-      <div class="flex">
-        <img :src="channel.image" class="w-10 h-10 rounded-full" v-if="channel.image">
-        <div  v-else class="w-42px h-42px rounded-full bg-slate-300 lg:bg-white flex items-center justify-center font-bold p-1px text-6">
-          <div class="w-10 h-10 rounded-full flex bg-white lg:bg-slate-300 items-center justify-center font-bold text-6">
-            {{channel.name[0]}}
+
+      <Tooltip
+          placement="bottom"
+          overlayClassName="mr-2"
+      >
+        <template #title>
+          <div class="w-fit max-w-200px">
+            <div class="font-semibold">
+              View all details of {{channel.name}}
+            </div>
+<!--            <div>-->
+<!--              Includes {{memberNames}}-->
+
+<!--            </div>-->
+          </div>
+        </template>
+        <div class="flex cursor-pointer" @click="[detailsView = 'about',showChannelDetails=true]">
+          <img :src="channel.image" class="w-10 h-10 rounded-full" v-if="channel.image">
+          <div  v-else class="w-42px h-42px rounded-full bg-slate-300 lg:bg-white flex items-center justify-center font-bold p-1px text-6">
+            <div class="w-10 h-10 rounded-full flex bg-white lg:bg-slate-300 items-center justify-center font-bold text-6">
+              {{channel.name[0]}}
+            </div>
+          </div>
+          <div class="flex flex-col ml-3">
+            <div class="font-bold text-5">{{channel.name}}</div>
+            <div >
+              <span class="text-primary">Typing...</span>
+            </div>
           </div>
         </div>
-        <div class="flex flex-col ml-3">
-          <div class="font-bold text-5">{{channel.name}}</div>
-          <div >
-            <span class="text-primary">Typing...</span>
-          </div>
-        </div>
-      </div>
+      </Tooltip>
     </div>
     <div class="h-10 flex items-center border-1px min-w-4 border-white items-center">
       <Tooltip

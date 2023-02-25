@@ -25,7 +25,9 @@
                 <div className="w-full -mt-1 flex items-center justify-between pr-2">
                   <span v-if="typingStatus[channel.username]" class="text-primary">Typing...</span>
                   <span v-else>
-                    <span className="whitespace-nowrap max-w-250px lg:max-w-100px pr-2 text-ellipsis overflow-hidden inline-block" v-if="lastChats[channel.id]">
+                    <span className="whitespace-nowrap max-w-250px lg:max-w-100px
+                     pr-2 text-ellipsis overflow-hidden inline-flex items-center"
+                          v-if="lastChats[channel.id]">
                       <span v-if="lastChats[channel.id].sender === this.user.username">
                         You :
                       </span>
@@ -38,7 +40,13 @@
                       <span v-if="lastChats[channel.id].files.length>0">
                         <i class="fas fa-file"></i>
                       </span>
-                        {{lastChats[channel.id].message}}
+                        <QuillEditor
+                            v-else
+                            ref="chatMessage"
+                            class="chat-quill"
+                            :options="quillOptions"
+                            :content="GetMessage(lastChats[channel.id].message)"
+                        />
                       </span>
                   </span>
                   <div class="w-5 h-5 rounded-full bg-primary-purple text-white flex items-center justify-center text-10px"
@@ -90,14 +98,22 @@
                 <div className="w-full mb-2 flex items-center justify-between pr-2">
                   <span v-if="typingStatus[member.username]" class="text-primary">Typing...</span>
                   <span v-else>
-                    <span className="inline-block whitespace-nowrap  max-w-200px lg:w-120px pr-2 text-ellipsis" v-if="lastChats[member.username]">
+                    <span className="inline-flex items-center whitespace-nowrap  max-w-200px lg:w-120px pr-2 text-ellipsis"
+                          v-if="lastChats[member.username]">
                       <span v-if="lastChats[member.username].images.length>0">
                         <i class="fas fa-camera"></i>
                       </span>
                       <span v-if="lastChats[member.username].files.length>0">
                         <i class="fas fa-file"></i>
                       </span>
-                      {{lastChats[member.username].message}}
+                       <QuillEditor
+                           v-else
+                           ref="chatMessage"
+                           class="chat-quill"
+                           :options="quillOptions"
+                           :content="GetMessage(lastChats[member.username].message)"
+                       />
+<!--                      {{// lastChats[member.username].message}}-->
                    </span>
                   </span>
                   <div class="w-5 h-5 rounded-full bg-primary-purple text-white flex items-center justify-center text-10px"
@@ -124,17 +140,32 @@ import {mapState} from "vuex";
 import {dateFormatter} from "@/commons";
 import AddChannels from "@/components/channels/AddChannels";
 import {sortData} from "@/commons/objects-arrays";
+import {Delta,QuillEditor} from "@vueup/vue-quill";
 
 export default {
   name: "TeamCont",
-  components: {AddChannels},
+  components: {
+    AddChannels,
+    QuillEditor
+  },
   emits:['SelectChat'],
   data(){
     return{
-      showAddChannel:false
+      showAddChannel:false,
+      quillOptions:{
+        modules:{
+          toolbar:false,
+        },
+        readOnly:true
+      }
     }
   },
   methods:{
+    GetMessage(message){
+      if(typeof (message) === 'string') return  message
+      let delta = new Delta(message)
+      return delta
+    },
     GetDate(date){
       let today = new Date()
       let todayTime = (new Date(`${today.getFullYear()}-${today.getMonth()+1}-${today.getDate()}`)).getTime()
@@ -187,6 +218,7 @@ export default {
         channelChats = sortData(channelChats,'time')
         mylastChats[channel.id] = Object.values(channelChats)[Object.keys(channelChats).length-1]
       })
+
       return mylastChats
     },
     newChats:({chats:{newChats,chats}}) => {
