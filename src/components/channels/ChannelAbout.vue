@@ -7,7 +7,7 @@
         Edit
       </button>
       <h1 class="font-bold">Channel name</h1>
-      <div class="flex gap-2">
+      <div class="flex gap-2 items-center">
         <i class="fas fa-lock" v-if="channel.isPrivate"></i>
         <i class="fas fa-hashtag" v-else></i>
         {{channel.name}}

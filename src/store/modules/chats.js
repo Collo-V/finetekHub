@@ -67,7 +67,6 @@ export default {
             )
 
             onSnapshot(senderQuery,snaps=>{
-                console.log('data changing from sender end')
                 let tmpChats = {}
                     for (let i = 0; i < snaps.docs.length; i++) {
                         let d = snaps.docs[i]
@@ -79,7 +78,6 @@ export default {
                 //    notifications
                 })
             onSnapshot(receiverQuery,snaps=>{
-                console.log('data changing from sender end')
                 let tmpChats = {}
                 for (let i = 0; i < snaps.docs.length; i++) {
                     let d = snaps.docs[i]
