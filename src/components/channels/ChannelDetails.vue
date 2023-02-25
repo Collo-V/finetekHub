@@ -26,7 +26,12 @@
           </span>
         </div>
         <div class="view-cont mt-4">
-          <ChannelMembers :channel-id="channel.id"/>
+          <ChannelMembers :channel-id="channel.id" v-if="selectedView === 'members'"/>
+          <ChannelAbout
+              v-else-if="selectedView === 'about' "
+              :channel-id="channel.id"
+              @set-selected="(id)=>$emit('SetSelected',id)"
+          />
         </div>
       </div>
 
@@ -37,12 +42,13 @@
 <script>
 import {mapState} from "vuex";
 import ChannelMembers from "@/components/channels/ChannelMembers";
+import ChannelAbout from "@/components/channels/ChannelAbout";
 
 export default {
   name: "ChannelDetails",
-  components: {ChannelMembers},
+  components: {ChannelAbout, ChannelMembers},
   emits:['HideModal'],
-  props:['channelId','view'],
+  props:['channelId','tempView'],
   data(){
     return{
       selectedView:this.view?this.view:'members',
@@ -51,15 +57,17 @@ export default {
   },
   methods:{
     CheckClickOutside(event){
-      let target = event.target
-      let isOutside = this.$refs.contRef && !this.$refs.contRef.contains(target) &&
-          target.tagName !== 'BUTTON' && target.parentNode.tagName !== 'BUTTON' &&
-          target.parentNode.parentNode.tagName !== 'BUTTON'
+      try{
+        let target = event.target
+        let isOutside = this.$refs.contRef && !this.$refs.contRef.contains(target) &&
+            target.tagName !== 'BUTTON' && target.parentNode.tagName !== 'BUTTON' &&
+            target.parentNode.parentNode.tagName !== 'BUTTON'
 
 
-      if(isOutside){
-        this.$emit('HideModal')
-      }
+        if(isOutside){
+          this.$emit('HideModal')
+        }
+      }catch {}
     },
 
   },

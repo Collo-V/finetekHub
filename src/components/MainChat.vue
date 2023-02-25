@@ -32,43 +32,48 @@
           <div v-for="div in chats" class="mt-10 chat-div" :id="'chat-div-'+div.date">
             <div class="h-0 border-b-1px flex items-center justify-center">
               <div class="w-200px h-8 bg-white rounded-pill flex items-center chat-div-display vue-shadow-md
-               justify-center top-16 top-16 lg:top-32 z-4 bg-gray-400"
+               justify-center top-16 lg:top-32 z-4 bg-gray-400"
                    :id="'chat-div-display-'+div.date"
               >
                 {{GetDate(div.date)}}
               </div>
             </div>
             <div class="mb-3 w-full focus:bg-red-500 mt-5" v-for="chat in div.chats" :id="chat.id+'-div'">
-              <div class="w-full pl-3 flex flex-col items-end"
-                   v-if="chat.sender ===user.username">
-                <ChatBubble
-                  :chat="chat"
-                  @set-reply-for="replyId = chat"
-                  @go-to-chat="(chatId)=>GoToChat(chatId)"
-                />
-                <div class="text-3 mt-1 flex">
-                  {{GetTime(chat.time)}}
-                  <div class="flex justify-end text-8px ml-1">
+              <div v-if="chat.isNotif" class="pt-4">
+                <NotificationBar :notification-id="chat.id"/>
+              </div>
+              <div v-else>
+                <div class="w-full pl-3 flex flex-col items-end"
+                     v-if="chat.sender ===user.username">
+                  <ChatBubble
+                      :chat="chat"
+                      @set-reply-for="replyId = chat"
+                      @go-to-chat="(chatId)=>GoToChat(chatId)"
+                  />
+                  <div class="text-3 mt-1 flex">
+                    {{GetTime(chat.time)}}
+                    <div class="flex justify-end text-8px ml-1">
                     <span class="text-grey relative" v-if="!chat.isRead">
                       <span><i class="fa-solid fa-check"></i></span>
                         <span class="absolute right-0 mr-1" v-if="chat.isDelivered">
                           <i class="fa-solid fa-check"></i>
                         </span>
                     </span>
-                    <span class="text-primary relative" v-else>
+                      <span class="text-primary relative" v-else>
                         <span><i class="fa-solid fa-check"></i></span>
                         <span class="absolute right-0 mr-1"><i class="fa-solid fa-check"></i></span>
                       </span>
-                  </div></div>
-              </div>
-              <div class="w-full pl-3" v-else >
-                <ChatBubble
-                    :chat="chat"
-                    @set-reply-for="replyId = chat"
-                    @go-to-chat="(chatId)=>GoToChat(chatId)"
-                    @reply-privately="ReplyPrivately(chat)"
-                />
-                <div class="text-3 mt-1">{{GetTime(chat.time)}}</div>
+                    </div></div>
+                </div>
+                <div class="w-full pl-3" v-else >
+                  <ChatBubble
+                      :chat="chat"
+                      @set-reply-for="replyId = chat"
+                      @go-to-chat="(chatId)=>GoToChat(chatId)"
+                      @reply-privately="ReplyPrivately(chat)"
+                  />
+                  <div class="text-3 mt-1">{{GetTime(chat.time)}}</div>
+                </div>
               </div>
 
             </div>
@@ -146,6 +151,7 @@ import {sortData} from "@/commons/objects-arrays";
 import ChatBubble from "@/components/chats/ChatBubble";
 import TextArea from "@/components/chats/TextArea";
 import Membercard from "@/components/MemberCard";
+import NotificationBar from "@/components/chats/NotificationBar";
 
 export default {
   name: "MainChat",
@@ -167,6 +173,7 @@ export default {
 
   },
   components:{
+    NotificationBar,
     Membercard,
     TextArea,
     ChatBubble,
@@ -186,7 +193,6 @@ export default {
         let chat  = this.$store.state.chats.chats[chatId]
         if(chat && chat.isChannelChat){
           this.$emit('SetSelected',chat.recipient)
-          console.log()
         }
       }
     },
@@ -315,8 +321,21 @@ export default {
             ...filterData(chats, ['recipient', '==', recipient.username]),
             ...filterData(chats, ['sender', '==', recipient.username])
           },['isChannelChat','!=',true])
-      }else {
+      }else if(this.channel){
         myChats = filterData(chats, ['recipient','==',this.channel.id])
+        let channelNotifs = filterData(
+            storeChats.notifications,
+            ['entity','==',this.channel.id]
+        )
+        myChats = {...myChats,...channelNotifs}
+        let my = this.channel.members.filter(member=>member.username === this.user.username)[0]
+        if(my.dateLeft){
+          if(!my.dateRejoined){
+            myChats = filterData(myChats,['time','<=',my.dateLeft])
+          }
+        }
+      }else {
+        this.$emit('SetSelected',undefined)
       }
       myChats = sortData(myChats,'time')
       // console.log(myChats)
@@ -341,7 +360,6 @@ export default {
     }
   }),
   mounted() {
-    console.log(this.replyId)
   }
 }
 </script>

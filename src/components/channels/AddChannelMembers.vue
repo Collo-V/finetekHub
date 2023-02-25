@@ -50,13 +50,13 @@
 </template>
 
 <script>
-import {doc, updateDoc} from "firebase/firestore";
+import {addDoc, doc, updateDoc} from "firebase/firestore";
 import firebase from "firebase/compat";
 import {Select} from "ant-design-vue";
 import 'ant-design-vue/dist/antd.compact.css'
 import {mapState} from "vuex";
 import {filterData} from "@/commons/objects";
-import {db} from "@/firebase";
+import {db, dbNotifs} from "@/firebase";
 import {Report} from "@/commons/swal";
 
 export default {
@@ -72,17 +72,42 @@ export default {
   methods:{
     async AddMembers(){
       let date = (new Date()).getTime()
-      let members = filterData(this.colleagues,['username','in',this.tempChannelMembers])
-      let list = Object.values(members).map(member=>({
-        username:member.username,
-        dateJoined:date,
-        addedBy:this.user.username
-      }))
+      let membersAdded = filterData(this.colleagues,['username','in',this.tempChannelMembers])
+      let list = Object.keys(membersAdded)
       try{
-        let c = await updateDoc(doc(db, 'channels',this.channelId),{
-          members:[...list,...this.channel.members],
-        })
-        Report({icon:'success',title:'Member(s) added'})
+
+        let notifiers = this.channel.members.map(member=>member.username)
+        let date =  (new Date()).getTime()
+        for (let i = 0; i < list.length; i++) {
+          let username = list[i]
+          let members = this.channel.members
+          let added = members.filter(member=>member.username === username)[0]
+          let others = members.filter(member=>member.username !== username)
+          let rejoined
+          if(added){//the guy was once a member
+            rejoined = true
+            added.dateRejoined = date
+          }else{
+              added = {
+                username,
+                dateJoined:date,
+                addedBy:this.user.username
+              }
+          }
+          let c = await updateDoc(doc(db, 'channels',this.channelId),{
+            members:[...others,added],
+          })
+          addDoc(dbNotifs,{
+            actor:rejoined?username:this.user.username,
+            entity:this.channelId,
+            entityType:rejoined?'Rejoined':'Added',
+            notifiers:[...notifiers,username],
+            time:date,
+            subject:rejoined?this.user.username:username,
+            isRead:[this.user.username]
+          })
+        }
+       Report({icon:'success',title:'Member(s) added'})
         this.$emit('HideModal')
       }catch (e){
         Report({icon:'error',title:'Error adding member'})
@@ -110,7 +135,9 @@ export default {
     addOptions(state){
       if(!this.channel)return []
       let team = filterData(this.colleagues,['username','not-in',this.tempChannelMembers])
-      let memberIds = this.channel.members.map(member=>member.username)
+      let memberIds = this.channel.members.filter(member=>{
+        return !member.dateLeft || (member.dateRejoined && member.dateRejoined > member.dateLeft)
+      }).map(member=>member.username)
       team = filterData(team,['username','not-in',memberIds])
       return Object.values(team).map((member) => ({
         value:member.username,

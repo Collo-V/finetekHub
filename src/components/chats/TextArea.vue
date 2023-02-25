@@ -261,6 +261,7 @@ export default {
         //   node.classList.remove('bg-primary','px-1','mentions');
         //   return node
         // }
+        console.log(node)
         node.classList.add('bg-primary','px-1','mentions','cursor-pointer','dropdown-cont');
         return node
 
@@ -285,7 +286,6 @@ export default {
       // all.input+=event.detail.emoji.unicode
       // this.InputFocus()
     })
-    console.log('emoji options',picker)
     document.getElementById('emoji-picker-cont').appendChild(picker)
   }
 }

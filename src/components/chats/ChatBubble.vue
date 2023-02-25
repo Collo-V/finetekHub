@@ -213,15 +213,17 @@ export default {
       return checkLink(message)
     },
     async DeleteMsg(deleteId){
+      console.log(deleteId)
       if(!await confirmAction({
         title:'Delete message?',
         btnText:'Delete',
         text:''
       })){return}
       try{
-        await updateDoc((doc(db, 'chats', deleteId)), {
+        let c = await updateDoc((doc(db, 'chats', deleteId)), {
           isDeleted: true
         })
+        console.log(c)
       }catch (e) {
         console.log(e)
       }

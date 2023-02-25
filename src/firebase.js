@@ -20,6 +20,7 @@ export const team =  collection(db,'team')
 export const dbChats =  collection(db,'chats')
 export const blogs =  collection(db,'blogs')
 export const dbChannels =  collection(db,'channels')
+export const dbNotifs =  collection(db,'notifications')
 export const storage = getStorage(firebaseApp)
 export const realDb = getDatabase()
 

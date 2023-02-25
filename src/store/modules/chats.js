@@ -1,6 +1,6 @@
 import {RemoveFromArray} from "@/commons";
 import {doc, getDoc, onSnapshot, query, where, orderBy, updateDoc, getDocs} from "firebase/firestore";
-import {dbChats, db, realDb} from "@/firebase";
+import {dbChats, db, realDb, dbNotifs} from "@/firebase";
 import {onValue, ref} from "firebase/database";
 import {createCommentVNode} from "vue";
 import {changeKey, insertKey, removeFromArray} from "@/commons/objects";
@@ -10,7 +10,8 @@ export default {
         chats:{},
         newChats:[],
         status:{},
-        typingStatus:{}
+        typingStatus:{},
+        notifications:{}
 
     },
     getter:{
@@ -29,6 +30,9 @@ export default {
         },
         WriteStatus(state,status){
             state.status = status
+        },
+        WriteNotifications(state,notifs){
+            state.notifications = notifs
         },
         WriteNewChats(state, {chatId, isNew}){
             if(isNew)console.log(chatId,isNew)
@@ -54,26 +58,28 @@ export default {
             let senderQuery = query(
                 dbChats,
                 where('sender','==',username),
-                where('isDeleted' ,'==', false)
+                where('isDeleted' ,'!=', false)
             )
             let receiverQuery = query(
                 dbChats,
                 where('recipient','==',username),
-                where('isDeleted' ,'==', false)
+                where('isDeleted' ,'!=', false)
             )
 
             onSnapshot(senderQuery,snaps=>{
-            let tmpChats = {}
-                for (let i = 0; i < snaps.docs.length; i++) {
-                    let d = snaps.docs[i]
-                    let data = d.data()
-                    tmpChats[d.id] = {...data,id:d.id,time:data.time.seconds*1000}
-                }
-                context.commit('WriteChats',tmpChats)
-                context.dispatch('WriteIsDelivered',{...tmpChats})
-            //    notifications
-            })
+                console.log('data changing from sender end')
+                let tmpChats = {}
+                    for (let i = 0; i < snaps.docs.length; i++) {
+                        let d = snaps.docs[i]
+                        let data = d.data()
+                        tmpChats[d.id] = {...data,id:d.id,time:data.time.seconds*1000}
+                    }
+                    context.commit('WriteChats',tmpChats)
+                    context.dispatch('WriteIsDelivered',{...tmpChats})
+                //    notifications
+                })
             onSnapshot(receiverQuery,snaps=>{
+                console.log('data changing from sender end')
                 let tmpChats = {}
                 for (let i = 0; i < snaps.docs.length; i++) {
                     let d = snaps.docs[i]
@@ -98,7 +104,7 @@ export default {
                 let channelQuery = query(
                     dbChats,
                     where('recipient','==',channelIds[i]),
-                    where('isDeleted' ,'==', false)
+                    where('isDeleted' ,'!=', true)
                 )
                 onSnapshot(channelQuery,snaps=>{
                     for (let i = 0; i < snaps.docs.length; i++) {
@@ -165,6 +171,18 @@ export default {
             }
 
         },
+        async GetNotifications(context){
+            let q = query(dbNotifs,where('notifiers','array-contains',context.rootState.user.username))
+            onSnapshot(q,snapshot => {
+                let tempNotifs = {}
+                let docs = snapshot.docs
+                docs.forEach(notif=>{
+                    tempNotifs[notif.id] = {...notif.data(),id:notif.id,isNotif:true}
+                })
+                console.log(tempNotifs)
+                context.commit('WriteNotifications',tempNotifs)
+            })
+        }
 
     }
 }

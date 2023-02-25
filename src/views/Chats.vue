@@ -46,7 +46,7 @@ export default {
     }
   },
   computed: mapState({
-    chats:state => state.chats.chats
+    chats:state => state.chats.chats,
   }),
   methods:{
     SelectChat(id){

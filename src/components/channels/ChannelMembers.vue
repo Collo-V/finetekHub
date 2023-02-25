@@ -73,8 +73,8 @@
 
 <script>
 import {mapState} from "vuex";
-import {doc, updateDoc} from "firebase/firestore";
-import {db} from "@/firebase";
+import {addDoc, doc, updateDoc} from "firebase/firestore";
+import {db, dbNotifs} from "@/firebase";
 import {filterData} from "@/commons/objects";
 import {confirmAction} from "@/commons/swal";
 import AddChannelMembers from "@/components/channels/AddChannelMembers";
@@ -98,7 +98,9 @@ export default {
       return state.channels[this.channelId]
     },
     members(state) {
-      let usernames = this.channel.members.map(member => member.username)
+      let usernames = this.channel.members.filter(member=>{
+        return !member.dateLeft || (member.dateRejoined && member.dateRejoined > member.dateLeft)
+      }).map(member => member.username)
       return usernames.map(username => state.team[username])
     },
     objChannelMembers() {
@@ -139,9 +141,24 @@ export default {
         btnText:'Yes',
         text:'They will no longer be part of the channel'
       }))return
-      let members = this.channel.members.filter(member=> member.username!== username)
+      let date =  (new Date()).getTime()
+      let members = this.channel.members
+      let removed = members.filter(member=>member.username === username)[0]
+      removed['dateLeft'] = date
+      let others = members.filter(member=>member.username !== username)
+      members = [...others,removed]
       await updateDoc(doc(db,'channels',this.channel.id),{
         members
+      })
+      let notifiers = this.channel.members.map(member=>member.username)
+      addDoc(dbNotifs,{
+        actor:this.user.username,
+        entity:this.channelId,
+        entityType:'Removed',
+        notifiers,
+        time:date,
+        subject:username,
+        isRead:[this.user.username]
       })
     },
     async MakeAdmin(username){
@@ -157,15 +174,34 @@ export default {
       await updateDoc(doc(db,'channels',this.channel.id),{
         members:others
       })
+      let date = (new Date()).getTime()
+      addDoc(dbNotifs,{
+        actor:this.user.username,
+        entity:this.channelId,
+        entityType:'MakeAdmin',
+        notifiers:[username],
+        time:date,
+        subject:username,
+        isRead:[]
+      })
     },
     async RemoveAdmin(username){
-
       let demoted = this.channel.members.filter(member=> member.username === username)[0]
       let others = this.channel.members.filter(member=> member.username!== username)
       demoted.isAdmin = false
       others.push(demoted)
       await updateDoc(doc(db,'channels',this.channel.id),{
         members:others
+      })
+      let date = (new Date()).getTime()
+      addDoc(dbNotifs,{
+        actor:this.user.username,
+        entity:this.channelId,
+        entityType:'RemoveAdmin',
+        notifiers:[username],
+        time:date,
+        subject:username,
+        isRead:[]
       })
     }
   }

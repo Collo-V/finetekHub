@@ -107,7 +107,9 @@ export default {
       return str
     },
     members(state){
-      let usernames = this.channel.members.map(member=> member.username)
+      let usernames = this.channel.members.filter(member=>{
+        return !member.dateLeft || (member.dateRejoined && member.dateRejoined > member.dateLeft)
+      }).map(member=> member.username)
       return usernames.map(username=>state.team[username])
     },
 

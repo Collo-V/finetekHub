@@ -84,12 +84,12 @@ export default createStore({
     actions:{
 
         async Gets(context){
-            await context.dispatch('SetTime')
-            context.commit('GetClientMessages')
-            await context.commit('GetTeam')
-            await context.dispatch('OnlineStatus')
-            await context.dispatch('GetChats')
-            await context.dispatch('OnlineStatus')
+        await context.dispatch('SetTime')
+        context.commit('GetClientMessages')
+        await context.commit('GetTeam')
+        await context.dispatch('OnlineStatus')
+        await context.dispatch('GetChats')
+        await context.dispatch('OnlineStatus')
         },
         GetUser(context,email){
             onSnapshot(doc(db, 'team', email),data=>{
@@ -103,10 +103,14 @@ export default createStore({
                 let channels ={}
                 for (let i = 0; i < snap.docs.length; i++) {
                     let doc = snap.docs[i]
-                    let memberArr = doc.data().members.filter(member=>member.username === context.state.user.username)
+                    let memberArr = doc.data().members.filter(member=> {
+                         return member.username === context.state.user.username
+                             // && (!member.leftDate || member.leftDate < member.dateRejoined)
+                    })
                     if (memberArr.length === 0)continue
                     channels[doc.id] = {...doc.data(),id:doc.id}
                 }
+
                 context.commit('WriteChannels',channels)
                 context.dispatch('GetChannelChats',channels)
             })
