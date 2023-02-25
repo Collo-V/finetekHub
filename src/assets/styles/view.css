@@ -12,12 +12,12 @@
     @apply text-primary hover:underline cursor-pointer;
 }
 
-.chat-bubble .ql-editor, .team-cont .ql-editor{
+.chat-bubble .ql-editor, .team-cont .ql-editor, .reply-for .ql-editor{
     @apply p-0;
 }
-.chat-bubble .ql-container.ql-snow, .team-cont .ql-container.ql-snow{
+.chat-bubble .ql-container.ql-snow, .team-cont .ql-container.ql-snow, .reply-for .ql-container.ql-snow{
     @apply border-0;
 }
-.team-cont .ql-container .ql-editor p{
+.team-cont .ql-container .ql-editor p, .reply-for .ql-container .ql-editor p{
     @apply border-0 whitespace-nowrap overflow-hidden text-ellipsis
 }

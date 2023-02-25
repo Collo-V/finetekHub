@@ -9,7 +9,7 @@
       <iframe :src="filePrev" class=" overflow-auto custom-scroll" @scroll.stop="" v-if="filePrev!=''"></iframe>
       <img :src="imagePrev" class="max-w-80% lg:max-w-50% h-auto max-h-full" v-else>
     </div>
-    <div class="absolute w-full min-h-16 bg-inherit bottom-full flex items-center" v-if="replyFor!= undefined">
+    <div class="absolute reply-for w-full min-h-16 bg-inherit bottom-full flex items-center" v-if="replyFor!= undefined">
       <div class="w-100px invisible"></div>
       <div class="w-full h-16 rounded-sm flex overflow-hidden bg-slate-300 justify-between">
         <div class="w-2 h-full bg-primary mr-2"></div>
@@ -21,9 +21,15 @@
             <span class="mb-2 text-primary-red" v-else>You</span>
             <span v-if="replyFor.isChannelChat && recipient.username"> At {{channels[replyFor.recipient].name}}</span>
           </div>
-          <div class="flex items-center gap-2 max-h-50px overflow-hidden">
+          <div class="flex items-center gap-2 max-h-50px overflow-hidden whitespace-nowrap">
             <i class="fa-solid fa-camera" v-if="replyFor.images.length>0"/>
-            {{replyFor.message}}
+            <QuillEditor
+                v-else
+                ref="chatMessage"
+                class="chat-quill"
+                :options="quillOptions"
+                :content="GetMessage(replyFor.message)"
+            />
           </div>
         </div>
         <div class="h-full flex" v-if="replyFor.images.length>0">
@@ -62,6 +68,7 @@ import {db} from "@/firebase";
 import firebase from "firebase/compat";
 import {getDatabase, set, ref as realDbRef} from "firebase/database";
 import TextArea from "@/components/chats/TextArea";
+import {Delta,QuillEditor} from "@vueup/vue-quill";
 
 export default {
   name: "ChatInput",
@@ -77,12 +84,20 @@ export default {
       filePrev:'',
       inputFile:'',
       timeOut:'',
-      quill:''
-
-
+      quillOptions:{
+        modules:{
+          toolbar:false,
+        },
+        readOnly:true
+      }
     }
   },
   methods:{
+    GetMessage(message){
+      if(typeof (message) === 'string') return  message
+      let delta = new Delta(message)
+      return delta
+    },
    async GetFiles(chatId){
       let filesRef = ref(getStorage(), `chats/${chatId}`)
       let chatFiles = (await listAll(filesRef)).items
@@ -169,7 +184,7 @@ export default {
     CreateImage:function (){
       let input=document.createElement("input");
       input.type="file";
-      input.accept=".png,.jpg,.jpeg"
+      input.accept=".png,.jpg,.jpeg,.jfif"
       let files=[]
       let all  = this
       input.onchange = e=>{

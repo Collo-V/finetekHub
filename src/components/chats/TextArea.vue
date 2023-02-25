@@ -1,6 +1,6 @@
 <template>
   <div class="relative w-full h-fit">
-    <div id="emoji-picker-cont" v-show="showEmoji" class="w-full h-300px mt-8 absolute bottom-full"></div>
+    <div id="emoji-picker-cont" v-show="showEmoji" class="w-full h-300px mt-8 absolute bottom-full z-3"></div>
     <div class="team-cont absolute bottom-full w-200px -mb-10 bg-white z-1 hidden" ref="mentionsCont">
       <div class="mention-select-div">
         <div class="h-8 pl-2 flex items-center cursor-pointer mention-option"

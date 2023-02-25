@@ -6,7 +6,7 @@
                     {{GetName(chat.sender)}}
                   </span>
     <div v-if="replyFor">
-      <div class="w-full min-h-16 bg-inherit bottom-full flex items-center cursor-pointer"
+      <div class="reply-for w-full min-h-16 bg-inherit bottom-full flex items-center cursor-pointer"
            @click="$emit('GoToChat',replyFor.id)"
       >
         <div class="reply-for-cont w-full h-16 rounded-sm flex bg-slate-300 overflow-hidden justify-between pr-2">
@@ -22,7 +22,13 @@
             </div>
             <div class="flex items-center gap-2 max-h-50px overflow-hidden text-black">
               <i class="fa-solid fa-camera" v-if="replyFor.images.length>0"/>
-              message<!--{{replyFor.message}}-->
+              <QuillEditor
+                  v-else
+                  ref="chatMessage"
+                  class="chat-quill"
+                  :options="quillOptions"
+                  :content="GetMessage(replyFor.message)"
+              />
             </div>
           </div>
           <div class="h-full flex" v-if="replyFor.images.length>0">
@@ -162,6 +168,11 @@ export default {
     }
   },
   methods:{
+    GetMessage(message){
+      if(typeof (message) === 'string') return  message
+      let delta = new Delta(message)
+      return delta
+    },
     GetBubbleClass(){
       let bubbleClass =  "shadow min-h-10 flex justify-center w-fit p-2 flex-col "+
       "chat-bubble rounded-b-md dropdown-cont relative "

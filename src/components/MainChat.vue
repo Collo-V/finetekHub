@@ -47,7 +47,7 @@
                      v-if="chat.sender ===user.username">
                   <ChatBubble
                       :chat="chat"
-                      @set-reply-for="replyId = chat"
+                      @set-reply-for="replyId = chat.id"
                       @go-to-chat="(chatId)=>GoToChat(chatId)"
                   />
                   <div class="text-3 mt-1 flex">
@@ -68,7 +68,7 @@
                 <div class="w-full pl-3" v-else >
                   <ChatBubble
                       :chat="chat"
-                      @set-reply-for="replyId = chat"
+                      @set-reply-for="replyId = chat.id"
                       @go-to-chat="(chatId)=>GoToChat(chatId)"
                       @reply-privately="ReplyPrivately(chat)"
                   />
@@ -184,7 +184,7 @@ export default {
   },
   methods:{
     GoToChat(chatId){
-      if(this.chats[chatId]){
+      if(this.myChats[chatId]){
         let div = document.getElementById(chatId+'-div')
         div.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
         div.classList.add('bg-primary-purple/20')
@@ -207,8 +207,8 @@ export default {
     SetUploadTask(task){
       this.uploadTask = task
     },
-    SetReplyFor(task){
-      this.replyId = task
+    SetReplyFor(id){
+      this.replyId = id
     },
     GetTime(time){
       time = new Date(time)
@@ -313,6 +313,19 @@ export default {
         console.log(e)
       }
       return
+    },
+    myChats({chats:{chats}}){
+      let myChats = {}
+      if(this.colleague){
+        let recipient = this.colleague
+        myChats = filterData({
+          ...filterData(chats, ['recipient', '==', recipient.username]),
+          ...filterData(chats, ['sender', '==', recipient.username])
+        },['isChannelChat','!=',true])
+      }else{
+        myChats = filterData(chats, ['recipient','==',this.channel.id])
+      }
+      return myChats
     },
     chats({chats:storeChats}) {
       let chats = storeChats.chats
