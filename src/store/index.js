@@ -2,15 +2,13 @@ import {createStore} from 'vuex'
 import {team, db, dbChats, dbChannels} from "@/firebase";
 import {getDoc,onSnapshot,setDoc,doc,query,where,getDocs,deleteDoc,updateDoc,collection} from 'firebase/firestore'
 import {onValue,set,getDatabase,ref} from "firebase/database";
-import {RemoveFromArray} from "@/commons";
-import {realDb} from "@/firebase";
 import chats from './modules/chats'
 import firebase from "firebase/compat";
-import {filterData} from "@/commons/objects";
+import settings from './modules/settings'
 
 export default createStore({
     modules:{
-        chats
+        chats,settings
     },
     state:{
         time: (new Date()).getTime(),

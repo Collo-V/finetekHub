@@ -50,7 +50,7 @@
       <TextArea
           @create-file="CreateFile"
           @create-image="CreateImage"
-          @send="(content)=>UploadFiles(content)"
+          @Send="(content)=>UploadFiles(content)"
           @set-typing="SetTyping"
       />
 
@@ -72,7 +72,7 @@ import {Delta,QuillEditor} from "@vueup/vue-quill";
 
 export default {
   name: "ChatInput",
-  components: {TextArea},
+  components: {TextArea,QuillEditor},
   props:['replyId','recipientId','uploadTask'],
   data(){
     return {
@@ -146,7 +146,6 @@ export default {
         time:firebase.firestore.FieldValue.serverTimestamp(),
         isChannelChat:this.recipient.username?false:true
       }
-      // myChat.time =  (new Date('2023-01-11').getTime())
       try{
         await setDoc(doc(db,'chats',chatId),myChat)
       }catch(e){
@@ -215,14 +214,6 @@ export default {
       }
 
       input.click()
-    },
-    CheckKey(event){
-      if(event.altKey && event.code === 'Enter' && this.content!=''){
-        this.content+='\n'
-      }
-      else if(event.code === 'Enter'){
-        this.UploadFiles()
-      }
     },
     async UploadFiles(content){
       this.content = content

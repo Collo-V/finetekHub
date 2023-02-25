@@ -1,9 +1,7 @@
-import {RemoveFromArray} from "@/commons";
-import {doc, getDoc, onSnapshot, query, where, orderBy, updateDoc, getDocs} from "firebase/firestore";
+import {doc,onSnapshot, query, where, updateDoc} from "firebase/firestore";
 import {dbChats, db, realDb, dbNotifs} from "@/firebase";
 import {onValue, ref} from "firebase/database";
-import {createCommentVNode} from "vue";
-import {changeKey, insertKey, removeFromArray} from "@/commons/objects";
+import {removeFromArray} from "@/commons/objects";
 import {sortData} from '@/commons/objects-arrays'
 export default {
     state:{
@@ -35,10 +33,10 @@ export default {
             state.notifications = notifs
         },
         WriteNewChats(state, {chatId, isNew}){
-            if(isNew)console.log(chatId,isNew)
             let newChats = state.newChats
             if(isNew && !newChats.includes(chatId)){
                 newChats.push(chatId)
+
             }
             else if(!isNew && newChats.includes(chatId)){
                 newChats = removeFromArray(newChats,chatId)
@@ -51,9 +49,33 @@ export default {
 
     },
     actions:{
+        async ChatNotify(context,chat){
+            if(Notification.permission === 'granted'){
+                let body,name
+                let sender = context.rootState.team [chat.sender]
+                if(sender){
+                    name = `${sender.firstName} ${sender.lastName}`
+                }if(chat.isChannelChat){
+                    let channel = context.rootState.channels[chat.recipient]
+                    if(channel){
+                        body = `This message was sent to ${channel.name} channel`
+
+                    }
+                }
+                body = body??''
+                if(!name){
+                    let notification = new Notification('New Message',{
+                        body
+                    })
+                }else {
+                    let notification = new Notification('New Message from '+name,{
+                        body
+                    })
+                }
+            }
+        },
         async GetChats(context){
             let username = context.rootState.user.username
-                // || (await getDoc(doc(db, 'team', email))).data().username
             if(!username)return
             let senderQuery = query(
                 dbChats,
@@ -84,6 +106,7 @@ export default {
                     let data = d.data()
                     if(!data.isRead){
                         context.commit('WriteNewChats',{chatId:d.id,isNew:true})
+                        context.dispatch('ChatNotify',data)
                     }else {
                         context.commit('WriteNewChats',{chatId:d.id})
                     }
@@ -107,13 +130,14 @@ export default {
                 onSnapshot(channelQuery,snaps=>{
                     for (let i = 0; i < snaps.docs.length; i++) {
                         let d = snaps.docs[i]
-                        let data = d.data()
-                        if(data.sender !== username && !data.isRead.includes(username)){
+                        let chat = d.data()
+                        if(chat.sender !== username && !chat.isRead.includes(username)){
                             context.commit('WriteNewChats',{chatId:d.id,isNew:true})
-                        }else if(data.sender !== username && data.isRead.includes(username)) {
+                            context.dispatch('ChatNotify',chat)
+                        }else if(chat.sender !== username && chat.isRead.includes(username)) {
                             context.commit('WriteNewChats',{chatId:d.id})
                         }
-                        tmpChats[d.id] = {...data,id:d.id,time:data.time.seconds*1000}
+                        tmpChats[d.id] = {...chat,id:d.id,time:chat.time.seconds*1000}
                     }
                     let c = {...sortData(tmpChats,'time','id')}
                     context.commit('WriteChats',{...c})

@@ -145,7 +145,6 @@ export default {
       let content = ''
       if(this.content.ops){
         let ops = this.content.ops
-        console.log(ops)
         let last = ops[ops.length-1]
         let insert = last.insert
         while (true){
@@ -157,7 +156,6 @@ export default {
         ops[ops.length-1] = last
         content = [...ops]
       }
-      console.log(content)
       this.$emit('Send',content)
       this.showEmoji = false
       let quill = this.$refs.editorRef.getQuill()

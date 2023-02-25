@@ -94,6 +94,10 @@
   right: -10px;
 }
 
+.bottom-10{
+  bottom: 40px;
+}
+
 .z-3{
   z-index: 3;
 }
@@ -649,6 +653,10 @@
 
 .w-80{
   width: 320px;
+}
+
+.w-50px{
+  width: 50px;
 }
 
 .min-w-100px{

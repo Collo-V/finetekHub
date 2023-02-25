@@ -1,5 +1,6 @@
 <template>
     <div class="w-full h-full chat-section relative">
+
       <div class="h-full flex flex-col" >
         <div>
           <div class="header h-16 bg-white lg:bg-slate-300 p-2 flex shadow-md lg:shadow-0" v-if="colleague">
@@ -180,7 +181,7 @@ export default {
     ChannelHeader,
     ChatInput,
     TeamCont,
-    Picker
+    Picker,
   },
   methods:{
     GoToChat(chatId){
@@ -353,7 +354,7 @@ export default {
         this.$emit('SetSelected',undefined)
       }
       myChats = sortData(myChats,'time')
-      // console.log(myChats)
+      console.log(myChats)
       let timeDivs = {}
       Object.values(myChats).forEach(chat=>{
         let chatTime = new Date (chat.time)
