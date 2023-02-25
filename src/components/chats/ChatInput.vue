@@ -45,6 +45,7 @@
           @create-file="CreateFile"
           @create-image="CreateImage"
           @send="(content)=>UploadFiles(content)"
+          @set-typing="SetTyping"
       />
 
     </div>
@@ -318,11 +319,6 @@ export default {
     },
   },
   watch:{
-    input(value,old){
-      if(value!==''){
-        this.SetTyping()
-      }
-    },
     replyFor(val){
       console.log(val)
     }

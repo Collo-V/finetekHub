@@ -38,8 +38,8 @@
           </div>
           <div class="flex flex-col ml-3">
             <div class="font-bold text-5">{{channel.name}}</div>
-            <div >
-              <span class="text-primary">Typing...</span>
+            <div class="text-primary h-5">
+              {{typingStatus}}
             </div>
           </div>
         </div>
@@ -92,6 +92,7 @@ import {mapState} from "vuex";
 import AddChannelMembers from "@/components/channels/AddChannelMembers";
 import {Tooltip} from "ant-design-vue";
 import ChannelDetails from "@/components/channels/ChannelDetails";
+import {filterData} from "@/commons/objects";
 
 export default {
   name: "ChannelHeader",
@@ -109,7 +110,14 @@ export default {
       detailsView:undefined
     }
   },
+  methods:{
+    GetName(username){
+      return !this.team[username]?'':`${this.team[username].firstName} ${this.team[username].lastName}`
+    },
+  },
   computed:mapState({
+    user:state => state.user ,
+    team:state => state.team,
     channel(state){
       return state.channels[this.channelId]
     },
@@ -129,6 +137,20 @@ export default {
       }).map(member=> member.username)
       return usernames.map(username=>state.team[username])
     },
+    typingStatus(state){
+      let typers =  Object.keys(filterData(state.chats.typingStatus,['recipient' ,'==',this.channelId]))
+      typers = typers.filter(a=> a !== this.user.username)
+      if(typers.length >0){
+        if(typers.length === 1){
+          return this.GetName(typers[0]) + ' typing'
+        } else if(typers.length ===2){
+          return `${this.GetName(typers[0])} and ${this.GetName(typers[1])} typing`
+        }else {
+          return `${this.GetName(typers[0])}, ${this.GetName(typers[1])} and ${typers.length-2} other(s) typing`
+        }
+
+      }else return ''
+    }
 
   })
 }

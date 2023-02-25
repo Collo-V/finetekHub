@@ -288,7 +288,9 @@ export default {
     user:state => state.user,
     time:state => state.time,
     status:state => state.chats.status,
-    typingStatus:state => state.chats.typingStatus,
+    typingStatus(state){
+      return filterData(state.chats.typingStatus,['recipient' ,'==',this.user.username])
+    },
     lastSeen(state) {
       try {
         const last = new Date( state.chats.status[this.colleague.username])

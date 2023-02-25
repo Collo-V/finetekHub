@@ -82,10 +82,11 @@ import MemberCard from "@/components/MemberCard";
 import "quill-emoji/dist/quill-emoji.css";
 import {ref} from "vue";
 import {Picker} from "emoji-picker-element";
+import {content} from "../../../tailwind.config";
 
 export default {
   name: "TextArea",
-  emits:['Send','CreateFile','CreateImage'],
+  emits:['Send','CreateFile','CreateImage','SetTyping'],
   components:{
     Select,MemberCard,QuillEditor
   },
@@ -122,7 +123,8 @@ export default {
       option.classList.add('bg-slate-200')
     },
     content(val){
-      console.log(val)
+      if(content.ops && content.ops.length === 0)return
+      this.$emit('SetTyping')
       let mentions = document.getElementsByClassName('mentions')
       for (let i = 0; i < mentions.length; i++) {
         let mention = mentions[i]

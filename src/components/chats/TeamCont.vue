@@ -200,8 +200,9 @@ export default {
     channels: state => state.channels,
     time:state => state.time,
     status:state => state.chats.status,
-    typingStatus:(state) => {
-      return state.chats.typingStatus
+    typingStatus(state){
+      return filterData(state.chats.typingStatus,['recipient' ,'==',this.user.username])
+      // return state.chats.typingStatus
     },
     lastChats({chats}) {
       let mylastChats = {}

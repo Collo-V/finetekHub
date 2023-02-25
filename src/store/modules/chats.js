@@ -160,8 +160,8 @@ export default {
                     let data = snapshot.val()
                     let status = {}
                     Object.keys(data).forEach(user=>{
-                        if(data[user].typing && data[user].recipient === context.rootState.user.username){
-                            status[user] = data
+                        if(data[user].typing){
+                            status[user] = data[user]
                         }
                     })
                     context.commit('WriteTypingStatus',status)
@@ -179,7 +179,6 @@ export default {
                 docs.forEach(notif=>{
                     tempNotifs[notif.id] = {...notif.data(),id:notif.id,isNotif:true}
                 })
-                console.log(tempNotifs)
                 context.commit('WriteNotifications',tempNotifs)
             })
         }
