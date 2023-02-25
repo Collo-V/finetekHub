@@ -40,7 +40,7 @@
             </div>
             <div class="mb-3 w-full focus:bg-red-500 mt-5" v-for="chat in div.chats" :id="chat.id+'-div'">
               <div v-if="chat.isNotif" class="pt-4">
-                <NotificationBar :notification-id="chat.id"/>
+                <NotificationBar :notification-id="chat.id" :channel-id="channel.id"/>
               </div>
               <div v-else>
                 <div class="w-full pl-3 flex flex-col items-end"

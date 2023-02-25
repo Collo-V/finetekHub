@@ -51,6 +51,22 @@
     <p v-else-if="notification.entityType === 'RemoveAdmin' && notification.subject === this.user.username">
       You are no longer an admin
     </p>
+    <p v-else-if="notification.entityType === 'ChangeDescription'">
+        <span v-if="notification.actor !== user.username">
+          {{GetName(notification.actor)}}
+        </span>
+      <span v-else>You</span>
+      changed the description from
+      "{{notification.subject}}" to "{{channel.description}}"
+    </p>
+    <p v-else-if="notification.entityType === 'ChangeName'">
+        <span v-if="notification.actor !== user.username">
+          {{GetName(notification.actor)}}
+        </span>
+      <span v-else>You</span>
+      changed the channel's name from
+      "{{notification.subject}}" to "{{channel.name}}"
+    </p>
   </div>
 
 </template>
@@ -60,7 +76,7 @@ import {mapState} from "vuex";
 
 export default {
   name: "NotificationBar",
-  props:['notificationId'],
+  props:['notificationId','channelId'],
   data(){
     return{}
   },
@@ -72,6 +88,9 @@ export default {
   computed:mapState({
     team:state => state.team,
     user:state => state.user,
+    channel(state){
+      return state.channels[this.channelId]
+    },
     notificatons:state => state.chats.notificatons,
     notification(state){
       return state.chats.notifications[this.notificationId]

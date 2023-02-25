@@ -116,6 +116,7 @@ import {filterData} from "@/commons/objects";
 export default {
   name: "ChannelAbout",
   props:['channelId'],
+  emits:['HideModal'],
   data(){
     return{
       showEditName:false,
@@ -140,12 +141,24 @@ export default {
       }
     },
     async EditName(){
+      let oldName = this.channel.name
       try {
         updateDoc(doc(db, 'channels',this.channelId),{
           name:this.tempName.trim(),
         })
         this.showEditName = false
         this.tempName = ''
+        let date = (new Date()).getTime()
+        let notifiers = this.channel.members.map(member=>member.username)
+        await addDoc(dbNotifs,{
+          actor:this.user.username,
+          entity:this.channelId,
+          entityType:'ChangeName',
+          notifiers,
+          time:date,
+          subject:oldName,
+          isRead:[this.user.username]
+        })
         Report({icon:'success',title:'Name edited'})
       }catch {
         Report({icon:'error',title:'Error editing'})
@@ -153,12 +166,24 @@ export default {
 
     },
     async EditDescription(){
+      let oldDesc = this.channel.description
       try {
         updateDoc(doc(db, 'channels',this.channelId),{
           description:this.tempDescription.trim(),
         })
+        let date = (new Date()).getTime()
         this.tempDescription = ''
         this.showEditDescription = false
+        let notifiers = this.channel.members.map(member=>member.username)
+        await addDoc(dbNotifs,{
+          actor:this.user.username,
+          entity:this.channelId,
+          entityType:'ChangeDescription',
+          notifiers,
+          time:date,
+          subject:oldDesc,
+          isRead:[this.user.username]
+        })
         Report({icon:'success',title:'Description edited'})
       }catch {
         Report({icon:'error',title:'Error editing'})
@@ -191,7 +216,7 @@ export default {
           time:date-1,
           isRead:[]
         })
-        this.$emit('SetSelected',undefined)
+        this.$emit('HideModal')
       }catch (e){
         console.log(e)
 

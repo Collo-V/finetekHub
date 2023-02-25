@@ -30,7 +30,7 @@
           <ChannelAbout
               v-else-if="selectedView === 'about' "
               :channel-id="channel.id"
-              @set-selected="(id)=>$emit('SetSelected',id)"
+              @hide-modal="(id)=>$emit('HdeModal')"
           />
         </div>
       </div>
