@@ -5,10 +5,11 @@ import {onValue,set,getDatabase,ref} from "firebase/database";
 import chats from './modules/chats'
 import firebase from "firebase/compat";
 import settings from './modules/settings'
+import projects from './modules/projects'
 
 export default createStore({
     modules:{
-        chats,settings
+        chats,settings,projects
     },
     state:{
         time: (new Date()).getTime(),

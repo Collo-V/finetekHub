@@ -9,6 +9,7 @@ import Chats from "@/views/Chats";
 import Settings from "@/views/Settings";
 import Welcome from "@/views/Welcome";
 import NavBar from '@/components/Nav'
+import Projects from "@/views/Projects";
 
 const routes = [
     {
@@ -59,6 +60,15 @@ const routes = [
         name: 'settings',
         components: {
             default:Settings,
+            NavBar
+        },
+        props: true
+    },
+    {
+        path: '/projects',
+        name: 'projects',
+        components: {
+            default:Projects,
             NavBar
         },
         props: true

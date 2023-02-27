@@ -21,6 +21,8 @@ export const dbChats =  collection(db,'chats')
 export const blogs =  collection(db,'blogs')
 export const dbChannels =  collection(db,'channels')
 export const dbNotifs =  collection(db,'notifications')
+export const dbProjects =  collection(db,'projects')
+export const dbTasks =  collection(db,'tasks')
 export const storage = getStorage(firebaseApp)
 export const realDb = getDatabase()
 

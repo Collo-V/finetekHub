@@ -91,6 +91,7 @@ export default {
         this.$store.dispatch('GetChannels')
         this.$store.dispatch('GetTypingStatus')
         this.$store.dispatch('GetNotifications')
+        this.$store.dispatch('GetProjects')
       }
       if(user.username && Object.keys(this.$store.state.chats.chats).length == 0){
         this.$store.dispatch('GetChats')

@@ -55,13 +55,12 @@ export default {
   name: "Nav",
   data(){
     return{
-      tabs:{
-        team:{title:"Team",linkName:'team'},
-        blogs:{title:"Blogs",linkName:'blogs'},
-        // clients:{title:"Clients",linkName:''},
-        messages:{title:"Messages",linkName:'messages'},
-        chats:{title:"Chats",linkName:'chats'},
-      },
+      mainNavs:[
+        {title:"Blogs",linkName:'blogs'},
+        {title:"Chats",linkName:'chats'},
+        {title:"Projects",linkName:'projects'},
+        {title:"Settings",linkName:'settings'},
+      ],
       currentTab:'Blogs',
       user:'',
     }
@@ -91,17 +90,11 @@ export default {
       if(user.isAdmin){
         return [
           {title:"Team",linkName:'team'},
-          {title:"Blogs",linkName:'blogs'},
           {title:"Messages",linkName:'messages'},
-          {title:"Chats",linkName:'chats'},
-          {title:"Settings",linkName:'settings'},
+            ...this.mainNavs
         ]
       }else {
-        return [
-          {title:"Blogs",linkName:'blogs'},
-          {title:"Chats",linkName:'chats'},
-          {title:"Settings",linkName:'settings'},
-        ]
+        return this.mainNavs
       }
 
     }

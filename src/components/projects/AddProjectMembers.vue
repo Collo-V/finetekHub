@@ -6,18 +6,10 @@
         <i class="fas fa-xmark"></i>
       </button>
       <div>
-        <h1 class="text-5">Add people to {{channel.name}}</h1>
+        <h1 class="text-5">Add people to {{ project.name }}</h1>
         <div class="mt-4">
-          <fieldset class="h-10 w-full relative hidden">
-            <input class="form-input pl-4 w-full h-10 flex items-center rounded-sm focus:outline-none border-1px optional"
-                   id="member-list" v-model="channel.name">
-            <div class="form-label h-0 w-full absolute pl-4 top-1/2 btm-1/2 flex items-center">
-              <label class="bg-white cursor-text px-1">Add members</label>
-            </div>
-
-          </fieldset>
           <Select  class="w-full h-8 mt-4"
-                   v-model:value="tempChannelMembers"
+                   v-model:value="tempProjectMembers"
                    mode="multiple"
                    style="width: 100%;height:64px"
                    placeholder="Search members"
@@ -25,7 +17,7 @@
           />
           <div class="mt-8 flex justify-end gap-4" v-if="first">
             <button class="w-120px h-8 rounded-md border-1px" @click="$emit('HideModal')"
-                    v-if="tempChannelMembers.length === 0"
+                    v-if="tempProjectMembers.length === 0"
             >
               Skip for now
             </button>
@@ -35,7 +27,7 @@
           </div>
           <div class="mt-8 flex justify-end gap-4" v-else>
             <button class="w-120px h-8 rounded-md bg-slate-400 text-white"
-                    v-if="tempChannelMembers.length === 0"
+                    v-if="tempProjectMembers.length === 0"
             >
               Add
             </button>
@@ -50,72 +42,66 @@
 </template>
 
 <script>
-import {addDoc, doc, updateDoc} from "firebase/firestore";
-import firebase from "firebase/compat";
+import {doc, updateDoc} from "firebase/firestore";
 import {Select} from "ant-design-vue";
 import 'ant-design-vue/dist/antd.compact.css'
 import {mapState} from "vuex";
 import {filterData} from "@/commons/objects";
 import {db, dbNotifs} from "@/firebase";
 import {Report} from "@/commons/swal";
-export async function AddMembers(){
-  let date = (new Date()).getTime()
-  let membersAdded = filterData(this.colleagues,['username','in',this.tempChannelMembers])
-  let list = Object.keys(membersAdded)
-  try{
-
-    let notifiers = this.channel.members.map(member=>member.username)
-    let date =  (new Date()).getTime()
-    for (let i = 0; i < list.length; i++) {
-      let username = list[i]
-      let members = this.channel.members
-      let added = members.filter(member=>member.username === username)[0]
-      let others = members.filter(member=>member.username !== username)
-      let rejoined
-      if(added){//the guy was once a member
-        rejoined = true
-        added.dateRejoined = date
-      }else{
-        added = {
-          username,
-          dateJoined:date,
-          addedBy:this.user.username
-        }
-      }
-      let c = await updateDoc(doc(db, 'channels',this.channel.id),{
-        members:[...others,added],
-      })
-      addDoc(dbNotifs,{
-        actor:rejoined?username:this.user.username,
-        entity:this.channel.id,
-        entityType:rejoined?'Rejoined':'Added',
-        notifiers:[...notifiers,username],
-        time:date,
-        subject:rejoined?this.user.username:username,
-        isRead:[this.user.username]
-      })
-    }
-    Report({icon:'success',title:'Member(s) added'})
-    this.$emit('HideModal')
-  }catch (e){
-    Report({icon:'error',title:'Error adding member'})
-    console.log(e)
-  }
-
-}
+import {AddMembers as AddChannelMembers} from '@/components/channels/AddChannelMembers'
 
 export default {
-  name: "AddChannels",
+  name: "AddProjectMembers",
   components:{Select},
   emits:['HideModal'],
-  props:['channelId','first'],
+  props:['projectId','first'],
   data(){
     return{
+      tempProjectMembers:[],
       tempChannelMembers:[]
     }
   },
   methods:{
-    AddMembers,
+    AddChannelMembers,
+    async AddMembers(){
+      // let membersAdded = filterData(this.colleagues,['username','in',this.tempProjectMembers])
+      // let list = Object.keys(membersAdded)
+      let list = this.tempProjectMembers
+      try{
+        let date =  (new Date()).getTime()
+        for (let i = 0; i < list.length; i++) {
+          let username = list[i]
+          let members = this.project.members
+          let added = members.filter(member=>member.username === username)[0]
+          let others = members.filter(member=>member.username !== username)
+          let rejoined
+          if(added){//the guy was once a member
+            rejoined = true
+            added.dateRejoined = date
+          }else{
+            added = {
+              username,
+              dateJoined:date,
+              addedBy:this.user.username
+            }
+          }
+          let c = await updateDoc(doc(db, 'projects',this.project.id),{
+            members:[...others,added],
+          })
+        }
+        if(this.channel){
+          this.tempChannelMembers = this.tempChannelMembers
+          this.AddChannelMembers()
+        }
+        Report({icon:'success',title:'Member(s) added'})
+        this.$emit('HideModal')
+      }catch (e){
+        Report({icon:'error',title:'Error adding member'})
+        console.log(e)
+      }
+
+    },
     CheckClickOutside(event){
       if(this.$refs.contRef && !this.$refs.contRef.contains(event.target)){
         this.$emit('HideModal')
@@ -124,8 +110,11 @@ export default {
   },
   computed:mapState({
     user:state => state.user,
+    project(state){
+      return state.projects.projects[this.projectId]
+    },
     channel(state){
-      return state.channels[this.channelId]
+      return this.project.channelId
     },
     colleagues: state => {
       let my = state.user
@@ -134,9 +123,9 @@ export default {
       return tempTeam
     },
     addOptions(state){
-      if(!this.channel)return []
-      let team = filterData(this.colleagues,['username','not-in',this.tempChannelMembers])
-      let memberIds = this.channel.members.filter(member=>{
+      if(!this.project)return []
+      let team = filterData(this.colleagues,['username','not-in',this.tempProjectMembers])
+      let memberIds = this.project.members.filter(member=>{
         return !member.dateLeft || (member.dateRejoined && member.dateRejoined > member.dateLeft)
       }).map(member=>member.username)
       team = filterData(team,['username','not-in',memberIds])

@@ -21,3 +21,6 @@
 .team-cont .ql-container .ql-editor p, .reply-for .ql-container .ql-editor p{
     @apply border-0 whitespace-nowrap overflow-hidden text-ellipsis
 }
+.ghost{
+    @apply opacity-50 bg-slate-400
+}
