@@ -60,6 +60,7 @@ import {db, dbNotifs} from "@/firebase";
 import {Report} from "@/commons/swal";
 export async function AddMembers(){
   let date = (new Date()).getTime()
+  console.log('here we go',this.colleagues)
   let membersAdded = filterData(this.colleagues,['username','in',this.tempChannelMembers])
   let list = Object.keys(membersAdded)
   try{

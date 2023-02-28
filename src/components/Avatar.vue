@@ -1,11 +1,8 @@
 <template>
-  <span>
-      <img :src="image" :class="GetClass()" v-if="image">
-      <div v-else :class="GetClass()">
-        {{name[0]}}
-      </div>
-  </span>
-
+    <img :src="image" :class="GetClass()" v-if="image">
+    <div v-else :class="GetClass()">
+      {{name[0]}}
+    </div>
 </template>
 
 <script>
@@ -20,7 +17,7 @@ export default {
   },
   methods:{
     GetClass(){
-      let myClass = 'border-1px flex items-center justify-center font-bold shrink-0'
+      let myClass = 'border-1px flex items-center justify-center font-bold inline-block'
       myClass+= this.size === 'large'?' w-12 h-12 text-6':
           this.size === 'small'?' w-8 h-8 text-5' : ' w-10 h-10 text-5'
       myClass += this.rounded?' rounded-full':''

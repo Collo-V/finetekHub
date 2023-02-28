@@ -52,7 +52,7 @@
             <button class="h-full border-l-1px w-10 border-white" @click="showAddMembers = true">
               <i class="fas fa-user-plus"></i>
             </button>
-            <AddProjectMembers :project-id="project.id" v-if="showAddMembers"/>
+            <AddProjectMembers :project-id="project.id" v-if="showAddMembers" @hide-modal="showAddMembers = false"/>
 
           </div>
         </div>
@@ -65,7 +65,7 @@
 </template>
 
 <script>
-import Tasks from "@/components/projects/Tasks";
+import Tasks from "@/components/tasks/Tasks";
 import ProjectsCont from "@/components/projects/ProjectsCont";
 import {Tooltip} from "ant-design-vue";
 import {mapState} from "vuex";

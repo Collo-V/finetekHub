@@ -114,7 +114,7 @@ export default {
       return state.projects.projects[this.projectId]
     },
     channel(state){
-      return this.project.channelId
+      return state.channels[this.project.channelId]
     },
     colleagues: state => {
       let my = state.user

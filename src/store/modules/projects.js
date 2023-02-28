@@ -1,11 +1,12 @@
 import {onSnapshot} from "firebase/firestore";
-import {dbProjects} from "@/firebase";
+import {dbProjects, dbTasks} from "@/firebase";
 
 export default {
     state:{
         projects:{},
         tasks:{},
-        activities:{}
+        activities:{},
+        taskStatuses:['Backlog','ToDo','InProgress','Completed']
     },
     mutations:{
         WriteProjects(state,projects){
@@ -32,6 +33,20 @@ export default {
                     }
                 })
                 context.commit('WriteProjects',tempProjects)
+            })
+        },
+        async GetTasks(context){
+            let username = context.rootState.user.username
+            onSnapshot(dbTasks,snapshot => {
+                let docs = snapshot.docs
+                let tempTasks = {}
+                docs.forEach(task=>{
+                    task = {...task.data(),id:task.id}
+                    if(!task.isDeleted){
+                        tempTasks[task.id] = task
+                    }
+                })
+                context.commit('WriteTasks',tempTasks)
             })
         }
     }

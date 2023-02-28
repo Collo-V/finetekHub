@@ -1,7 +1,9 @@
 <template>
   <div class="fixed top-0 bottom-0 w-screen-w left-0 bg-slate-600/50 z-10 flex items-center justify-center"
        @click="CheckClickOutside($event)">
-    <div class="w-full max-w-500px max-h-screen-h-70 overflow-auto custom-scroll bg-white rounded-lg p-4 relative" ref="contRef">
+    <div class="w-full max-w-500px max-h-screen-h-70 overflow-auto custom-scroll bg-white rounded-lg p-4 relative"
+         @click.stop
+         ref="contRef">
       <button class="float-right h-5 w-5 text-gray-600" @click="$emit('HideModal')">
         <i class="fas fa-xmark"></i>
       </button>
@@ -10,9 +12,9 @@
         <h3 class="font-semibold text-[#FFCC00]">Waiting on</h3>
         <p>Tasks that must be done before starting this one</p>
         <ul class="list-disk list-outside mx-4">
-          <li class="list-disc flex justify-between hover:slate-100 w-full">
-            <div>Task name</div>
-            <button class="h-5 w-5 " @click="$emit('ManageWaitingOn')">
+          <li class="list-disc list-item hover:bg-slate-100 w-full relative" v-for="task in waitingOn">
+            <div>{{tasks[task].name}}</div>
+            <button class="h-5 w-5 absolute top-0 right-0 " @click="ManageWaitingOn(task.id)">
               <i class="fas fa-xmark"></i>
             </button>
           </li>
@@ -38,7 +40,7 @@
         </div>
         <div class="mt-2">
           <div class="hover:bg-slate-100 cursor-pointer h-6 flex items-center"
-               @click="$emit('ManageWaitingOn',task.id)"
+               @click="ManageWaitingOn(task.id)"
                v-for="task in filteredTasks"
           >
             {{task.name}}
@@ -47,11 +49,11 @@
       </div>
       <div class="waiting-on border-[#F74D4B] border-1px border-l-2px p-2 mt-4">
         <h3 class="font-semibold text-[#F74D4B]">Blocking</h3>
-        <p>Tasks that cannot start before finidhing this one</p>
+        <p>Tasks that cannot start before finishing this one</p>
         <ul class="list-disk list-outside mx-4">
-          <li class="list-disc flex justify-between hover:slate-100 w-full">
-            Task name
-            <button class="h-5 w-5 " @click="$emit('ManageBlocking')">
+          <li class="list-disc list-item hover:bg-slate-100 w-full relative" v-for="task in blocking">
+            <div>{{tasks[task].name}}</div>
+            <button class="h-5 w-5 absolute top-0 right-0 " @click="ManageBlocking(task.id)">
               <i class="fas fa-xmark"></i>
             </button>
           </li>
@@ -74,7 +76,7 @@
         </div>
         <div class="mt-2">
           <div class="hover:bg-slate-100 cursor-pointer h-6 flex items-center"
-               @click="$emit('ManageWaitingOn',task.id)"
+               @click="ManageBlocking(task.id)"
                v-for="task in filteredTasks"
           >
             {{task.name}}
@@ -89,10 +91,13 @@
 
 <script>
 import {mapState} from "vuex";
+import {filterData, removeFromArray} from "@/commons/objects";
+import {doc, updateDoc} from "firebase/firestore";
+import {db} from "@/firebase";
 
 export default {
   name: "TaskDependencies",
-  props:['waitingOn','blocking','projectId'],
+  props:['waitingOn','blocking','projectId','taskId'],
   emits:['ManageWaitingOn','ManageBlocking','HideModal'],
   data(){
     return{
@@ -110,15 +115,61 @@ export default {
       if(isOutside){
         this.$emit('HideModal')
       }
-    }
+    },
+    async ManageWaitingOn(id){
+        console.log('here')
+      if(this.taskId){
+        let waitingOn = this.tasks[this.taskId].waitingOn
+        if(waitingOn.includes(id)){
+          waitingOn = removeFromArray(waitingOn,id)
+        }else {
+          waitingOn.push(id)
+        }
+        updateDoc(doc(db,'tasks',this.taskId),{
+          waitingOn
+        })
+
+      } else {
+        this.$emit('ManageWaitingOn',id)
+      }
+    },
+    async ManageBlocking(id){
+      if(this.taskId){
+        let blocking = this.tasks[this.taskId].blocking
+        if(blocking.includes(id)){
+          blocking = removeFromArray(blocking,id)
+        }else {
+          blocking.push(id)
+        }
+        updateDoc(doc(db,'tasks',this.taskId),{
+          blocking
+        })
+
+      } else {
+        this.$emit('ManageBlocking',id)
+      }
+    },
   },
   computed:mapState({
-    tasks(tasks){
-      //Filter for this project
-      return []
+    tasks({projects}){
+      let tasks = filterData(projects.tasks,['projectId','==',this.projectId])
+      tasks = filterData(tasks,['status','!=','Completed'])
+      return tasks
+    },
+    task(state){
+      return state.projects.tasks[this.taskId]
     },
     filteredTasks(){
-      return this.tasks.filter(task=>task.name.toLowerCase().includes(this.searchInp))
+      let excluded =[...this.waitingOn,...this.blocking]
+      let tasks = Object.values(this.tasks)
+      if(this.task){
+        let tempExcluded =
+            tasks.filter(task=>task.subtaskFor === this.taskId || task.id === this.taskId)
+        .map(task=>task.id)
+        excluded = excluded.concat(tempExcluded)
+      }
+      tasks = tasks.filter(task=>!excluded.includes(task.id))
+      return tasks.filter(task=>task.name.toLowerCase().includes(this.searchInp))
     }
   })
 }

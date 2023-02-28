@@ -8,7 +8,7 @@
     </button>
     <div class="fixed top-0 bottom-0 w-screen-w left-0 bg-slate-600/50 z-10 flex items-center justify-center"
          @click="CheckClickOutside($event)" v-if="showAddTask">
-      <div class="w-full max-w-80% max-h-screen-h  bg-white rounded-lg p-4 relative" ref="contRef">
+      <div class="w-full w-600px max-w-90% max-h-screen-h  bg-white rounded-lg p-4 relative" ref="contRef">
         <button class="float-right h-5 w-5 text-gray-600" @click="showAddTask=false">
           <i class="fas fa-xmark"></i>
         </button>
@@ -40,11 +40,11 @@
           </div>
           <div>
 
-            <div v-if="task.subTasks.length > 0"> Subtasks</div>
-            <ul class="subtask-list list-disk list-outside px-4 overflow-auto custom-scroll max-h-300px" ref="subTaskList">
+            <div v-if="task.subtasks.length > 0"> Subtasks</div>
+            <ul class="subtask-list list-disk list-outside px-4 overflow-auto custom-scroll max-h-300px" ref="subtaskList">
 
             </ul>
-            <button @click="AddSubTask(task.subTasks.length)">
+            <button @click="AddSubtask(task.subtasks.length)">
               <i class="fas fa-plus"></i>
               Add subtasks
             </button>
@@ -76,10 +76,10 @@
               <span class="text-3 text-red-500 hidden" id="assign-error">
                 This task has not been assigned to anyone
               </span>
+              <span v-if="showMemberAssign">
+                <div class="fixed top-0 popup-overlay left-0 w-screen-w h-screen-h" @click="showMemberAssign = false"></div>
               <div class="members absolute top-0 left-full w-fit bg-white z-1
-              vue-shadow rounded-md h-fit min-h-200px min-w-200px"
-                   v-if="showMemberAssign"
-              >
+              vue-shadow rounded-md h-fit min-h-200px min-w-200px">
                 <div class="p-1">
                   <input type="text" class="w-full h-8" placeholder="search members" v-model="searchInp">
                 </div>
@@ -102,6 +102,7 @@
                 </div>
 
               </div>
+              </span>
             </div>
           </div>
           <div class="others mt-2 flex gap-2 relative">
@@ -116,15 +117,16 @@
                   <PriorityFlag :priority="task.priority"/>
                 </button>
               </Tooltip>
-              <div class="members absolute top-0 left-full w-fit bg-white z-1
-              vue-shadow rounded-md h-fit min-w-200px overflow-hidden"
-                   v-if="showPriorities"
-              >
-                <div class="h-8 hover:bg-slate-100 cursor-pointer flex items-center px-2 gap-2"
-                     v-for="(p,index) in priorities" @click="task.priority = index+1">
-                  <PriorityFlag :priority="index+1"/> {{p}}
+              <span v-if="showPriorities">
+                <div class="fixed top-0 popup-overlay left-0 w-screen-w h-screen-h" @click="showPriorities = false"></div>
+                <div class="members absolute top-0 left-full w-fit bg-white z-1
+                vue-shadow rounded-md h-fit min-w-200px overflow-hidden">
+                  <div class="h-8 hover:bg-slate-100 cursor-pointer flex items-center px-2 gap-2"
+                       v-for="(p,index) in priorities" @click="task.priority = index+1">
+                    <PriorityFlag :priority="index+1"/> {{p}}
+                  </div>
                 </div>
-              </div>
+              </span>
             </div>
             <div class="relative">
               <Tooltip
@@ -137,11 +139,14 @@
                   <i class="fas fa-calendar"></i>
                 </button>
               </Tooltip>
-              <div class="vue-shadow w-fit min-w-220px z-1 h-fit absolute top-0 left-full bg-white" v-if="showDates">
-                <RangePicker v-model:value="dates" :ranges="ranges"/>
-                <TimePicker v-model:value="startTime" use12-hours format="h:mm a" placeholder="start time"/>
-                <TimePicker v-model:value="endTime" use12-hours format="h:mm a" placeholder="end time"/>
-              </div>
+              <span v-if="showDates">
+                <div class="fixed top-0 popup-overlay left-0 w-screen-w h-screen-h" @click="showDates = false"></div>
+                <div class="vue-shadow w-fit min-w-220px z-1 h-fit absolute top-0 left-full bg-white">
+                  <RangePicker v-model:value="dates" :ranges="ranges"/>
+                  <TimePicker v-model:value="startTime" use12-hours format="h:mm a" placeholder="start time"/>
+                  <TimePicker v-model:value="endTime" use12-hours format="h:mm a" placeholder="end time"/>
+                </div>
+              </span>
 
             </div>
             <div class="relative">
@@ -185,15 +190,151 @@ import {validateInp} from "@/commons";
 import {removeFromArray} from "@/commons/objects";
 import {mapState} from "vuex";
 import Avatar from "@/components/Avatar";
-import PriorityFlag from "@/components/projects/PriorityFlag";
+import PriorityFlag from "@/components/tasks/PriorityFlag";
 import {Tooltip,RangePicker,TimePicker} from "ant-design-vue";
 import moment,{Moment} from 'moment'
 import {ref} from "vue";
-import TaskDependencies from "@/components/projects/TaskDependencies";
-import {addDoc} from "firebase/firestore";
+import TaskDependencies from "@/components/tasks/TaskDependencies";
+import {addDoc, updateDoc} from "firebase/firestore";
 import {dbTasks} from "@/firebase";
+import {checkClickOutside} from "@/commons/eventHandlers";
+import {Report} from "@/commons/swal";
 // import {A}
 let priorities = ['Urgent','High','Normal','Low']
+export const taskMethods = {
+  async CreateTask(){
+  let task = this.task
+  console.log(this.dates,this.startTime)
+  validateInp('name')
+  if(!task.name || this.task.name === '')return
+  if(task.assignedTo.length === 0){
+    document.getElementById('assign-error').classList.remove('hidden')
+    return
+  }
+  document.getElementById('assign-error').classList.add('hidden')
+  let date = (new Date()).getTime()
+  let subtasks = task.subtasks
+  delete task.subtasks
+  if(this.dates){
+    let startDate = this.dates[0].$d.getTime()
+    let endDate = this.dates[0].$d.getTime()
+    task = {
+      ...task,
+      plannedStartDate:startDate,
+      plannedEndDate:endDate,
+    }
+  }
+  if( this.startTime && this.startTime !== null){
+    task.plannedStartTime = this.startTime.$d.getTime()
+  }
+  if( this.endTime && this.endTime !== null){
+    task.plannedEndTime = this.endTime.$d.getTime()
+  }
+  try {
+    let task = await addDoc(dbTasks,{
+      ...task,
+      projectId:this.projectId,
+      createdBy:this.user.username,
+      status:'Backlog',
+      created:date
+    })
+    subtasks = subtasks.filter(subtask=>subtask !=='').map(subtask=>({
+      name:subtask,
+      projectId:this.projectId,
+      createdBy:this.username.username,
+      created: date,
+      status:'Backlog',
+      subtaskFor:task.id,
+      blocking:[],
+      waitingOn:[],
+      priority:3,
+      assignedTo:[]
+    }))
+    for (let i = 0; i < subtasks.length; i++) {
+      await addDoc(dbTasks,subtasks[i])
+    }
+    // if(subtasks.length>0){
+    //   if(task.plannedStartDate){
+    //     subtasks[0]
+    //   }
+    // }
+    Report({icon:'success',title:'Task created'})
+  }catch {
+    Report({icon:'error',title:'error creating task'})
+  }
+},
+  ManageBlocking(task){
+    if(this.task.blocking.includes(task)){
+      this.task.blocking = removeFromArray(this.task.blocking,task)
+    }else {
+      this.task.blocking.push(task)
+    }
+
+  },
+  ManageWaitingOn(task){
+    if(this.task.waitingOn.includes(task)){
+      this.task.waitingOn = removeFromArray(this.task.waitingOn,task)
+    }else {
+      this.task.waitingOn.push(task)
+    }
+  },
+  ManageAssigned(username){
+    if(this.task.assignedTo.includes(username)){
+      this.task.assignedTo = removeFromArray(this.task.assignedTo,username)
+    }else {
+      this.task.assignedTo.push(username)
+    }
+  } ,
+  AddSubtask(index){
+    if(index !== this.task.subtasks.length)return
+    console.log('starting')
+    this.task.subtasks.push('')
+    let listCont = this.$refs.subtaskList
+    let list = document.createElement('li')
+    let button = document.createElement('button')
+    button.type = 'button'
+    button.classList.add('v-center')
+    let icon = document.createElement('i')
+    icon.classList.add('fas','fa-trash-can')
+    button.appendChild(icon)
+    button.addEventListener('click',()=>{
+      this.DeleteSubtask(index,list)
+    })
+    let input = document.createElement('input')
+    input.id = 'subtask-'+index+1
+    input.addEventListener('change',(event)=>{
+      this.task.subtasks[index] = event.target.value
+    })
+    input.addEventListener('blur',(event)=>{
+      if(event.target.value === ''){
+        this.DeleteSubtask(index,list)
+      }
+    })
+    input.addEventListener('keyup',(event)=>{
+      if(event.key === 'Enter'){
+        console.log('creating input number ',index+1)
+        this.AddSubtask(index+1)
+      }
+    })
+    list.append(input,button)
+    listCont.appendChild(list)
+    input.focus()
+  },
+  async DeleteSubtask(index, list){
+  if(list){
+    let subtasks = this.task.subtasks
+    if(subtasks.length>1){
+      this.task.subtasks = removeFromArray(subtasks,subtasks[index])
+    }else {
+      this.task.subtasks = []
+    }
+    let listCont = this.$refs.subtaskList
+    listCont.removeChild(list)
+  }
+  console.log(this.task.subtasks)
+
+},
+}
 
 export default {
   name: "AddTask",
@@ -206,11 +347,11 @@ export default {
   props:['projectId'],
   data(){
     return{
-      showAddTask:true,
+      showAddTask:false,
       priorities,
       task:{
         assignedTo:[],
-        subTasks:[],
+        subtasks:[],
         priority:3,
         blocking:[],
         waitingOn:[],
@@ -227,125 +368,15 @@ export default {
     };
   },
   methods:{
-    async CreateTask(){
-      let task = this.task
-      console.log(this.dates,this.startTime)
-      validateInp('name')
-      if(!task.name || this.task.name === '')return
-      if(task.assignedTo.length === 0){
-        document.getElementById('assign-error').classList.remove('hidden')
-        return
-      }
-      document.getElementById('assign-error').classList.add('hidden')
-      if(this.dates){
-        let startDate = this.dates[0].$d.getTime()
-        let endDate = this.dates[0].$d.getTime()
-        task = {
-          ...task,
-          plannedStartDate:startDate,
-          plannedEndDate:endDate,
-        }
-      }
-      if( this.startTime && this.startTime !== null){
-        task.plannedStartTime = this.startTime.$d.getTime()
-      }
-      if( this.endTime && this.endTime !== null){
-        task.plannedEndTime = this.endTime.$d.getTime()
-      }
-      try {
-        let date = (new Date()).getTime()
-        await addDoc(dbTasks,{
-          ...task,
-          projectId:this.projectId,
-          createdBy:this.user.username,
-          created:date
-        })
-        Report({icon:'success',title:'Task created'})
-      }catch {
-        Report({icon:'error',title:'error creating task'})
-      }
-    },
-    ManageBlocking(task){
-      if(this.task.blocking.includes(task)){
-        this.task.blocking = removeFromArray(this.task.blocking,task)
-      }else {
-        this.task.blocking.push(task)
-      }
-
-    },
-    ManageWaitingOn(task){
-      if(this.task.waitingOn.includes(task)){
-        this.task.waitingOn = removeFromArray(this.task.waitingOn,task)
-      }else {
-        this.task.waitingOn.push(task)
-      }
-    },
-    ManageAssigned(username){
-      if(this.task.assignedTo.includes(username)){
-        this.task.assignedTo = removeFromArray(this.task.assignedTo,username)
-      }else {
-        this.task.assignedTo.push(username)
-      }
-    } ,
-    AddSubTask(index){
-      if(index !== this.task.subTasks.length)return
-      console.log('starting')
-      this.task.subTasks.push('')
-      let listCont = this.$refs.subTaskList
-      let list = document.createElement('li')
-      let button = document.createElement('button')
-      button.type = 'button'
-      button.classList.add('v-center')
-      let icon = document.createElement('i')
-      icon.classList.add('fas','fa-trash-can')
-      button.appendChild(icon)
-      button.addEventListener('click',()=>{
-        this.DeleteSubtask(index,list)
-      })
-      let input = document.createElement('input')
-      input.id = 'subtask-'+index+1
-      input.addEventListener('change',(event)=>{
-        this.task.subTasks[index] = event.target.value
-      })
-      input.addEventListener('blur',(event)=>{
-        if(event.target.value === ''){
-          this.DeleteSubtask(index,list)
-        }
-      })
-      input.addEventListener('keyup',(event)=>{
-        if(event.key === 'Enter'){
-          console.log('creating input number ',index+1)
-          this.AddSubTask(index+1)
-        }
-      })
-      list.append(input,button)
-      listCont.appendChild(list)
-      input.focus()
-    },
-    DeleteSubtask(index, list){
-      let listCont = this.$refs.subTaskList
-      let subTasks = this.task.subTasks
-      if(subTasks.length>1){
-        this.task.subTasks = removeFromArray(subTasks,subTasks[index])
-      }else {
-        this.task.subTasks = []
-      }
-      listCont.removeChild(list)
-
-    },
+    ...taskMethods,
     Validate(id){
       validateInp(id)
     },
     CheckClickOutside(event){
-      let target = event.target
-      let isOutside = this.$refs.contRef && !this.$refs.contRef.contains(target) &&
-          target.tagName !== 'BUTTON' && target.parentNode.tagName !== 'BUTTON' &&
-          target.parentNode.parentNode.tagName !== 'BUTTON'
-
-
-      if(isOutside){
+      let callBack = ()=>{
         this.showAddTask = false
       }
+      checkClickOutside(event,this.$refs.contRef,callBack)
     }
   },
   computed:mapState({
