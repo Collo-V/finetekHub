@@ -9,7 +9,15 @@
         :waiting-on="task.waitingOn"
         @hide-modal="showDependencies = false"
     />
-    <div class="w-full max-w-80% h-screen-h-80  bg-white rounded-lg relative overflow-hidden" ref="contRef" id="taskpane-modal">
+    <CardMoveErrors
+        :unresolved-tasks="unresolvedTasks"
+        :unresolved-subtasks="unresolvedSubtasks"
+        @resolve=""
+        @proceed=""
+        @hide-modal="showUnresolvedErrors=false"
+        v-if="showUnresolvedErrors"
+    />
+    <div class="w-full max-w-95% 2xl:max-w-80% h-screen-h-80  bg-white rounded-lg relative overflow-hidden" ref="contRef" id="taskpane-modal">
       <div class="h-10 flex items-center justify-between bg-slate-100 px-8">
         <div>
           On project {{project.name}}
@@ -18,19 +26,40 @@
           <i class="fas fa-xmark"></i>
         </button>
       </div>
-      <div class="flex h-full">
-        <div class="w-full lg:w-50% h-full border-r-1px">
+      <div class="grid lg:flex h-full">
+        <div class="w-full h-full border-r-1px">
           <div class="h-16 border-b-1px flex items-center px-8 gap-4">
             <div class="w-fit flex flex-col items-center gap-2 relative dropdown-cont">
               <div :class="'status-' +task.status+
                   ' w-fit h-8 border-1px rounded-sm flex items-center justify-center'">
-                <button class="h-8 w-6 border-r-1px">
-                  <i class="fas fa-angle-left"></i>
-                </button>
+                <Tooltip
+                    position="top"
+                    :title="'Mark as '+ statuses[statuses.indexOf(task.status)-1]"
+                >
+                  <button
+                      class="h-8 w-6 border-r-1px"
+                      v-if="statuses.indexOf(task.status)!==0"
+                      @click="[tempTargetList = statuses[statuses.indexOf(task.status)-1],
+                      SeeChange({added:{element:thisTask}}) ]"
+                  >
+                    <i class="fas fa-angle-left"></i>
+                  </button>
+                </Tooltip>
                 <span class="px-1">{{task.status}}</span>
-                <button class="h-8 w-6 border-l-1px ">
-                  <i class="fas fa-angle-right"></i>
-                </button>
+
+                <Tooltip
+                    position="top"
+                    :title="'Mark as '+ statuses[statuses.indexOf(task.status)+1]"
+                >
+                  <button
+                      class="h-8 w-6 border-l-1px "
+                      v-if="statuses.indexOf(task.status)!==statuses.length-1"
+                      @click="[tempTargetList = statuses[statuses.indexOf(task.status)+1],
+                      SeeChange({added:{element:thisTask}}) ]"
+                  >
+                    <i class="fas fa-angle-right"></i>
+                  </button>
+                </Tooltip>
               </div>
 <!--              <div class="gap-2 dropdown absolute top-0 left-full grid vue-shadow rounded-md overflow-hidden bg-white z-1">-->
 <!--                <button class="w-120px hover:bg-slate-100">-->
@@ -108,7 +137,7 @@
               <div class="members absolute top-0 left-full w-fit bg-white z-1
               vue-shadow rounded-md h-fit min-w-200px overflow-hidden">
                 <div class="h-8 hover:bg-slate-100 cursor-pointer flex items-center px-2 gap-2"
-                     v-for="(p,index) in priorities" @click="task.priority = index+1">
+                     v-for="(p,index) in priorities" @click="ChangePriority(index+1)">
                   <PriorityFlag :priority="index+1"/> {{p}}
                 </div>
               </div>
@@ -164,60 +193,59 @@
 
           </div>
         </div>
-        <div class="w-full lg:w-50% h-full">
+        <div class="w-full h-full">
           <div class="h-16 border-b-1px flex items-center px-8 gap-4">
-            <div class='grid gap-1 text-3 text-center'>
-              <span class="text-gray-600 uppercase">Created</span>
-              <span>{{ moment((new Date(task.created))).subtract(6, 'days').calendar() }}</span>
-
-            </div>
-            <span class="block h-10 bg-slate-400 w-1px"></span>
-            <div class='grid gap-1 text-3 text-center'>
-              <span class="text-gray-600 uppercase">Created BY</span>
-              <span class="relative dropdown-cont">
+            <Tooltip
+                position="top"
+            >
+              <template #title>
+                <div class='grid gap-1 text-3 text-center'>
+                  <span class="uppercase">Created BY</span>
+                  <span class="relative dropdown-cont">
                 {{GetName(task.createdBy)}}
-                <span class="absolute top-full left-50% h-center dropdown">
+                <span class="absolute top-full left-50% h-center dropdown text-black">
                   <MemberCard :username="task.createdBy"/>
                 </span>
               </span>
-            </div>
+                </div>
+              </template>
+              <div class='grid gap-1 text-3 text-center'>
+                <span class="text-gray-600 uppercase">Created</span>
+                <span>{{ moment((new Date(task.created))).subtract(6, 'days').calendar() }}</span>
+
+              </div>
+            </Tooltip>
             <span class="block h-10 bg-slate-400 w-1px"></span>
-            <div class="gap-4 flex" v-if="task.plannedStartDate">
-              <div class='grid gap-1 text-3 text-center'>
-                <span class="text-gray-600 uppercase">Scheduled to start</span>
-                <span>{{ moment(task.plannedEndDate).calendar() }}</span>
-              </div>
-              <span class="block h-10 bg-slate-400 w-1px"></span>
-              <div class='grid gap-1 text-3 text-center'>
-                <span class="text-gray-600 uppercase">Due date</span>
-                <span>{{ moment(task.plannedEndDate).calendar() }}</span>
-              </div>
-            </div>
-            <div class="relative" v-else>
-              <Tooltip
-                  placement="top"
-                  overlayClassName="mr-2"
-                  title="Set Dates"
-              >
-                <button class="h-10 w-10 rounded-full border-dotted border-1px"
-                        @click="showDates = !showDates">
-                  <i class="fas fa-calendar"></i>
-                </button>
-              </Tooltip>
-              <span  v-if="showDates">
+            <div class='grid gap-1 text-3 text-center justify-center'>
+              <span class="text-gray-600 uppercase">Time frame</span>
+              <span>
+                <button class="border-dotted h-8 w-8 rounded-full border-1px mx-auto" @click="showDates = true">
+                <i class="fas fa-calendar"></i>
+              </button>
+              <span class="relative inline-block" v-if="showDates">
                 <div class="fixed top-0 popup-overlay left-0 w-screen-w h-screen-h" @click="showDates = false"></div>
-                <div class="vue-shadow w-fit min-w-220px z-1 h-fit absolute top-full left-50% h-center bg-white">
-                <RangePicker v-model:value="dates" :ranges="ranges"/>
-                <TimePicker v-model:value="startTime" use12-hours format="h:mm a" placeholder="start time"/>
-                <TimePicker v-model:value="endTime" use12-hours format="h:mm a" placeholder="end time"/>
+                <div class="w-fit z-1 w-250px h-fit bg-white absolute top-full left-50% h-center">
+                  <div>
+                    <RangePicker v-model:value="dates" :ranges="ranges"/>
+                  </div>
+                  <div>
+                    <TimePicker v-model:value="startTime" use12-hours format="h:mm a" placeholder="start time"/>
+                    <TimePicker v-model:value="endTime" use12-hours format="h:mm a" placeholder="end time"/>
+                  </div>
               </div>
               </span>
-
+              </span>
             </div>
+            <span class="block h-10 bg-slate-400 w-1px"></span>
+            <div class='grid gap-1 text-3 text-center'>
+              <span class="text-gray-600 uppercase">Due date</span>
+              <span class="relative dropdown-cont" v-if="task.plannedEndDate">
+                {{ moment(GetTime(task.plannedEndDate,task.plannedEndTime)).calendar() }}
+              </span>
+              <span v-else>Not set</span>
+              </div>
           </div>
-          <div class="mt-4 px-8">
-            <h3 class="font-semibold ">Activities</h3>
-          </div>
+         <TaskActivities :task-id="taskId"/>
 
         </div>
 
@@ -239,23 +267,105 @@ import {ref} from "vue";
 import {checkClickOutside} from "@/commons/eventHandlers"
 import moment, {Moment} from "moment";
 import {RangePicker,TimePicker} from "ant-design-vue";
-import {addDoc, doc, updateDoc} from "firebase/firestore";
-import {db, dbTasks} from "@/firebase";
+import {addDoc, deleteField, doc, updateDoc} from "firebase/firestore";
+import {db, dbTaskActivities, dbTasks} from "@/firebase";
 import {filterData} from "@/commons/objects";
 import MoveSubtask from "@/components/tasks/MoveSubtask";
 import Subtasks from "@/components/tasks/Subtasks";
 import MemberCard from "@/components/MemberCard";
+import TaskActivities from "@/components/tasks/TaskActivities";
+import firebase from "firebase/compat";
+import CardMoveErrors from "@/components/tasks/CardMoveErrors";
+
+export function GetTime(date,time){
+  if(!date)return
+  let tempDate = (new Date(moment(date).format('L'))).getTime()
+  if(time){
+    let today = (new Date(moment(time).format('L'))).getTime()
+    let tempTime = (new Date(time)).getTime()
+    time = tempTime-today
+    tempDate+=time
+  }
+  return tempDate
+}
+export async function SeeChange(change) {
+  console.log(this.tempTargetList)
+  if (change.added) {
+    this.unresolvedTasks = []
+    this.unresolvedSubtasks = []
+    let task = change.added.element
+    if (this.tempTargetList === 'InProgress') {
+      let dependencies = task.waitingOn
+      for (let i = 0; i < dependencies.length; i++) {
+        let dependency = this.tasks[dependencies[i]]
+        if (dependency.status !== 'Completed') {
+          this.unresolvedTasks.push(dependency.id)
+        }
+      }
+      if (this.unresolvedTasks.length > 0) {
+        this.showUnresolvedErrors = true
+        return
+      }
+    } else if (this.tempTargetList === 'Completed') {
+      let dependencies = task.waitingOn
+      for (let i = 0; i < dependencies.length; i++) {
+        let dependency = this.tasks[dependencies[i]]
+        if (dependency.status !== 'Completed') {
+          this.unresolvedTasks.push(dependency.id)
+        }
+      }
+      let subtasks = Object.values(this.tasks).filter(subtask => subtask.subtaskFor === task.id)
+      for (let i = 0; i < subtasks.length; i++) {
+        let subtask = subtasks[i]
+        if (subtask.status !== 'Completed') {
+          this.unresolvedSubtasks.push(subtask.id)
+        }
+      }
+      if (this.unresolvedSubtasks.length > 0 || this.unresolvedSubtasks.length > 0) {
+        this.showUnresolvedErrors = true
+        return
+      }
+    }
+    let updates = {
+      status: this.tempTargetList,
+    }
+    if(task.status === 'Completed') {
+      task['completed'] = deleteField()
+    }else if(this.tempTargetList === 'Completed') {
+      task['completed'] = firebase.firestore.FieldValue.serverTimestamp()
+    }
+    if(this.tempTargetList === 'InProgress' && (task.status === 'Backlog' ||task.status === 'ToDo')){
+      task['started'] = firebase.firestore.FieldValue.serverTimestamp()
+    }
+    if(this.tempTargetList === 'InProgress' && (task.status === 'Backlog' ||task.status === 'ToDo')){
+      task['completed'] = firebase.firestore.FieldValue.serverTimestamp()
+    }
+    try{
+      await updateDoc(doc(db, 'tasks', task.id), updates)
+      console.log('done')
+    }catch {}
+    addDoc(dbTaskActivities, {
+      actor: this.user.username,
+      taskId: task.id,
+      activity: 'ChangeTaskStatus',
+      time: firebase.firestore.FieldValue.serverTimestamp(),
+      value:updates.status
+    }).catch()
+  }
+}
 
 export default {
   name: "TaskPane",
   components: {
+    TaskActivities,
     MemberCard,
     Subtasks,
     Avatar,
     PriorityFlag,
     Tooltip,RangePicker,
     TimePicker,
-    TaskDependencies
+    TaskDependencies ,
+    CardMoveErrors,
   },
   props:['taskId'],
   emits:['HideModal'],
@@ -269,7 +379,10 @@ export default {
       moment,
       time:'',
       searchInp:'',
-      priorities:['Urgent','High','Normal','Low'],
+      tempTargetList:undefined,
+      unresolvedSubtasks:[],
+      unresolvedTasks:[],
+      showUnresolvedErrors:false,
       task:{
         name:'Doing this',
         description:'A little',
@@ -287,23 +400,79 @@ export default {
   },
   watch:{
     async dates(dates){
-      if(dates){
-        console.log(dates)
-        return
-        let plannedStartDate = dates[0].$d.getTime()
-        let plannedEndDate = dates[0].$d.getTime()
-        await updateDoc(doc(db,'tasks',this.taskId),{
-          plannedStartDate,
-          plannedEndDate
-        })
+      try{
+        if(dates){
+          let plannedStartDate = dates[0].$d.getTime()
+          let plannedEndDate = dates[0].$d.getTime()
+          await updateDoc(doc(db,'tasks',this.taskId),{
+            plannedStartDate,
+            plannedEndDate
+          })
+        }else{
+          await updateDoc(doc(db,'tasks',this.taskId),{
+            plannedStartDate:deleteField(),
+            plannedEndDate:deleteField()
+          })
+        }
+      }catch {}
+    },
+    async startTime(time){
+      if(time){
+        try{
+          await updateDoc(doc(db,'tasks',this.taskId),{
+            plannedStartTime:time.$d.getTime()
+          })
+        }catch {}
+      }
+      else{
+       try{
+         await updateDoc(doc(db,'tasks',this.taskId),{
+           plannedStartTime:deleteField()
+         })
+       }catch {}
+      }
+    },
+    async endTime(time){
+      if(time){
+        try{
+          await updateDoc(doc(db,'tasks',this.taskId),{
+            plannedEndTime:time.$d.getTime()
+          })
+        }catch {}
+      }else{
+        try{
+          await updateDoc(doc(db,'tasks',this.taskId),{
+            plannedStartTime:deleteField()
+          })
+        }catch {}
       }
     }
   },
   methods:{
     ...taskMethods,
+    SeeChange,
+    async ChangePriority(priority){
+      await updateDoc(doc(db,'tasks',this.taskId),{
+        priority
+      })
+      addDoc(dbTaskActivities, {
+        actor: this.user.username,
+        taskId: this.taskId,
+        activity: 'ChangeTaskPriority',
+        time: firebase.firestore.FieldValue.serverTimestamp(),
+        value:priority
+      }).catch()
+    },
     Validate(id){
       validateInp(id)
     },
+    GetTimeFrame(date,time){
+      time = this.GetTime(date,time)
+      console.log(time)
+      return
+      moment(GetTime(task.plannedStartDate,task.plannedStartTime)).calendar()
+    },
+    GetTime,
     GetName(username){
       return !this.team[username]?'':`${this.team[username].firstName} ${this.team[username].lastName}`
     },
@@ -315,18 +484,21 @@ export default {
     statusClass(){
       return
     },
-    timer(){
-      setInterval(()=>{
-        this.time =  moment().format('MMMM Do YYYY, h:mm:ss a')
-      },1000)
-    },
     team:state => state.team,
+    priorities:state => state.projects.taskPriorities,
+    statuses:state => state.projects.taskStatuses,
     user:state => state.user,
     thisTask({projects:{tasks}}){
       let task =tasks[this.taskId]
       this.task = {...task}
       if(task.plannedStartDate){
         this.dates = [moment(task.plannedStartDate),moment(task.plannedEndDate)]
+      }
+      if(task.plannedStartTime){
+        this.startTime = moment(task.plannedStartTime)
+      }
+      if(task.plannedEndTime){
+        this.endTime = moment(task.plannedEndTime)
       }
       return task
     },
@@ -374,7 +546,7 @@ export default {
   @apply bg-primary/50 text-primary
 }
 .status-Completed{
-  @apply bg-slate-500/50 text-green-500
+  @apply bg-green-500/50 text-green-500
 }
 
 

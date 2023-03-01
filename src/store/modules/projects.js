@@ -1,12 +1,14 @@
 import {onSnapshot} from "firebase/firestore";
-import {dbProjects, dbTasks} from "@/firebase";
+import {dbProjects, dbTaskActivities, dbTasks} from "@/firebase";
 
 export default {
     state:{
         projects:{},
         tasks:{},
+        taskStatuses:['Backlog','ToDo','InProgress','Completed'],
+        taskPriorities:['Urgent','High','Normal','Low'],
         activities:{},
-        taskStatuses:['Backlog','ToDo','InProgress','Completed']
+
     },
     mutations:{
         WriteProjects(state,projects){
@@ -33,6 +35,22 @@ export default {
                     }
                 })
                 context.commit('WriteProjects',tempProjects)
+            })
+        },
+        async GetActivities(context){
+            let username = context.rootState.user.username
+            onSnapshot(dbTaskActivities,snapshot => {
+                let docs = snapshot.docs
+                let tempActivities = {}
+                docs.forEach(activity=>{
+                    let data = activity.data()
+                    tempActivities[activity.id] = {
+                        ...activity.data(),
+                        id:activity.id,
+                        time:typeof (data.time) ==='number'?data.time:data.time.seconds*1000
+                    }
+                })
+                context.commit('WriteActivities',tempActivities)
             })
         },
         async GetTasks(context){

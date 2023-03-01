@@ -1,5 +1,5 @@
 <template>
-  <div class="w-250px h-200px bg-white rounded-md vue-shadow-md py-4 flex flex-col justify-between" v-if="username">
+  <div class="w-250px h-200px bg-white rounded-md vue-shadow-md py-4 flex flex-col justify-between relative z-1" v-if="username">
     <div class="pb-2 flex gap-4 items-center border-b-1px p-2">
       <img :src="member.image" alt="" class="h-12 w-12">
       <div>

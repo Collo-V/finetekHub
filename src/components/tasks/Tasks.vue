@@ -141,6 +141,7 @@ import {db} from "@/firebase";
 import {Report} from "@/commons/swal";
 import CardMoveErrors from "@/components/tasks/CardMoveErrors";
 import firebase from "firebase/compat";
+import {SeeChange} from '@/components/tasks/TaskPane'
 
 export default {
   name: "Tasks" ,
@@ -181,64 +182,7 @@ export default {
     SeeMove(event){
       this.tempTargetList = event.to.id.replace('-list','')
     },
-    async SeeChange(change) {
-      console.log(this.tempTargetList)
-      if (change.added) {
-        this.unresolvedTasks = []
-        this.unresolvedSubtasks = []
-        let task = change.added.element
-        if (this.tempTargetList === 'InProgress') {
-          let dependencies = task.waitingOn
-          for (let i = 0; i < dependencies.length; i++) {
-            let dependency = this.tasks[dependencies[i]]
-            if (dependency.status !== 'Completed') {
-              this.unresolvedTasks.push(dependency.id)
-            }
-          }
-          if (this.unresolvedTasks.length > 0) {
-            this.showUnresolvedErrors = true
-            return
-          }
-        } else if (this.tempTargetList === 'Completed') {
-          let dependencies = task.waitingOn
-          for (let i = 0; i < dependencies.length; i++) {
-            let dependency = this.tasks[dependencies[i]]
-            if (dependency.status !== 'Completed') {
-              this.unresolvedTasks.push(dependency.id)
-            }
-          }
-          let subtasks = Object.values(this.tasks).filter(subtask => subtask.subtaskFor === task.id)
-          for (let i = 0; i < subtasks.length; i++) {
-            let subtask = subtasks[i]
-            if (subtask.status !== 'Completed') {
-              this.unresolvedSubtasks.push(subtask.id)
-            }
-          }
-          if (this.unresolvedSubtasks.length > 0 || this.unresolvedSubtasks.length > 0) {
-            this.showUnresolvedErrors = true
-            return
-          }
-        }
-        let updates = {
-          status: this.tempTargetList,
-        }
-        if(task.status === 'Completed') {
-          task['completed'] = deleteField()
-        }else if(this.tempTargetList === 'Completed') {
-          task['completed'] = firebase.firestore.FieldValue.serverTimestamp()
-        }
-        if(this.tempTargetList === 'InProgress' && (task.status === 'Backlog' ||task.status === 'ToDo')){
-          task['started'] = firebase.firestore.FieldValue.serverTimestamp()
-        }
-        if(this.tempTargetList === 'InProgress' && (task.status === 'Backlog' ||task.status === 'ToDo')){
-          task['completed'] = firebase.firestore.FieldValue.serverTimestamp()
-        }
-        try{
-          await updateDoc(doc(db, 'tasks', task.id), updates)
-          console.log('done')
-        }catch {}
-      }
-    }
+    SeeChange
   },
   computed:mapState({
     tasks(state){

@@ -78,6 +78,7 @@ import {db, dbNotifs} from "@/firebase";
 import {filterData} from "@/commons/objects";
 import {confirmAction} from "@/commons/swal";
 import AddChannelMembers from "@/components/channels/AddChannelMembers";
+import firebase from "firebase/compat";
 
 export default {
   name: "ChannelMembers",
@@ -156,7 +157,7 @@ export default {
         entity:this.channelId,
         entityType:'Removed',
         notifiers,
-        time:date,
+        time:firebase.firestore.FieldValue.serverTimestamp(),
         subject:username,
         isRead:[this.user.username]
       })

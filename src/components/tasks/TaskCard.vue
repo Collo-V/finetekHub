@@ -58,13 +58,13 @@
           </div>
           <div class="" v-if="task.plannedEndDate">
             <span v-if="dueDate < time" class="text-red-500">
-              Due {{ moment(task.plannedEndDate).calendar() }}
+              Due {{ moment(dueDate).calendar() }}
             </span>
             <span v-else-if="dueDate < time-1800000" class="text-orange-500">
-              Due {{ moment(task.plannedEndDate).calendar() }}
+              Due {{ moment(dueDate).calendar() }}
             </span>
             <span v-else>
-              Due {{ moment(task.plannedEndDate).calendar() }}
+              Due {{ moment(dueDate).calendar() }}
             </span>
           </div>
         </div>
@@ -76,7 +76,7 @@
 
 <script>
 import Avatar from "@/components/Avatar";
-import TaskPane from "@/components/tasks/TaskPane";
+import TaskPane, {GetTime} from "@/components/tasks/TaskPane";
 import {mapState} from "vuex";
 import {filterData} from "@/commons/objects";
 import moment from "moment";
@@ -87,9 +87,12 @@ export default {
   data(){
     return{
       showTaskPane:false,
-      dueDate:'',
       moment,
+      interval:'',
     }
+  },
+  methods:{
+    GetTime,
   },
   computed:mapState({
     time:state => state.time,
@@ -104,16 +107,11 @@ export default {
     assignedTo(){
       return this.task.assignedTo.map(username=>this.team[username])
     },
-    taskDueDate(){
-      setInterval(()=>{
-        if(this.task.plannedEndDate){
-          this.dueDate = this.task.plannedEndDate
-        }
-      },60000)
+    dueDate(){
+      return this.GetTime(this.task.plannedEndDate,this.task.plannedEndTime)
     }
   }),
   mounted() {
-    this.taskDueDate
   }
 }
 </script>

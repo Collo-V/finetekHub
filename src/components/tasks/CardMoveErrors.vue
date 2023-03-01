@@ -1,7 +1,7 @@
 <template>
   <div class="fixed top-0 bottom-0 w-screen-w left-0 bg-slate-600/50 z-10 flex items-center justify-center"
        @click="CheckClickOutside($event)">
-    <div class="w-full w-600px max-w-80% h-screen-h-70 p-10  bg-white rounded-lg relative overflow-hidden flex flex-col"
+    <div class="w-full w-600px max-w-80% h-fit min-h-screen-h-70 p-10 max-h-screen-90 overflow-auto custom-scroll  bg-white rounded-lg relative overflow-hidden flex flex-col"
          ref="contRef">
       <button class="absolute top-0 right-0 m-4 h-5 w-5 text-gray-600 text-5" @click="$emit('HideModal')">
         <i class="fas fa-xmark"></i>

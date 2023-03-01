@@ -195,73 +195,87 @@ import {Tooltip,RangePicker,TimePicker} from "ant-design-vue";
 import moment,{Moment} from 'moment'
 import {ref} from "vue";
 import TaskDependencies from "@/components/tasks/TaskDependencies";
-import {addDoc, updateDoc} from "firebase/firestore";
-import {dbTasks} from "@/firebase";
+import {addDoc, doc, updateDoc} from "firebase/firestore";
+import {db, dbNotifs, dbTaskActivities, dbTasks} from "@/firebase";
 import {checkClickOutside} from "@/commons/eventHandlers";
 import {Report} from "@/commons/swal";
+import firebase from "firebase/compat";
 // import {A}
 let priorities = ['Urgent','High','Normal','Low']
 export const taskMethods = {
   async CreateTask(){
-  let task = this.task
-  console.log(this.dates,this.startTime)
-  validateInp('name')
-  if(!task.name || this.task.name === '')return
-  if(task.assignedTo.length === 0){
-    document.getElementById('assign-error').classList.remove('hidden')
-    return
-  }
-  document.getElementById('assign-error').classList.add('hidden')
-  let date = (new Date()).getTime()
-  let subtasks = task.subtasks
-  delete task.subtasks
-  if(this.dates){
-    let startDate = this.dates[0].$d.getTime()
-    let endDate = this.dates[0].$d.getTime()
-    task = {
-      ...task,
-      plannedStartDate:startDate,
-      plannedEndDate:endDate,
+    let task = this.task
+    console.log(this.dates,this.startTime)
+    validateInp('name')
+    if(!task.name || this.task.name === '')return
+    if(task.assignedTo.length === 0){
+      document.getElementById('assign-error').classList.remove('hidden')
+      return
     }
-  }
-  if( this.startTime && this.startTime !== null){
-    task.plannedStartTime = this.startTime.$d.getTime()
-  }
-  if( this.endTime && this.endTime !== null){
-    task.plannedEndTime = this.endTime.$d.getTime()
-  }
-  try {
-    let task = await addDoc(dbTasks,{
-      ...task,
-      projectId:this.projectId,
-      createdBy:this.user.username,
-      status:'Backlog',
-      created:date
-    })
-    subtasks = subtasks.filter(subtask=>subtask !=='').map(subtask=>({
-      name:subtask,
-      projectId:this.projectId,
-      createdBy:this.username.username,
-      created: date,
-      status:'Backlog',
-      subtaskFor:task.id,
-      blocking:[],
-      waitingOn:[],
-      priority:3,
-      assignedTo:[]
-    }))
-    for (let i = 0; i < subtasks.length; i++) {
-      await addDoc(dbTasks,subtasks[i])
+    document.getElementById('assign-error').classList.add('hidden')
+    let date = (new Date()).getTime()
+    let subtasks = task.subtasks
+    delete task.subtasks
+    if(this.dates){
+      let startDate = this.dates[0].$d.getTime()
+      let endDate = this.dates[0].$d.getTime()
+      task = {
+        ...task,
+        plannedStartDate:startDate,
+        plannedEndDate:endDate,
+      }
     }
-    // if(subtasks.length>0){
-    //   if(task.plannedStartDate){
-    //     subtasks[0]
-    //   }
-    // }
-    Report({icon:'success',title:'Task created'})
-  }catch {
-    Report({icon:'error',title:'error creating task'})
-  }
+    if( this.startTime && this.startTime !== null){
+      task.plannedStartTime = this.startTime.$d.getTime()
+    }
+    if( this.endTime && this.endTime !== null){
+      task.plannedEndTime = this.endTime.$d.getTime()
+    }
+    try {
+      let task = await addDoc(dbTasks,{
+        ...task,
+        projectId:this.projectId,
+        createdBy:this.user.username,
+        status:'Backlog',
+        created:firebase.firestore.FieldValue.serverTimestamp()
+      })
+      addDoc(dbTaskActivities, {
+        actor: this.user.username,
+        taskId: task.id,
+        activity: 'Created',
+        time: firebase.firestore.FieldValue.serverTimestamp(),
+      }).catch()
+      subtasks = subtasks.filter(subtask=>subtask !=='').map(subtask=>({
+        name:subtask,
+        projectId:this.projectId,
+        createdBy:this.username.username,
+        created: firebase.firestore.FieldValue.serverTimestamp(),
+        status:'Backlog',
+        subtaskFor:task.id,
+        blocking:[],
+        waitingOn:[],
+        priority:3,
+        assignedTo:[]
+      }))
+      for (let i = 0; i < subtasks.length; i++) {
+        c= await addDoc(dbTasks,subtasks[i])
+        addDoc(dbTaskActivities, {
+          actor: this.user.username,
+          taskId: task.id,
+          activity: 'AddSubtask',
+          subtaskId: c.id,
+          time: firebase.firestore.FieldValue.serverTimestamp(),
+        }).catch()
+      }
+      // if(subtasks.length>0){
+      //   if(task.plannedStartDate){
+      //     subtasks[0]
+      //   }
+      // }
+      Report({icon:'success',title:'Task created'})
+    }catch {
+      Report({icon:'error',title:'error creating task'})
+    }
 },
   ManageBlocking(task){
     if(this.task.blocking.includes(task)){
@@ -278,11 +292,27 @@ export const taskMethods = {
       this.task.waitingOn.push(task)
     }
   },
-  ManageAssigned(username){
-    if(this.task.assignedTo.includes(username)){
-      this.task.assignedTo = removeFromArray(this.task.assignedTo,username)
+  async ManageAssigned(username){
+    let assignedTo = this.task.assignedTo
+    if(assignedTo.includes(username)){
+      assignedTo = removeFromArray(this.task.assignedTo,username)
     }else {
-      this.task.assignedTo.push(username)
+      assignedTo.push(username)
+    }
+    if(this.taskId){
+      await updateDoc(doc(db,'tasks',this.taskId), {
+            assignedTo
+      })
+      addDoc(dbTaskActivities, {
+        actor: this.user.username,
+        taskId: this.taskId,
+        activity: 'AssignTo',
+        time: firebase.firestore.FieldValue.serverTimestamp(),
+        value:username
+      }).catch()
+
+    }else{
+      this.task.assignedTo = assignedTo
     }
   } ,
   AddSubtask(index){

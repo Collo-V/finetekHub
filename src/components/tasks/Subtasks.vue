@@ -108,7 +108,7 @@
 
 <script>
 import {addDoc, doc, updateDoc,deleteField} from "firebase/firestore";
-import {db, dbTasks} from "@/firebase";
+import {db, dbTaskActivities, dbTasks} from "@/firebase";
 import {mapState} from "vuex";
 import MoveSubtask from "@/components/tasks/MoveSubtask";
 import {Tooltip} from "ant-design-vue";
@@ -147,20 +147,42 @@ export default {
           priority:3,
           assignedTo:[]
         }
-        await addDoc(dbTasks,subtask)
+        let res = await addDoc(dbTasks,subtask)
+        addDoc(dbTaskActivities, {
+          actor: this.user.username,
+          taskId: this.task.id,
+          activity: 'AddSubtask',
+          subtaskId: res.id,
+          time: firebase.firestore.FieldValue.serverTimestamp(),
+        }).catch()
       }
       event.target.value = ''
     },
     async Convert(id){
-      await updateDoc(doc(db,'tasks',id),{
+      let res = await updateDoc(doc(db,'tasks',id),{
         subtaskFor:false
       })
+      addDoc(dbTaskActivities, {
+        actor: this.user.username,
+        taskId: task.id,
+        activity: 'ConvertSubtask',
+        subtaskId: res.id,
+        time: firebase.firestore.FieldValue.serverTimestamp(),
+      }).catch()
     },
     async ChangeSubtaskStatus(id,status){
-      await updateDoc(doc(db,'tasks',id),{
+      let res = await updateDoc(doc(db,'tasks',id),{
         status
       })
       this.showSubTaskStatus[id] = false
+      addDoc(dbTaskActivities, {
+        actor: this.user.username,
+        taskId: this.taskId,
+        activity: 'ChangeSubtaskStatus',
+        subtaskId: id,
+        time: firebase.firestore.FieldValue.serverTimestamp(),
+        value:status
+      }).catch()
     },
     async DeleteSubtask(id){
       await updateDoc(doc(db,'tasks',id),{

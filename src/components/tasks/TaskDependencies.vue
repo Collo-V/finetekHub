@@ -14,7 +14,7 @@
         <ul class="list-disk list-outside mx-4">
           <li class="list-disc list-item hover:bg-slate-100 w-full relative" v-for="task in waitingOn">
             <div>{{tasks[task].name}}</div>
-            <button class="h-5 w-5 absolute top-0 right-0 " @click="ManageWaitingOn(task.id)">
+            <button class="h-5 w-5 absolute top-0 right-0 " @click="ManageWaitingOn(task)">
               <i class="fas fa-xmark"></i>
             </button>
           </li>
@@ -53,7 +53,7 @@
         <ul class="list-disk list-outside mx-4">
           <li class="list-disc list-item hover:bg-slate-100 w-full relative" v-for="task in blocking">
             <div>{{tasks[task].name}}</div>
-            <button class="h-5 w-5 absolute top-0 right-0 " @click="ManageBlocking(task.id)">
+            <button class="h-5 w-5 absolute top-0 right-0 " @click="ManageBlocking(task)">
               <i class="fas fa-xmark"></i>
             </button>
           </li>
@@ -92,8 +92,9 @@
 <script>
 import {mapState} from "vuex";
 import {filterData, removeFromArray} from "@/commons/objects";
-import {doc, updateDoc} from "firebase/firestore";
-import {db} from "@/firebase";
+import {addDoc, doc, updateDoc} from "firebase/firestore";
+import {db, dbTaskActivities} from "@/firebase";
+import firebase from "firebase/compat";
 
 export default {
   name: "TaskDependencies",
@@ -117,17 +118,27 @@ export default {
       }
     },
     async ManageWaitingOn(id){
-        console.log('here')
       if(this.taskId){
         let waitingOn = this.tasks[this.taskId].waitingOn
+        let activity
         if(waitingOn.includes(id)){
+          activity = 'RemoveWaitingOn'
           waitingOn = removeFromArray(waitingOn,id)
         }else {
+          activity = 'SetWaitingOn'
           waitingOn.push(id)
         }
-        updateDoc(doc(db,'tasks',this.taskId),{
+        console.log(waitingOn)
+        await updateDoc(doc(db, 'tasks', this.taskId), {
           waitingOn
         })
+        addDoc(dbTaskActivities, {
+          actor: this.user.username,
+          taskId: this.taskId,
+          activity,
+          time: firebase.firestore.FieldValue.serverTimestamp(),
+          value:id
+        }).catch()
 
       } else {
         this.$emit('ManageWaitingOn',id)
@@ -136,14 +147,24 @@ export default {
     async ManageBlocking(id){
       if(this.taskId){
         let blocking = this.tasks[this.taskId].blocking
+        let activity
         if(blocking.includes(id)){
+          activity = 'Remove Blocking'
           blocking = removeFromArray(blocking,id)
         }else {
+          activity = 'SetBlocking'
           blocking.push(id)
         }
         updateDoc(doc(db,'tasks',this.taskId),{
           blocking
         })
+        addDoc(dbTaskActivities, {
+          actor: this.user.username,
+          taskId: this.taskId,
+          activity,
+          time: firebase.firestore.FieldValue.serverTimestamp(),
+          value:id
+        }).catch()
 
       } else {
         this.$emit('ManageBlocking',id)
@@ -151,6 +172,7 @@ export default {
     },
   },
   computed:mapState({
+    user:state => state.user,
     tasks({projects}){
       let tasks = filterData(projects.tasks,['projectId','==',this.projectId])
       tasks = filterData(tasks,['status','!=','Completed'])
@@ -171,7 +193,9 @@ export default {
       tasks = tasks.filter(task=>!excluded.includes(task.id))
       return tasks.filter(task=>task.name.toLowerCase().includes(this.searchInp))
     }
-  })
+  }),
+  mounted() {
+  }
 }
 </script>
 
