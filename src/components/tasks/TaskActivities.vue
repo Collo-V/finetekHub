@@ -86,6 +86,7 @@ export default {
     team:state => state.team,
     tasks:state => state.projects.tasks,
     activities({projects:{activities}}){
+      activities = filterData(activities,['taskId','==',this.taskId])
       return sortData(activities,'time')
     }
   })
