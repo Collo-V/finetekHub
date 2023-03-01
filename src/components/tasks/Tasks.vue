@@ -185,6 +185,7 @@ export default {
     SeeChange
   },
   computed:mapState({
+    user:state => state.user,
     tasks(state){
       console.log('changed')
       let tempTasks = state.projects.tasks

@@ -38,7 +38,7 @@
                 >
                   <button
                       class="h-8 w-6 border-r-1px"
-                      v-if="statuses.indexOf(task.status)!==0"
+                      v-if="statuses.indexOf(task.status)!==0 && isEditable"
                       @click="[tempTargetList = statuses[statuses.indexOf(task.status)-1],
                       SeeChange({added:{element:thisTask}}) ]"
                   >
@@ -53,7 +53,7 @@
                 >
                   <button
                       class="h-8 w-6 border-l-1px "
-                      v-if="statuses.indexOf(task.status)!==statuses.length-1"
+                      v-if="statuses.indexOf(task.status)!==statuses.length-1 && isEditable"
                       @click="[tempTargetList = statuses[statuses.indexOf(task.status)+1],
                       SeeChange({added:{element:thisTask}}) ]"
                   >
@@ -73,30 +73,37 @@
 <!--              </div>-->
             </div>
             <div class="assigned-to flex relative ml-4 items-center -space-x-2 ">
+              <span v-if="assignedMembers.length>0" class=" flex relative ml-4 items-center -space-x-2 ">
                 <span v-for="member in assignedMembers" class="relative dropdown-cont shrink-0">
-                  <button class="h-5 w-5 absolute top-0 left-50% vh-center bg-white dropdown
-                  rounded-full z-1 hover:bg-primary-purple hover:text-white shadow"
-                          @click="ManageAssigned(member.username)"
-                  >
-                    <i class="fas fa-xmark"></i>
-                  </button>
-                  <Avatar
-                      size="medium" rounded="true"
-                      :image="member.image" :name="member.firstName"
-                      class="bg-white"
-                  />
-                </span>
+                <button class="h-5 w-5 absolute top-0 left-50% vh-center bg-white dropdown
+                rounded-full z-1 hover:bg-primary-purple hover:text-white shadow"
+                        @click="ManageAssigned(member.username)"
+                        v-if="isOwnerEditable"
+                >
+                  <i class="fas fa-xmark"></i>
+                </button>
+                <Avatar
+                    size="medium" rounded="true"
+                    :image="member.image" :name="member.firstName"
+                    class="bg-white"
+                />
+              </span>
                 <button class="w-10 h-10 border-dotted border-1px rounded-full -ml-2"
+                        v-if="isOwnerEditable"
                         @click="showMemberAssign = !showMemberAssign"
                 >
                   <i class="fas fa-user-plus"></i>
                 </button>
+              </span>
+              <span v-else>Not assigned</span>
               <span v-if="showMemberAssign">
                 <div class="fixed top-0 popup-overlay left-0 w-screen-w h-screen-h" @click="showMemberAssign = false"></div>
               <div class="members absolute top-0 left-full w-fit bg-white z-1
               vue-shadow rounded-md h-fit min-h-200px min-w-200px">
                 <div class="p-1">
-                  <input type="text" class="w-full h-8" placeholder="search members" v-model="searchInp">
+                  <input type="text" class="w-full h-8"
+                         placeholder="search members"
+                         v-model="searchInp">
                 </div>
                 <div v-for="member in filteredMembers"
                      @click="ManageAssigned(member.username)"
@@ -128,7 +135,12 @@
                   title="Task priority"
               >
                 <button class="h-10 w-10 rounded-full border-dotted border-1px"
+                        v-if="isEditable"
                         @click="showPriorities = !showPriorities">
+                  <PriorityFlag :priority="task.priority"/>
+                </button>
+                <button class="h-10 w-10 rounded-full border-dotted border-1px"
+                        v-else>
                   <PriorityFlag :priority="task.priority"/>
                 </button>
               </Tooltip>
@@ -150,6 +162,7 @@
                 title="Task dependencies"
             >
               <button class="h-10 w-10 rounded-full border-dotted border-1px"
+                      v-if="isEditable"
                       @click="showDependencies = !showDependencies">
                 <i class="fa-solid fa-bars-staggered"></i>
               </button>
@@ -161,14 +174,20 @@
             <div class="flex flex-col gap-3 mb-3 -ml-4">
               <fieldset class="h-10 w-full relative">
                 <input class="form-input text-6 font-bold w-full h-10 flex items-center rounded-sm focus:border-1px border-0"
-                       id="name" @blur="Validate($event.target.id)" v-model="task.name">
+                       id="name"
+                       @blur="RenameTask($event,task.id)"
+                       @keyup.enter="RenameTask($event,task.id)"
+                       :readonly="!isOwnerEditable"
+                       v-model="task.name">
               </fieldset>
               <fieldset class="h-10 w-full relative">
                 <input class="form-input w-full h-10 flex items-center rounded-sm focus:border-1px optional border-0"
-                       id="lastName" v-model="task.description" @blur="Validate($event.target.id)">
+                       id="lastName" v-model="task.description"
+                       v-if="isEditable"
+                       @blur="Validate($event.target.id)">
               </fieldset>
             </div>
-            <Subtasks :task-id="taskId"/>
+            <Subtasks :task-id="taskId" :is-editable="isEditable" />
             <div class="mt-4">
               <h2 class="font-semibold">Dependencies</h2>
               <div class="mt-2 flex flex-wrap gap-2">
@@ -184,6 +203,7 @@
                     title="Add dependencies"
                 >
                   <button class="h-6 w-6 rounded-full border-dotted border-1px"
+                          v-if="isOwnerEditable"
                           @click="showDependencies = !showDependencies">
                     <i class="fa-solid fa-bars-staggered"></i>
                   </button>
@@ -226,11 +246,26 @@
                 <div class="fixed top-0 popup-overlay left-0 w-screen-w h-screen-h" @click="showDates = false"></div>
                 <div class="w-fit z-1 w-250px h-fit bg-white absolute top-full left-50% h-center">
                   <div>
-                    <RangePicker v-model:value="dates" :ranges="ranges"/>
+                    <RangePicker
+                        v-model:value="dates" :ranges="ranges"
+                        :allow-clear="isOwnerEditable"
+                        :input-read-only="isOwnerEditable"
+                    />
                   </div>
                   <div>
-                    <TimePicker v-model:value="startTime" use12-hours format="h:mm a" placeholder="start time"/>
-                    <TimePicker v-model:value="endTime" use12-hours format="h:mm a" placeholder="end time"/>
+                    <TimePicker
+                        v-model:value="startTime"
+                        use12-hours format="h:mm a" placeholder="start time"
+                        :allow-clear="isOwnerEditable"
+                        :input-read-only="isOwnerEditable"
+                    />
+                    <TimePicker
+                        v-model:value="endTime"
+                        use12-hours format="h:mm a"
+                        placeholder="end time"
+                        :allow-clear="isOwnerEditable"
+                        :input-read-only="isOwnerEditable"
+                    />
                   </div>
               </div>
               </span>
@@ -270,8 +305,7 @@ import {RangePicker,TimePicker} from "ant-design-vue";
 import {addDoc, deleteField, doc, updateDoc} from "firebase/firestore";
 import {db, dbTaskActivities, dbTasks} from "@/firebase";
 import {filterData} from "@/commons/objects";
-import MoveSubtask from "@/components/tasks/MoveSubtask";
-import Subtasks from "@/components/tasks/Subtasks";
+import Subtasks, {RenameTask} from "@/components/tasks/Subtasks";
 import MemberCard from "@/components/MemberCard";
 import TaskActivities from "@/components/tasks/TaskActivities";
 import firebase from "firebase/compat";
@@ -289,11 +323,20 @@ export function GetTime(date,time){
   return tempDate
 }
 export async function SeeChange(change) {
-  console.log(this.tempTargetList)
   if (change.added) {
     this.unresolvedTasks = []
     this.unresolvedSubtasks = []
     let task = change.added.element
+    let isEditable = task.createdBy === this.user.username
+        || task.assignedTo.includes(this.user.username)
+    if(!isEditable){
+      if(this.myTasks){//for drag method
+        try{
+          this.Resolve()
+        }catch {}
+      }
+      return
+    }
     if (this.tempTargetList === 'InProgress') {
       let dependencies = task.waitingOn
       for (let i = 0; i < dependencies.length; i++) {
@@ -450,6 +493,7 @@ export default {
   },
   methods:{
     ...taskMethods,
+    RenameTask,
     SeeChange,
     async ChangePriority(priority){
       await updateDoc(doc(db,'tasks',this.taskId),{
@@ -481,13 +525,17 @@ export default {
     }
   },
   computed:mapState({
-    statusClass(){
-      return
-    },
     team:state => state.team,
     priorities:state => state.projects.taskPriorities,
     statuses:state => state.projects.taskStatuses,
     user:state => state.user,
+    isEditable(){
+      return this.task.createdBy === this.user.username
+          || this.task.assignedTo.includes(this.user.username)
+    },
+    isOwnerEditable(){
+      return this.task.createdBy === this.user.username
+    },
     thisTask({projects:{tasks}}){
       let task =tasks[this.taskId]
       this.task = {...task}

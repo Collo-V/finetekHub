@@ -10,7 +10,15 @@
                 :title="'Task status: '+subtask.status"
             >
               <div class="w-5 h-5 border-1px flex items-center justify-center cursor-pointer"
-                   @click="showSubTaskStatus[subtask.id] = true"
+                   @click="showSubTaskStatus[subtask.id] = true" v-if="isEditable"
+              >
+                <div class="w-14px h-14px" v-if="subtask.status === 'Backlog'"></div>
+                <div class="w-14px h-14px bg-slate-300" v-else-if="subtask.status === 'ToDo'"></div>
+                <div class="w-14px h-14px bg-primary" v-else-if="subtask.status === 'InProgress'"></div>
+                <div class="w-14px h-14px bg-green-500" v-else-if="subtask.status === 'Completed'"></div>
+              </div>
+              <div class="w-5 h-5 border-1px flex items-center justify-center cursor-pointer"
+                   v-else
               >
                 <div class="w-14px h-14px" v-if="subtask.status === 'Backlog'"></div>
                 <div class="w-14px h-14px bg-slate-300" v-else-if="subtask.status === 'ToDo'"></div>
@@ -35,12 +43,21 @@
         </div>
             </span>
           </div>
-          <input v-model="subtask.name" class="w-full h-6 border-0 focus:border-1px">
+          <input
+              v-model="subtask.name"
+               class="w-full h-6 border-0 focus:border-1px"
+              :readonly="!isEditable"
+              @blur="RenameTask($event,task.id)"
+              @keyup.enter="RenameTask($event,task.id)"
+          >
           <Tooltip
               position="top"
               title="More options"
           >
-            <button class="h-6 w-6 absolute top-0 right-0" @click="showSubTaskOps[subtask.id] = true">
+            <button class="h-6 w-6 absolute top-0 right-0"
+                    v-if="isEditable"
+                    @click="showSubTaskOps[subtask.id] = true"
+            >
               <i class="fas fa-ellipsis-vertical"></i>
             </button>
           </Tooltip>
@@ -115,9 +132,18 @@ import {Tooltip} from "ant-design-vue";
 import {filterData} from "@/commons/objects";
 import firebase from "firebase/compat";
 
+export async function RenameTask(event,id){
+  let name = event.target.value
+  if(name !==''){
+    await updateDoc(doc(db,'tasks',id),{
+      name
+    })
+  }
+
+}
 export default {
   name: "Subtasks",
-  props:['taskId'],
+  props:['taskId','isEditable'],
   components:{
     MoveSubtask,
     Tooltip
@@ -131,10 +157,10 @@ export default {
     }
   },
   methods:{
+    RenameTask,
     async AddSubtask(event){
       let value = event.target.value
       if(value !==''){
-        let date = (new Date()).getTime()
         let subtask ={
           name:value,
           projectId:this.task.projectId ,
