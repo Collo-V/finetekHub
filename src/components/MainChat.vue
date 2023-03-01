@@ -140,13 +140,13 @@
 <script>
 import 'emoji-picker-element'
 import {Picker} from "emoji-picker-element";
-import {doc,updateDoc,} from 'firebase/firestore'
+import {doc, getDocs, query, updateDoc, where,} from 'firebase/firestore'
 import {dateFormatter} from "@/commons";
 import {mapState} from 'vuex'
 import TeamCont from "@/components/chats/TeamCont";
 import {filterData, removeFromArray} from "@/commons/objects";
 import ChatInput from "@/components/chats/ChatInput";
-import {db} from "@/firebase";
+import {db, dbChats} from "@/firebase";
 import ChannelHeader from "@/components/channels/ChannelHeader";
 import {sortData} from "@/commons/objects-arrays";
 import ChatBubble from "@/components/chats/ChatBubble";
@@ -376,6 +376,7 @@ export default {
     }
   }),
   mounted() {
+
   }
 }
 </script>

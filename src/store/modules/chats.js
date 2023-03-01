@@ -79,21 +79,24 @@ export default {
             if(!username)return
             let senderQuery = query(
                 dbChats,
-                where('sender','==',username),
-                where('isDeleted' ,'!=', false)
+                where('sender','==',username)
+                // ,where('isDeleted' ,'!=', false)
             )
             let receiverQuery = query(
                 dbChats,
-                where('recipient','==',username),
-                where('isDeleted' ,'!=', false)
+                where('recipient','==',username)
+                // ,where('isDeleted' ,'!=', false)
             )
 
             onSnapshot(senderQuery,snaps=>{
                 let tmpChats = {}
+                console.log('sent:',snaps.docs.length)
                     for (let i = 0; i < snaps.docs.length; i++) {
                         let d = snaps.docs[i]
                         let data = d.data()
-                        tmpChats[d.id] = {...data,id:d.id,time:data.time.seconds*1000}
+                        if(!data.isDeleted){
+                            tmpChats[d.id] = {...data,id:d.id,time:data.time.seconds*1000}
+                        }
                     }
                     context.commit('WriteChats',tmpChats)
                     context.dispatch('WriteIsDelivered',{...tmpChats})
@@ -101,6 +104,7 @@ export default {
                 })
             onSnapshot(receiverQuery,snaps=>{
                 let tmpChats = {}
+                console.log('received:',snaps.docs.length)
                 for (let i = 0; i < snaps.docs.length; i++) {
                     let d = snaps.docs[i]
                     let data = d.data()
@@ -110,7 +114,9 @@ export default {
                     }else {
                         context.commit('WriteNewChats',{chatId:d.id})
                     }
-                    tmpChats[d.id] = {...data,id:d.id,time:data.time.seconds*1000}
+                    if(!data.isDeleted){
+                        tmpChats[d.id] = {...data,id:d.id,time:data.time.seconds*1000}
+                    }
                 }
                 context.commit('WriteChats',tmpChats)
                 context.dispatch('WriteIsDelivered',{...tmpChats})
@@ -124,8 +130,8 @@ export default {
             for (let i = 0; i < channelIds.length; i++) {
                 let channelQuery = query(
                     dbChats,
-                    where('recipient','==',channelIds[i]),
-                    where('isDeleted' ,'!=', true)
+                    where('recipient','==',channelIds[i])
+                    // ,where('isDeleted' ,'!=', true)
                 )
                 onSnapshot(channelQuery,snaps=>{
                     for (let i = 0; i < snaps.docs.length; i++) {
@@ -137,7 +143,9 @@ export default {
                         }else if(chat.sender !== username && chat.isRead.includes(username)) {
                             context.commit('WriteNewChats',{chatId:d.id})
                         }
-                        tmpChats[d.id] = {...chat,id:d.id,time:chat.time.seconds*1000}
+                        if(!chat.isDeleted){
+                            tmpChats[d.id] = {...data,id:d.id,time:data.time.seconds*1000}
+                        }
                     }
                     let c = {...sortData(tmpChats,'time','id')}
                     context.commit('WriteChats',{...c})
