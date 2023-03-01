@@ -78,7 +78,10 @@
         </div>
       </Tooltip>
 
-      <button class="h-full border-l-1px w-10 border-white" @click="showAddMembers = true">
+      <button class="h-full border-l-1px w-10 border-white"
+              @click="showAddMembers = true"
+              v-if="!channel.projectId"
+      >
         <i class="fas fa-user-plus"></i>
       </button>
 

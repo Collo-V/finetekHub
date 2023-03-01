@@ -31,7 +31,7 @@
       </span>
       </div>
       <div class="subtaks px-4" v-if="subtasks.length>0">
-        <h3 class="font-semibold">
+        <h3 class="font-semibold text-14px">
           Subtasks
         </h3>
         <ul class="list-none">

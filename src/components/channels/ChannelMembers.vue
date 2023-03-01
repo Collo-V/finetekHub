@@ -19,6 +19,7 @@
     <div class="members-cont mt-4">
       <div class="h-50px flex items-center hover:bg-primary-purple/10 px-4 gap-4 cursor-pointer"
            @click="showAddMembers=true"
+           v-if="!channel.projectId && me.isAdmin"
       >
         <button class="w-10 h-10 bg-primary/50">
           <i class="fas fa-user-plus"></i>
@@ -97,6 +98,9 @@ export default {
     team:state => state.team,
     channel(state) {
       return state.channels[this.channelId]
+    },
+    me(){
+      return this.channel.members.filter(member=>member.username === this.user.username)[0]
     },
     members(state) {
       let usernames = this.channel.members.filter(member=>{

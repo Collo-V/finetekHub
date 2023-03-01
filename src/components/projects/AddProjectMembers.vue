@@ -91,7 +91,7 @@ export default {
           })
         }
         if(this.channel){
-          this.tempChannelMembers = this.tempChannelMembers
+          this.tempChannelMembers = this.tempProjectMembers
           this.AddChannelMembers()
         }
         Report({icon:'success',title:'Member(s) added'})
