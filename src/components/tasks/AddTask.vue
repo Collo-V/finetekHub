@@ -1,5 +1,5 @@
 <template>
-  <div class="fixed bottom-0 left-0 w-full z-10">
+  <div class="absolute bottom-0 left-0 w-full z-10">
     <button class="h-8 text-white absolute bottom-0 right-0 m-10 bg-primary w-fit px-2 rounded-sm"
             @click="showAddTask = true"
     >

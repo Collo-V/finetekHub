@@ -50,6 +50,11 @@ export default {
     },
     actions:{
         async ChatNotify(context,chat){
+            console.log(chat.isDelivered)
+            if(chat.isDelivered === true ||
+                (typeof (chat.isDelivered)=== 'object' &&
+                    chat.isDelivered.includes(context.rootState.user.username))
+            )return
             if(Notification.permission === 'granted'){
                 let body,name
                 let sender = context.rootState.team [chat.sender]
@@ -144,7 +149,7 @@ export default {
                             context.commit('WriteNewChats',{chatId:d.id})
                         }
                         if(!chat.isDeleted){
-                            tmpChats[d.id] = {...data,id:d.id,time:data.time.seconds*1000}
+                            tmpChats[d.id] = {...chat,id:d.id,time:chat.time.seconds*1000}
                         }
                     }
                     let c = {...sortData(tmpChats,'time','id')}

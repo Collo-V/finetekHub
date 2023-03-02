@@ -17,7 +17,17 @@
         @hide-modal="showUnresolvedErrors=false"
         v-if="showUnresolvedErrors"
     />
-    <div class="w-full max-w-95% 2xl:max-w-80% h-screen-h-80  bg-white rounded-lg relative overflow-hidden" ref="contRef" id="taskpane-modal">
+    <div class="w-full max-w-95% 2xl:max-w-80% h-screen-h-80  bg-white rounded-lg relative" ref="contRef" id="taskpane-modal">
+      <div class="absolute right-full top-50% v-center" v-if="taskViews.length>1">
+        <Tooltip
+            position="top"
+            title="Back"
+        >
+          <button class="text-8 text-white mr-4" @click="taskViews.pop()">
+            <i class="fas fa-angle-left"></i>
+          </button>
+        </Tooltip>
+      </div>
       <div class="h-10 flex items-center justify-between bg-slate-100 px-8">
         <div>
           On project {{project.name}}
@@ -191,11 +201,21 @@
             <div class="mt-4">
               <h2 class="font-semibold">Dependencies</h2>
               <div class="mt-2 flex flex-wrap gap-2">
-                  <span class="inline-block w-fit h-fit px-1 rounded-sm bg-[#FFCC00]/25" v-for="task in task.waitingOn">
-                    Waiting on  <span class="text-[#FFCC00]"> {{tasks[task].name}}</span>
+                  <span class="inline-block w-fit h-fit px-1 rounded-sm bg-[#FFCC00]/25" v-for="task in waitingOn">
+                    Waiting on
+                    <span class="text-[#FFCC00] hover:underline cursor-pointer"
+                          @click="taskViews.push(task)"
+                    >
+                      {{tasks[task].name}}
+                   </span>
                   </span>
-                  <span class="inline-block h-fit  w-fit px-1 rounded-sm bg-[#F74D4B]/25" v-for="task in task.blocking">
-                    Blocking  <span class="text-[#F74D4B]"> {{tasks[task].name}}</span>
+                  <span class="inline-block h-fit  w-fit px-1 rounded-sm bg-[#F74D4B]/25" v-for="task in blocking">
+                    Blocking
+                    <span class="text-[#F74D4B] hover:underline cursor-pointer"
+                          @click="taskViews.push(task)"
+                    >
+                      {{tasks[task].name}}
+                  </span>
                   </span>
                 <Tooltip
                     placement="top"
@@ -280,7 +300,7 @@
               <span v-else>Not set</span>
               </div>
           </div>
-         <TaskActivities :task-id="taskId"/>
+         <TaskActivities :task-id="taskViews[taskViews.length-1]"/>
 
         </div>
 
@@ -414,6 +434,7 @@ export default {
   emits:['HideModal'],
   data(){
     return{
+      taskViews:[this.taskId],
       showMemberAssign:false,
       showPriorities:false,
       showDependencies:false,
@@ -537,7 +558,9 @@ export default {
       return this.task.createdBy === this.user.username
     },
     thisTask({projects:{tasks}}){
-      let task =tasks[this.taskId]
+      let id = this.taskViews[this.taskViews.length-1]
+      if(!id)return {}
+      let task =tasks[id]
       this.task = {...task}
       if(task.plannedStartDate){
         this.dates = [moment(task.plannedStartDate),moment(task.plannedEndDate)]
@@ -576,11 +599,22 @@ export default {
             !this.task.assignedTo.includes(member.username)
       })
 
-    }
+    },
+    waitingOn(){
+      let waitingOn = this.thisTask.waitingOn
+      let othersDependencies = filterData(this.tasks,['blocking','array-contains',this.thisTask.id])
+      waitingOn = waitingOn.concat(Object.keys(othersDependencies))
+      return waitingOn
+    },
+    blocking(){
+      let blocking = this.thisTask.blocking
+      let othersDependencies = filterData(this.tasks,['waitingOn','array-contains',this.thisTask.id])
+      blocking = blocking.concat(Object.keys(othersDependencies))
+      return blocking
+    },
   }),
   mounted() {
     this.thisTask
-    console.log(this.dates)
   }
 }
 </script>

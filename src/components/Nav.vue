@@ -37,7 +37,7 @@
       </router-link>
 
    </div>
-    <div class="mt-4 flex justify-center ">
+    <div class="mt-4 flex justify-center items-center flex-col">
       <div class="clock">
         <div class="hour">
           <div class="hr" id="hr"></div>
@@ -48,6 +48,9 @@
         <div class="sec">
           <div class="sc" id="sc"></div>
         </div>
+      </div>
+      <div class="mt-3 text-white">
+        {{moment(time).format('l')}}
       </div>
     </div>
   </div>
@@ -65,6 +68,7 @@ import {ref,set} from 'firebase/database'
 import {realDb} from "@/firebase";
 import {dateFormatter} from "@/commons";
 import {mapState} from "vuex";
+import moment from "moment";
 
 export default {
   name: "Nav",
@@ -78,6 +82,7 @@ export default {
       ],
       currentTab:'Blogs',
       user:'',
+      moment
     }
   },
   methods:{
@@ -98,7 +103,7 @@ export default {
     //   return state.chats.newChats
     // },
     time(state){
-      return dateFormatter(state.time,'long-slash')
+      return state.time
     },
     GetNavs({user}){
       if(!user.username)return []

@@ -483,14 +483,6 @@
   height: 800px;
 }
 
-.h-screen-h-70{
-  height: 70vh;
-}
-
-.h-3{
-  height: 12px;
-}
-
 .h-14px{
   height: 14px;
 }
@@ -569,6 +561,10 @@
 
 .min-h-screen-h-80{
   min-height: 80vh;
+}
+
+.min-h-screen-h-70{
+  min-height: 70vh;
 }
 
 .min-h-8{
@@ -716,16 +712,12 @@
   width: 600px;
 }
 
-.w-3{
-  width: 12px;
+.w-14px{
+  width: 14px;
 }
 
 .w-1px{
   width: 1px;
-}
-
-.w-14px{
-  width: 14px;
 }
 
 .min-w-100px{
@@ -855,6 +847,10 @@
 
 .cursor-grab{
   cursor: grab;
+}
+
+.resize{
+  resize: both;
 }
 
 .list-outside{
@@ -1018,6 +1014,10 @@
 
 .border-2px{
   border-width: 2px;
+}
+
+.border{
+  border-width: 1px;
 }
 
 .border-0{
@@ -1220,16 +1220,20 @@
   background-color: rgb(249 115 22 / var(--tw-bg-opacity));
 }
 
-.bg-slate-100\/50{
-  background-color: rgb(241 245 249 / 0.5);
-}
-
 .bg-\[\#FFCC00\]\/25{
   background-color: rgb(255 204 0 / 0.25);
 }
 
 .bg-\[\#F74D4B\]\/25{
   background-color: rgb(247 77 75 / 0.25);
+}
+
+.bg-slate-100\/50{
+  background-color: rgb(241 245 249 / 0.5);
+}
+
+.bg-green-500\/50{
+  background-color: rgb(34 197 94 / 0.5);
 }
 
 .p-4{
@@ -2062,10 +2066,6 @@ img, svg, video, canvas, audio, iframe, embed, object {
     width: 120px;
   }
 
-  .lg\:w-50\%{
-    width: 50%;
-  }
-
   .lg\:min-w-45\%{
     min-width: 45%;
   }
@@ -2129,10 +2129,6 @@ img, svg, video, canvas, audio, iframe, embed, object {
 @media (min-width: 1536px){
   .\32xl\:mt-24{
     margin-top: 96px;
-  }
-
-  .\32xl\:max-w-90\%{
-    max-width: 90%;
   }
 
   .\32xl\:max-w-80\%{

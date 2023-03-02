@@ -168,6 +168,14 @@ export default {
       unresolvedSubtasks:[],
     }
   },
+  watch:{
+    projectId(id){
+      this.tasks
+    },
+    tasks(tasks){
+      console.log(tasks)
+    }
+  },
   methods:{
     Resolve(){
       let tasks = Object.values(this.tasks)
@@ -187,11 +195,17 @@ export default {
   computed:mapState({
     user:state => state.user,
     tasks(state){
-      console.log('changed')
       let tempTasks = state.projects.tasks
       let tasks = Object.values(tempTasks)
       if(this.projectId){
         tasks = tasks.filter(task=>task.projectId === this.projectId && !task.subtaskFor)
+      }
+      if(tasks.length === 0){
+        this.myTasks.Backlog = []
+        this.myTasks.ToDo = []
+        this.myTasks.InProgress = []
+        this.myTasks.Completed = []
+        return {}
       }
       this.myTasks.Backlog = filterData(tasks,['status','==','Backlog'])
       this.myTasks.ToDo = filterData(tasks,['status','==','ToDo'])

@@ -22,7 +22,11 @@
               </div>
             </div>
           </div>
-          <ChannelHeader v-else :channel-id="channel.id"  @set-selected="$emit('SetSelected',undefined)"/>
+          <ChannelHeader
+              v-else-if="!minView"
+             :channel-id="channel.id"
+             @set-selected="$emit('SetSelected',undefined)"
+          />
         </div>
         <div class="chats-cont bg-primary h-full overflow-auto custom-scroll px-3 relative pb-100px"
              @scroll="SeeScroll($event)"
@@ -41,7 +45,7 @@
             </div>
             <div class="mb-3 w-full focus:bg-red-500 mt-5" v-for="chat in div.chats" :id="chat.id+'-div'">
               <div v-if="chat.isNotif" class="pt-4">
-                <NotificationBar :notification-id="chat.id" :channel-id="channel.id"/>
+                <NotificationBar :notification-id="chat.id" :channel-id="channel.id" v-if="!minView"/>
               </div>
               <div v-else>
                 <div class="w-full pl-3 flex flex-col items-end"
@@ -156,7 +160,7 @@ import NotificationBar from "@/components/chats/NotificationBar";
 
 export default {
   name: "MainChat",
-  props:['selectedId','privateReply'],
+  props:['selectedId','privateReply','minView'],
   emits:['ReplyPrivately','RemovePrivateReply','SetSelected'],
   data(){
     return {
@@ -354,7 +358,6 @@ export default {
         this.$emit('SetSelected',undefined)
       }
       myChats = sortData(myChats,'time')
-      console.log(myChats)
       let timeDivs = {}
       Object.values(myChats).forEach(chat=>{
         let chatTime = new Date (chat.time)
