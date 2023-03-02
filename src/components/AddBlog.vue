@@ -17,27 +17,13 @@
         </fieldset>
         <fieldset class="w-full mb-2">
           <label class="block font-bold mb-2">Category</label>
-          <div class="h-10 rounded-md block border-grey border-1px flex pl-2 relative items-center ">
-              <span v-for="cat in blogPost.categories" class="mr-1">
-                <span class="relative pr-2 text-ellipsis">
-                   {{cat}}
-                  <button type="button" class="absolute top-0 right-0 focus:outline-none text-red text-3" @click="CheckInput(cat)">
-                    <i class="fas fa-xmark"></i>
-                  </button>
-                </span>,
-
-              </span>
-            <input type="text" class="h-full outline-none inline min-w-100px w-full px-0 mr-2"
-                   @keyup="CategoryFill($event.target)" aria-autocomplete="none" id="category"
-                   @keydown="CheckInput($event)" v-model="catInput" autocomplete="off">
-            <!--              <span class="h-full flex items-center">{{cats[0]}}</span>-->
-            <div class="cat-options-div absolute left-0 top-full w-350px rounded-md z-3 rounded-sm bg-white shadow-md">
-                <span class="block w-full h-8 hover:bg-grey-light flex items-center px-2 cursor-pointer"
-                      v-for="cat in cats"
-                      @click="PickCat(cat)">
-                  {{cat}}</span>
-            </div>
-          </div>
+          <Select  class="w-full h-8 mt-4"
+                   v-model:value="blogPost.categories"
+                   mode="multiple"
+                   style="width: 100%;height:40px"
+                   placeholder="Search categories"
+                   :options="blogCategories"
+          />
 
         </fieldset>
         <fieldset>
@@ -102,6 +88,7 @@ import {confirmAction, Report} from "@/commons/swal";
 import {RemoveFromArray} from "@/commons";
 import {QuillEditor,Quill,Delta} from "@vueup/vue-quill";
 import {mapState} from "vuex";
+import {Select} from "ant-design-vue";
 import firebase from "firebase/compat";
 
 const toolbarOptions = [
@@ -130,11 +117,19 @@ export default {
   emits:['back'],
   props:['selected'],
   components:{
-    QuillEditor
+    QuillEditor,
+    Select
   },
   data(){
     return {
       content:'',
+      blogCategories:[
+          'AI','Front-end Development',
+          'Back-end Development','Database Systems','Project Management'
+      ].map(cat=>({
+        value:cat,
+        label:cat
+      })),
       catInput: '',
       document: document,
       showPrev: false,
@@ -150,7 +145,7 @@ export default {
       },
       blogPrev: {},
       options : {
-        placeholder: 'Start writing your code',
+        placeholder: 'Start writing your blog',
         theme: 'snow',
         modules:{
           toolbar:toolbarOptions
