@@ -22,7 +22,7 @@ const routes = [
         props: true
     },
     {
-        path: '/blogs/:title?',
+        path: '/blogs',
         name: 'blogs',
         components: {
             default:Blogs,
@@ -30,6 +30,15 @@ const routes = [
         },
         props: true
     },
+    {
+            path: '/blogs/:id',
+            name: 'blog',
+            components: {
+                default:Blogs,
+                NavBar
+            },
+            props: true
+        },
 
     {
         path: '/auth/login',

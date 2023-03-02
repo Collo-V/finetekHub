@@ -48,15 +48,21 @@
           <span class="text-primary-red-500 text-3" v-else>*Please add a header image</span>
         </fieldset>
       </form>
-      <div id="editor" class="mt-4">
-      </div>
+      <QuillEditor
+          ref="editorRef"
+          theme="snow"
+          :options="options"
+          v-model:content="content"
+      />
       <div class="mt-5 flex justify-end">
 
       </div>
     </div>
     <div v-show="showPrev" class="blog-prev">
-      <div class="header h-48 w-full flex items-center justify-center text-white" :style="`background:url('${imagePrev}')no-repeat center/cover`">
-        <h1>{{blogPrev.title}}</h1>
+      <div class="header h-300px w-full flex items-center justify-center text-white relative"
+           :style="`background:url('${imagePrev}')no-repeat center/cover`">
+        <div class="absolute top-0 left-0 bottom-0 right-0 bg-gray-800/50 z-1"></div>
+        <h1 class="text-white relative z-2 lg:text-6">{{blogPrev.title}}</h1>
       </div>
       <div class="blog-prev-body flex mt-4">
         <div class="blog-nav hidden lg:block min-w-200px pl-4 mr-5 bg-slate-300">
@@ -64,10 +70,14 @@
           <a v-for="nav in blogPrev.table" class=" block hover:text-primary mb-2 text-black no-underline hover:underline"
              :href="'#'+nav.toLowerCase().replaceAll(' ','-')">{{nav}}</a>
         </div>
+        <QuillEditor
+            ref="previewRef"
+            class="blog-prev"
+            theme="snow"
+            :options="prevOptions"
+            v-model:content="content"
+        />
 
-        <div class="blog-prev-cont w-2/3" v-html="blogPrev.content" id="blog-prev">
-
-        </div>
 
       </div>
       <hr>
@@ -90,15 +100,41 @@ import {blogs, db} from "@/firebase";
 import {getDownloadURL, getStorage, ref, uploadBytes} from "firebase/storage";
 import {confirmAction, Report} from "@/commons/swal";
 import {RemoveFromArray} from "@/commons";
+import {QuillEditor,Quill,Delta} from "@vueup/vue-quill";
+import {mapState} from "vuex";
+import firebase from "firebase/compat";
+
+const toolbarOptions = [
+  ['bold', 'italic', 'underline'],        // toggled buttons
+  ['blockquote', 'code-block'],
+
+  [{ 'header': 1 }, { 'header': 2 }],               // custom button values
+  [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+  [{ 'script': 'sub'}, { 'script': 'super' }],      // superscript/subscript
+  [{ 'indent': '-1'}, { 'indent': '+1' }],          // outdent/indent
+  [{ 'direction': 'rtl' }],                         // text direction
+
+  [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
+  ['link', 'image'],
+  [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+
+  [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
+  [{ 'font': [] }],
+  [{ 'align': [] }],
+
+  ['clean']                                         // remove formatting button
+];
+
 export default {
   name: "AddBlog",
   emits:['back'],
   props:['selected'],
   components:{
+    QuillEditor
   },
   data(){
     return {
-      quill:undefined,
+      content:'',
       catInput: '',
       document: document,
       showPrev: false,
@@ -110,9 +146,22 @@ export default {
         author: '',
         categories: [],
         time: '',
-        content: 'Start writing your blog',
+        content: 'Start writing your code',
       },
       blogPrev: {},
+      options : {
+        placeholder: 'Start writing your code',
+        theme: 'snow',
+        modules:{
+          toolbar:toolbarOptions
+        }
+      },
+      prevOptions : {
+        modules:{
+          toolbar:false,
+        },
+        readOnly:true
+      }
     }
 
   },
@@ -140,8 +189,9 @@ export default {
 
     },
     async PostBLog(save){
-      let action = save?'save':'publish'
-      if(!await confirmAction(action))return
+      console.log(this.blogPost)
+      let action = save?'Save':'Publish'
+      if(!await confirmAction({title:action+' blog?',btnText:action}))return
       let user  = this.$store.getters.GetUser
       let time = new Date().getTime()
       try{
@@ -157,12 +207,13 @@ export default {
           let imgRef = ref(getStorage(), 'blogs/' + user.username + time)
           await uploadBytes(imgRef, this.blogPost.headerImage)
           let imgPath = await getDownloadURL(imgRef)
+          let quill = this.$refs.editorRef.getQuill()
           await addDoc(blogs, {
             title:this.blogPost.title,
-            content: this.quill.getContents().ops,
-            preview: this.quill.getText().slice(0,200),
+            content: quill.getContents().ops,
+            preview: quill.getText().slice(0,200),
             headerImage: imgPath,
-            time: time,
+            time: firebase.firestore.FieldValue.serverTimestamp(),
             author:this.blogPost.author,
             categories:this.blogPost.categories,
             isPublished:!save?true:false
@@ -186,7 +237,7 @@ export default {
           delete this.blogPost.id
           delete this.blogPost.table
           await updateDoc(doc(db,'blogs',id),
-              {...this.blogPrev, headerImage: imgPath})
+              {...this.blogPost, headerImage: imgPath})
 
           await Report({
             title: 'blog updated',
@@ -229,12 +280,13 @@ export default {
     },
     ShowBlogPrev(){
       let blog
-      blog = this.quill.getText()
-      blog = this.quill.getContents().ops
+      blog = this.content.ops
+      if(!blog)return;
+      console.log(blog)
       blog.time = new Date().getTime()
-      let quill = new Quill('#blog-prev',{})
-      quill.setContents(this.quill.getContents())
       this.showPrev = true
+      this.blogPrev = this.blogPost
+      return
     },
     CheckInput(cat){
       let inputEl = document.getElementById('category')
@@ -285,47 +337,29 @@ export default {
 
 
   },
-  mounted() {
-    this.GetCategories()
-      const toolbarOptions = [
-        ['bold', 'italic', 'underline'],        // toggled buttons
-        ['blockquote', 'code-block'],
-
-        [{ 'header': 1 }, { 'header': 2 }],               // custom button values
-        [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-        [{ 'script': 'sub'}, { 'script': 'super' }],      // superscript/subscript
-        [{ 'indent': '-1'}, { 'indent': '+1' }],          // outdent/indent
-        [{ 'direction': 'rtl' }],                         // text direction
-
-        [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
-        ['link', 'image'],
-        [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-
-        [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
-        [{ 'font': [] }],
-        [{ 'align': [] }],
-
-        ['clean']                                         // remove formatting button
-      ];
-      const options = {
+  computed:mapState({
+    user:state => state.user,
+    options(){
+      return this.showPrev?{
+        modules:{
+          toolbar:false,
+          readOnly:true
+        }
+      }:{
         placeholder: 'Start writing your code',
         theme: 'snow',
         modules:{
           toolbar:toolbarOptions
         }
-      };
-      this.quill = new Quill('#editor',options);
-    if(this.selected){
-      let content = this.selected.content
-      let index = 0
-      for (let i = 0; i < content.length; i++) {
-        let text = content[i]
-        this.quill.insertText(index,text.insert,text.attributes)
-        index+= text.insert.length
       }
-      this.blogPost = {...this.selected}
     }
-
+  }),
+  mounted() {
+    if(this.selected){
+      this.content = new Delta(this.selected.content)
+      this.blogPost = this.selected
+      this.imagePrev = this.selected.headerImage
+    }
   }
 }
 </script>

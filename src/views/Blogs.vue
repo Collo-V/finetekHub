@@ -39,8 +39,7 @@
             </div>
             <div class="p-3">
               <div class="mb-2 h-5">{{DateFormat(blog.time)}}</div>
-              <router-link :to="{name:'blogs',params:{title: blog.title.
-              toLowerCase().replaceAll(' ','-').replaceAll('?','')}}" class="hover:text-primary">
+              <router-link :to="{name:'blog',params:{id: blog.id}}" class="hover:text-primary">
                 <div class="mb-2 h-24 text-20px font-bold">{{blog.title}}</div>
               </router-link>
               <div class="border-t-1px h-16 mr-2 p-2">
@@ -54,7 +53,7 @@
 
     </div>
   </div>
-  <span class="hidden">{{FindBlog}}{{GetCategory}}</span>
+  <span class="hidden">{{ selectedBlog }}{{ GetCategory }}</span>
 
 </template>
 
@@ -74,7 +73,7 @@ import {filterData} from "@/commons/objects";
 
 export default {
   name: "Blogs",
-  props:['title'],
+  props:['id'],
   components:{
     AddBlog,
   },
@@ -108,17 +107,17 @@ export default {
     },
     GetBlogs(){
       onSnapshot(blogs,(snap)=>{
-        let tempTeam = {}
+        let tempBlogs = {}
         for (let i = 0; i < snap.docs.length; i++) {
           let doc = snap.docs[i]
           if(doc.id === 'blog-categories'){
             this.categories = doc.data().cats
 
           }else {
-            tempTeam[doc.id] = {...doc.data(), id: doc.id}
+            tempBlogs[doc.id] = {...doc.data(), id: doc.id}
           }
         }
-        this.blogs = JSON.parse(JSON.stringify(tempTeam))
+        this.blogs = JSON.parse(JSON.stringify(tempBlogs))
       })
     },
     DateFormat(date){
@@ -151,18 +150,17 @@ export default {
 
   },
   computed:{
-    FindBlog(){
-      if(this.title && this.blogs!==''){
-        let keys  = Object.keys(this.blogs)
-        for (let i = 0; i < keys.length; i++) {
-          let blog = this.blogs[keys[i]]
-          if(blog.title.toLowerCase().replaceAll(' ','-').
-          replaceAll('?','')==this.title){
-            this.blogPrev = blog
-            this.imagePrev  = blog.headerImage
-            this.addPost = true
-            this.showPrev = true
-          }
+    selectedBlog(){
+      if(this.id && this.blogs!==''){
+        let blog = filterData(this.blogs,['id','==',this.id])
+        blog = Object.values(blog)[0]
+        console.log(blog)
+        if(blog){
+          this.blogPrev = blog
+          this.selected = blog
+          this.imagePrev  = blog.headerImage
+          this.addPost = true
+          this.showPrev = true
         }
       }
     },
@@ -179,6 +177,7 @@ export default {
   },
   mounted() {
     this.GetBlogs()
+    console.log(this.title)
   }
 
 }

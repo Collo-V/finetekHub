@@ -72,6 +72,7 @@ import moment from "moment";
 
 export default {
   name: "Nav",
+  props:['id'],
   data(){
     return{
       mainNavs:[
