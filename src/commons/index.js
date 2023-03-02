@@ -92,7 +92,7 @@ export function Validate(id){
     inp.classList.remove('input-invalid')
     }
 export function validateInp(id){
-    let inp = document.getElementById(id)
+    let inp =  typeof (id) ==='string'?document.getElementById(id):id
     let val = inp.value
     if(inp.classList.contains('optional')){
         if(val !==''){
