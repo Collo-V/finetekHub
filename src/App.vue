@@ -111,7 +111,7 @@ export default {
 <style>
     button{color: inherit}
 * {
-  font-family: 'Montserrat', sans-serif;box-sizing: border-box;user-select: none;
+  font-family: 'Montserrat', sans-serif;box-sizing: border-box;
 }
  a{color: inherit;text-decoration: none}
 button:focus,button:active{outline: none;}
