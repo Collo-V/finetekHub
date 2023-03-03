@@ -2,7 +2,7 @@
   <div class="min-h-screen-h add-post w-full" >
     <div class="mt-5 flex w-full pl-3 mb-2">
       <button class="w-200px h-10 rounded-sm bg-grey-light focus:outline-none"
-              @click="$emit('back')">
+              @click="[$emit('back'),$router.push({name:'blogs'})]">
         <span class="mr-2"><i class="fas fa-long-arrow-left"></i></span>
         Back
       </button>
@@ -184,9 +184,9 @@ export default {
 
     },
     async PostBLog(save){
-      console.log(this.blogPost)
+      let content = this.content.ops
       let action = save?'Save':'Publish'
-      if(!await confirmAction({title:action+' blog?',btnText:action}))return
+      // if(!await confirmAction({title:action+' blog?',btnText:action}))return
       let user  = this.$store.getters.GetUser
       let time = new Date().getTime()
       try{
@@ -205,7 +205,7 @@ export default {
           let quill = this.$refs.editorRef.getQuill()
           await addDoc(blogs, {
             title:this.blogPost.title,
-            content: quill.getContents().ops,
+            content,
             preview: quill.getText().slice(0,200),
             headerImage: imgPath,
             time: firebase.firestore.FieldValue.serverTimestamp(),
@@ -231,8 +231,11 @@ export default {
           let id = this.blogPost.id
           delete this.blogPost.id
           delete this.blogPost.table
-          await updateDoc(doc(db,'blogs',id),
-              {...this.blogPost, headerImage: imgPath})
+          await updateDoc(doc(db,'blogs',id),{
+            ...this.blogPost,
+            content,
+            headerImage: imgPath
+          })
 
           await Report({
             title: 'blog updated',
