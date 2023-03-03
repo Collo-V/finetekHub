@@ -26,6 +26,7 @@
         <h3 class="font-bold">
           {{task.name}}
         </h3>
+
         <span class="inline-block mt-1 whitespace-nowrap max-w-200px text-ellipsis">
         {{ task.description }}
       </span>
@@ -56,15 +57,21 @@
                 class="bg-white"
             />
           </div>
+          <span class="block cursor-pointer">
+            <Tooltip position="top" :title="'Priority: '+priorities[task.priority-1]">
+              <PriorityFlag :priority="task.priority"/>
+            </Tooltip>
+
+          </span>
           <div class="" v-if="task.plannedEndDate">
             <span v-if="dueDate < time" class="text-red-500">
-              Due {{ moment(dueDate).calendar() }}
+              Due {{ moment(dueDate).fromNow() }}
             </span>
-            <span v-else-if="dueDate < time-1800000" class="text-orange-500">
-              Due {{ moment(dueDate).calendar() }}
+            <span v-else-if="dueDate < time+1800000" class="text-primary-yellow font-bold">
+              Due {{ moment(dueDate).fromNow() }}
             </span>
             <span v-else>
-              Due {{ moment(dueDate).calendar() }}
+              Due {{ moment(dueDate).fromNow() }}
             </span>
           </div>
         </div>
@@ -80,9 +87,16 @@ import TaskPane, {GetTime} from "@/components/tasks/TaskPane";
 import {mapState} from "vuex";
 import {filterData} from "@/commons/objects";
 import moment from "moment";
+import PriorityFlag from "@/components/tasks/PriorityFlag";
+import {Tooltip} from "ant-design-vue";
 export default {
   name: "TaskCard",
-  components: {TaskPane, Avatar},
+  components: {
+    PriorityFlag,
+    TaskPane,
+    Avatar,
+    Tooltip
+  },
   props:['taskId'],
   data(){
     return{
@@ -97,6 +111,7 @@ export default {
   computed:mapState({
     time:state => state.time,
     team:state => state.team,
+    priorities:state => state.projects.taskPriorities,
     task(state) {
       return state.projects.tasks[this.taskId]
     },

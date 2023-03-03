@@ -28,9 +28,11 @@
           </button>
         </Tooltip>
       </div>
-      <div class="h-10 flex items-center justify-between bg-slate-100 px-8">
+      <div class="h-10 flex items-center justify-between bg-slate-100 px-8 rounded-t-lg">
         <div>
-          On project {{project.name}}
+          <span  v-if="task.projectId">
+           On project {{project.name}}
+          </span>
         </div>
         <button class="h-5 w-5 text-gray-600" @click="$emit('HideModal')">
           <i class="fas fa-xmark"></i>
@@ -83,7 +85,7 @@
 <!--              </div>-->
             </div>
             <div class="assigned-to flex relative ml-4 items-center -space-x-2 ">
-              <span v-if="assignedMembers.length>0" class=" flex relative ml-4 items-center -space-x-2 ">
+              <span v-if="assignedMembers.length>0 || isEditable" class=" flex relative ml-4 items-center -space-x-2 ">
                 <span v-for="member in assignedMembers" class="relative dropdown-cont shrink-0">
                 <button class="h-5 w-5 absolute top-0 left-50% vh-center bg-white dropdown
                 rounded-full z-1 hover:bg-primary-purple hover:text-white shadow"

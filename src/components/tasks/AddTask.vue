@@ -37,6 +37,15 @@
                 <span class="hidden invalid text-red-500"><i class="fa-solid fa-triangle-exclamation"></i></span>
               </div>
             </fieldset>
+            <fieldset class="w-full relative" v-if="!projectId">
+              <Select  class="w-full mt-4"
+                       v-model:value="task.projectId"
+                       placeholder="Select project"
+                       :options="projectOptions"
+                       :allowClear="true"
+                       size="large"
+              />
+            </fieldset>
           </div>
           <div>
 
@@ -162,7 +171,7 @@
               </Tooltip>
               <TaskDependencies
                   v-if="showDependencies"
-                  :project-id="projectId"
+                  :project-id="task.projectId"
                   :blocking="task.blocking"
                   :waiting-on="task.waitingOn"
                   @manage-waiting-on="(task)=>ManageWaitingOn(task)"
@@ -191,7 +200,7 @@ import {removeFromArray} from "@/commons/objects";
 import {mapState} from "vuex";
 import Avatar from "@/components/Avatar";
 import PriorityFlag from "@/components/tasks/PriorityFlag";
-import {Tooltip,RangePicker,TimePicker} from "ant-design-vue";
+import {Tooltip, RangePicker, TimePicker, Select} from "ant-design-vue";
 import moment,{Moment} from 'moment'
 import {ref} from "vue";
 import TaskDependencies from "@/components/tasks/TaskDependencies";
@@ -204,8 +213,7 @@ import firebase from "firebase/compat";
 let priorities = ['Urgent','High','Normal','Low']
 export const taskMethods = {
   async CreateTask(){
-    let task = this.task
-    console.log(this.dates,this.startTime)
+    let task = {...this.task}
     validateInp('name')
     if(!task.name || this.task.name === '')return
     if(task.assignedTo.length === 0){
@@ -213,7 +221,6 @@ export const taskMethods = {
       return
     }
     document.getElementById('assign-error').classList.add('hidden')
-    let date = (new Date()).getTime()
     let subtasks = task.subtasks
     delete task.subtasks
     if(this.dates){
@@ -231,49 +238,58 @@ export const taskMethods = {
     if( this.endTime && this.endTime !== null){
       task.plannedEndTime = this.endTime.$d.getTime()
     }
+    if(!task.projectId) delete task.projectId
     try {
-      let task = await addDoc(dbTasks,{
-        ...task,
-        projectId:this.projectId,
-        createdBy:this.user.username,
-        status:'Backlog',
-        created:firebase.firestore.FieldValue.serverTimestamp()
-      })
-      addDoc(dbTaskActivities, {
-        actor: this.user.username,
-        taskId: task.id,
-        activity: 'Created',
-        time: firebase.firestore.FieldValue.serverTimestamp(),
-      }).catch()
-      subtasks = subtasks.filter(subtask=>subtask !=='').map(subtask=>({
-        name:subtask,
-        projectId:this.projectId,
-        createdBy:this.username.username,
-        created: firebase.firestore.FieldValue.serverTimestamp(),
-        status:'Backlog',
-        subtaskFor:task.id,
-        blocking:[],
-        waitingOn:[],
-        priority:3,
-        assignedTo:[]
-      }))
-      for (let i = 0; i < subtasks.length; i++) {
-        c= await addDoc(dbTasks,subtasks[i])
+      let resTask
+      try{
+        resTask = await addDoc(dbTasks, {
+          ...task,
+          createdBy: this.user.username,
+          status: 'Backlog',
+          created: firebase.firestore.FieldValue.serverTimestamp()
+        })
+      }catch {
+        Report({icon:'error',title:'error creating task'})
+        return
+      }
+      try{
         addDoc(dbTaskActivities, {
           actor: this.user.username,
-          taskId: task.id,
-          activity: 'AddSubtask',
-          subtaskId: c.id,
+          taskId: resTask.id,
+          activity: 'CreatTask',
           time: firebase.firestore.FieldValue.serverTimestamp(),
         }).catch()
+      }catch {}
+      subtasks = subtasks.filter(subtask=>subtask !=='').map(subtask=>{
+        let mySubtask = {
+          name:subtask,
+          projectId:this.task.projectId,
+          createdBy:this.user.username,
+          created: firebase.firestore.FieldValue.serverTimestamp(),
+          status:'Backlog',
+          subtaskFor:resTask.id,
+          blocking:[],
+          waitingOn:[],
+          priority:3,
+          assignedTo:[]
+        }
+        if(!this.task.projectId) delete mySubtask.projectId
+        return mySubtask
+      })
+      for (let i = 0; i < subtasks.length; i++) {
+        c= await addDoc(dbTasks,subtasks[i])
+        try{
+          addDoc(dbTaskActivities, {
+            actor: this.user.username,
+            taskId: resTask.id,
+            activity: 'AddSubtask',
+            subtaskId: c.id,
+            time: firebase.firestore.FieldValue.serverTimestamp(),
+          }).catch()
+        } catch {}
       }
-      // if(subtasks.length>0){
-      //   if(task.plannedStartDate){
-      //     subtasks[0]
-      //   }
-      // }
       Report({icon:'success',title:'Task created'})
-    }catch {
+    }catch (e) {
       Report({icon:'error',title:'error creating task'})
     }
 },
@@ -372,7 +388,7 @@ export default {
     TaskDependencies,
     PriorityFlag, Avatar,
     RangePicker,TimePicker,
-    Tooltip
+    Tooltip,Select
   },
   props:['projectId'],
   data(){
@@ -385,6 +401,7 @@ export default {
         priority:3,
         blocking:[],
         waitingOn:[],
+        projectId:undefined,
       },
       searchInp:'',
       showMemberAssign:false,
@@ -412,12 +429,12 @@ export default {
   computed:mapState({
     user:state => state.user,
     team:state => state.team,
+    projects:state => state.projects.projects,
     project(state) {
-      console.log(state.projects.projects,this.projectId)
-      return state.projects.projects[this.projectId]
+      return state.projects.projects[this.task.projectId]
     },
     members(){
-      let usernames = this.project.members.map(member=>member.username)
+      let usernames = this.project? this.project.members.map(member=>member.username):Object.keys(this.team)
       return usernames.map(username =>this.team[username])
     },
     assignedMembers(){
@@ -431,8 +448,17 @@ export default {
             !this.task.assignedTo.includes(member.username)
       })
 
+    },
+    projectOptions(){
+      return Object.values(this.projects).map(project=>({
+        label:project.name,
+        value:project.id
+      }))
     }
-  })
+  }),
+  mounted() {
+    this.task.projectId = this.projectId
+  }
 }
 </script>
 

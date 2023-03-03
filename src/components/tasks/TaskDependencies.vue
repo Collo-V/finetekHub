@@ -174,7 +174,10 @@ export default {
   computed:mapState({
     user:state => state.user,
     tasks({projects}){
-      let tasks = filterData(projects.tasks,['projectId','==',this.projectId])
+      let tasks = projects.tasks
+      if(this.projectId){
+        tasks = filterData(tasks,['projectId','==',this.projectId])
+      }
       tasks = filterData(tasks,['status','!=','Completed'])
       return tasks
     },

@@ -10,6 +10,7 @@ import Settings from "@/views/Settings";
 import Welcome from "@/views/Welcome";
 import NavBar from '@/components/Nav'
 import Projects from "@/views/Projects";
+import MyTasks from "@/components/tasks/MyTasks";
 
 const routes = [
     {
@@ -28,7 +29,6 @@ const routes = [
             default:Blogs,
             NavBar
         },
-        props: true
     },
     {
             path: '/blogs/:id',
@@ -81,6 +81,14 @@ const routes = [
             NavBar
         },
         props: true
+    },
+    {
+        path: '/my-tasks',
+        name: 'my-tasks',
+        components: {
+            default:MyTasks,
+            NavBar
+        },
     },
     {
         path: '/welcome',

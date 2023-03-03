@@ -136,11 +136,7 @@ import TaskCard from "@/components/tasks/TaskCard";
 import Draggable from 'vuedraggable'
 import AddTask from "@/components/tasks/AddTask";
 import {filterData} from "@/commons/objects";
-import {doc, updateDoc,deleteField} from "firebase/firestore";
-import {db} from "@/firebase";
-import {Report} from "@/commons/swal";
 import CardMoveErrors from "@/components/tasks/CardMoveErrors";
-import firebase from "firebase/compat";
 import {SeeChange} from '@/components/tasks/TaskPane'
 
 export default {
@@ -199,6 +195,8 @@ export default {
       let tasks = Object.values(tempTasks)
       if(this.projectId){
         tasks = tasks.filter(task=>task.projectId === this.projectId && !task.subtaskFor)
+      }else{
+        tasks = tasks.filter(task=>task.assignedTo.includes(this.user.username))
       }
       if(tasks.length === 0){
         this.myTasks.Backlog = []

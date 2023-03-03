@@ -65,11 +65,11 @@ export default {
         14: {name:'SetBlocking',title:`unmarked this task as blocking ${this.GetSubtaskName(activity.value)}`},
 
       }
-      let title =  filterData(activityDict,['name','==',activity.activity])
-      if(!title) {
+      let selected =  filterData(activityDict,['name','==',activity.activity])
+      if(Object.keys(selected).length === 0) {
         return ''
       }
-      return Object.values(title)[0].title
+      return Object.values(selected)[0].title
     },
     GetName(username){
       if(username === this.user.username) return 'You'

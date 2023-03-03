@@ -79,6 +79,7 @@ export default {
         {title:"Blogs",linkName:'blogs'},
         {title:"Chats",linkName:'chats'},
         {title:"Projects",linkName:'projects'},
+        {title:"My Tasks",linkName:'my-tasks'},
         {title:"Settings",linkName:'settings'},
       ],
       currentTab:'Blogs',
