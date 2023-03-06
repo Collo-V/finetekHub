@@ -1,7 +1,12 @@
 <template>
   <div class="h-screen-h bg-primary-purple min-w-200px top-0 left-0 z-10 hidden lg:block" id="admin-nav">
    <div class="fixed top-0 left-0 w-full h-16 shadow-md flex justify-between bg-grey-light z-10">
-     <div class="h-full w-200px bg-primary-purple"></div>
+     <div class="h-full w-200px bg-primary-purple purple-overlay flex items-cent justify-center text-white">
+       <button @click="[Minimize(),minimized = !minimized]">
+         <i class="fas fa-arrow-up-right-from-square" v-if="minimized"></i>
+         <i class="fas fa-minimize" v-else></i>
+       </button>
+     </div>
      <div class="flex flex-row h-full items-center pr-3 bg-grey-light gap-3">
        <div v-html="time">
 
@@ -26,8 +31,9 @@
    </div>
     <div class="mt-16 full px-2">
       <router-link :to="{name:nav.linkName}" v-for="nav in GetNavs"
-          class="block h-10 flex items-center text-white pl-3 hover:pl-4 rounded-sm mb-2 justify-between" >
-        {{nav.title}}
+          class="link hover:text-primary-yellow block h-10 flex items-center text-white pl-3 hover:pl-4 rounded-sm mb-2" >
+        <span class="icon mr-2"><i :class="'fa-solid fa-'+nav.icon"></i></span>
+        <span class="title">{{nav.title}}</span>
         <div class="w-6 h-6 rounded-full bg-white text-black flex items-center justify-center text-3"
              v-if="nav.title === 'Chats' && newChats>0"
         >
@@ -37,20 +43,23 @@
       </router-link>
 
    </div>
-    <div class="mt-4 flex justify-center items-center flex-col">
-      <div class="clock">
-        <div class="hour">
-          <div class="hr" id="hr"></div>
+    <div class="mt-4 flex justify-center items-center flex-col border-t-1px pt-4 time-cont relative">
+      <button class="text-white clock-icon hidden"><i class="fas fa-clock"></i></button>
+      <div class="clock-cont bg-primary-purple p-1">
+        <div class="clock">
+          <div class="hour">
+            <div class="hr" id="hr"></div>
+          </div>
+          <div class="min">
+            <div class="mn" id="mn"></div>
+          </div>
+          <div class="sec">
+            <div class="sc" id="sc"></div>
+          </div>
         </div>
-        <div class="min">
-          <div class="mn" id="mn"></div>
+        <div class="mt-3 text-white text-center">
+          {{moment(time).format('l')}}
         </div>
-        <div class="sec">
-          <div class="sc" id="sc"></div>
-        </div>
-      </div>
-      <div class="mt-3 text-white">
-        {{moment(time).format('l')}}
       </div>
     </div>
   </div>
@@ -76,18 +85,22 @@ export default {
   data(){
     return{
       mainNavs:[
-        {title:"Blogs",linkName:'blogs'},
-        {title:"Chats",linkName:'chats'},
-        {title:"Projects",linkName:'projects'},
-        {title:"My Tasks",linkName:'my-tasks'},
-        {title:"Settings",linkName:'settings'},
+        {title:"Blogs",linkName:'blogs',icon:'blog'},
+        {title:"Chats",linkName:'chats',icon:'comment-dots'},
+        {title:"Projects",linkName:'projects',icon:'folder'},
+        {title:"My Tasks",linkName:'my-tasks',icon:"clipboard-list"},
+        {title:"Settings",linkName:'settings',icon:'gear'},
       ],
       currentTab:'Blogs',
       user:'',
+      minimized:false,
       moment
     }
   },
   methods:{
+    Minimize(){
+      document.getElementById('admin-nav').classList.toggle('minimized')
+    },
     Logout(){
       signOut(getAuth())
     },
@@ -111,8 +124,8 @@ export default {
       if(!user.username)return []
       if(user.isAdmin){
         return [
-          {title:"Team",linkName:'team'},
-          {title:"Messages",linkName:'messages'},
+          {title:"Team",linkName:'team',icon:'users'},
+          {title:"Messages",linkName:'messages',icon:'message'},
             ...this.mainNavs
         ]
       }else {
@@ -145,6 +158,9 @@ export default {
 </script>
 
 <style scoped>
+a{
+  @apply hover:text-primary
+}
 .router-link-active{
   @apply text-primary-yellow bg-primary-purple-light
 }
@@ -234,6 +250,24 @@ export default {
   background: #fff;
   z-index: 12;
   border-radius: 6px 6px 0 0;
+}
+#admin-nav.minimized{
+  @apply  min-w-fit
+}
+#admin-nav.minimized .title,#admin-nav.minimized .clock-cont{
+  @apply hidden
+}
+#admin-nav.minimized .time-cont:hover .clock-cont{
+  @apply block absolute left-full
+}
+#admin-nav.minimized .link{
+  @apply hover:pl-3
+}
+#admin-nav.minimized .clock-icon{
+  @apply block
+}
+#admin-nav.minimized .purple-overlay{
+  @apply w-12
 }
 
 </style>

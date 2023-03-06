@@ -273,12 +273,12 @@ export const taskMethods = {
           priority:3,
           assignedTo:[]
         }
-        if(!this.task.projectId) delete mySubtask.projectId
+        if(!task.projectId) delete mySubtask.projectId
         return mySubtask
       })
       for (let i = 0; i < subtasks.length; i++) {
-        c= await addDoc(dbTasks,subtasks[i])
         try{
+          c= await addDoc(dbTasks,subtasks[i])
           addDoc(dbTaskActivities, {
             actor: this.user.username,
             taskId: resTask.id,
@@ -291,6 +291,7 @@ export const taskMethods = {
       Report({icon:'success',title:'Task created'})
     }catch (e) {
       Report({icon:'error',title:'error creating task'})
+      console.log(e)
     }
 },
   ManageBlocking(task){

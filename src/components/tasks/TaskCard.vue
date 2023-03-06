@@ -13,6 +13,9 @@
         </div>
       </div>
       <div class="flex gap-4 px-4">
+        <span v-if="task.projectId" class="text-3 itelics ">
+          {{ projects[task.projectId].name }}
+        </span>
 <!--      <span v-for="index in 2" class="text-3">-->
 <!--        <span class="inline-block w-fit px-2 rounded-pill bg-green-500 text-white" v-if="index === 1">-->
 <!--          Category-->
@@ -61,18 +64,19 @@
             <Tooltip position="top" :title="'Priority: '+priorities[task.priority-1]">
               <PriorityFlag :priority="task.priority"/>
             </Tooltip>
-
           </span>
-          <div class="" v-if="task.plannedEndDate">
+          <div>
+            <div class="" v-if="task.plannedEndDate">
             <span v-if="dueDate < time" class="text-red-500">
               Due {{ moment(dueDate).fromNow() }}
             </span>
-            <span v-else-if="dueDate < time+1800000" class="text-primary-yellow font-bold">
+              <span v-else-if="dueDate < time+1800000" class="text-primary-yellow font-bold">
               Due {{ moment(dueDate).fromNow() }}
             </span>
-            <span v-else>
+              <span v-else>
               Due {{ moment(dueDate).fromNow() }}
             </span>
+            </div>
           </div>
         </div>
       </div>
@@ -112,6 +116,7 @@ export default {
     time:state => state.time,
     team:state => state.team,
     priorities:state => state.projects.taskPriorities,
+    projects:state => state.projects.projects,
     task(state) {
       return state.projects.tasks[this.taskId]
     },
