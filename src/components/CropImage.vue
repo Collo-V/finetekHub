@@ -27,6 +27,25 @@
 </template>
 
 <script>
+export function CreateFile(){
+  let input=document.createElement("input");
+  input.type="file";
+  input.accept=".png,.jpg"
+  let files=[]
+  let all = this
+  input.onchange = e=>{
+    files=e.target.files;
+    all.image = files[0]
+    let reader=new FileReader();
+    reader.onload=function(e){
+      // console.log(e)
+      all.prevImage = e.target.result
+    }
+    reader.readAsDataURL(files[0]);
+    return files
+  }
+  input.click()
+}
 import Cropper from 'cropperjs'
 import 'cropperjs/src/index.css'
 import {base64StringtoFile} from "@/commons/ImageHandling";
@@ -65,25 +84,7 @@ export default {
     }
   },
   methods:{
-    CreateFile(){
-      let input=document.createElement("input");
-      input.type="file";
-      input.accept=".png,.jpg"
-      let files=[]
-      let all = this
-      input.onchange = e=>{
-        files=e.target.files;
-        all.image = files[0]
-        let reader=new FileReader();
-        reader.onload=function(e){
-          // console.log(e)
-          all.prevImage = e.target.result
-        }
-        reader.readAsDataURL(files[0]);
-        return files
-      }
-      input.click()
-    },
+    CreateFile,
     SetCropped(){
       let canvas = this.cropper.getCroppedCanvas({
         height:200,

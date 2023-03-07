@@ -310,6 +310,10 @@
   margin-bottom: -40px;
 }
 
+.-mt-50px{
+  margin-top: -50px;
+}
+
 .-ml-2{
   margin-left: -8px;
 }
@@ -1030,12 +1034,12 @@
   border-bottom-width: 1px;
 }
 
-.border-b-2px{
-  border-bottom-width: 2px;
-}
-
 .border-t-1px{
   border-top-width: 1px;
+}
+
+.border-b-2px{
+  border-bottom-width: 2px;
 }
 
 .border-l-1px{
@@ -1048,6 +1052,10 @@
 
 .border-r-1px{
   border-right-width: 1px;
+}
+
+.border-solid{
+  border-style: solid;
 }
 
 .border-dotted{
@@ -1082,6 +1090,11 @@
 .border-\[\#F74D4B\]{
   --tw-border-opacity: 1;
   border-color: rgb(247 77 75 / var(--tw-border-opacity));
+}
+
+.border-red-500{
+  --tw-border-opacity: 1;
+  border-color: rgb(239 68 68 / var(--tw-border-opacity));
 }
 
 .bg-primary{
@@ -1333,14 +1346,14 @@
   padding-bottom: 8px;
 }
 
-.px-1{
-  padding-left: 4px;
-  padding-right: 4px;
-}
-
 .px-8{
   padding-left: 32px;
   padding-right: 32px;
+}
+
+.px-1{
+  padding-left: 4px;
+  padding-right: 4px;
 }
 
 .pl-3{
@@ -1637,6 +1650,10 @@
 
 .outline{
   outline-style: solid;
+}
+
+.outline-red-500{
+  outline-color: #ef4444;
 }
 
 .blur{
@@ -2019,6 +2036,10 @@ img, svg, video, canvas, audio, iframe, embed, object {
   outline-offset: 2px;
 }
 
+.focus\:outline-0:focus{
+  outline-width: 0px;
+}
+
 @media (min-width: 1024px){
   .lg\:relative{
     position: relative;
@@ -2060,16 +2081,20 @@ img, svg, video, canvas, audio, iframe, embed, object {
     width: 50%;
   }
 
-  .lg\:w-500px{
-    width: 500px;
-  }
-
   .lg\:w-250px{
     width: 250px;
   }
 
+  .lg\:w-500px{
+    width: 500px;
+  }
+
   .lg\:w-120px{
     width: 120px;
+  }
+
+  .lg\:w-200px{
+    width: 200px;
   }
 
   .lg\:min-w-45\%{
