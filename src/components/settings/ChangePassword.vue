@@ -100,7 +100,7 @@ export default {
         newPassInpCont.style.borderColor = '#EF4444'
         invalid = true
       }
-      if(this.newPassword===this.currentPassword){
+      if(this.newPassword.length>=8 &&this.currentPassword.length>=8 && this.newPassword===this.currentPassword){
         samePassErr.classList.remove('hidden')
         invalid = true
       }
