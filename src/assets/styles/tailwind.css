@@ -817,6 +817,10 @@
   max-width: 95%;
 }
 
+.max-w-600px{
+  max-width: 600px;
+}
+
 .shrink-0{
   flex-shrink: 0;
 }

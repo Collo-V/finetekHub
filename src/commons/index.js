@@ -130,7 +130,7 @@ export function validateInp(id){
             return
         }
     }
-    else if(id==='phones'){
+    else if(id==='phone'){
         if(val==='' || val.length<10){
             inp.classList.add('input-invalid')
             inp.classList.remove('input-valid')
