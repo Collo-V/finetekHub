@@ -38,7 +38,7 @@
 
    <div class="h-screen-h w-full bg-gray-500/75 fixed top-0 left-0 z-10 flex justify-center items-center"
         v-if="showAddMember" @click="(event)=>{ClickOutside(event)}">
-     <div class="bg-white w-90% h-300px lg:w-500px" ref="formRef">
+     <div class="bg-white w-90% h-300px lg:w-500px p-4 rounded-md" ref="formRef">
        <h2 class="mb-2 py-2 px-2" v-show="editing==''">
          {{editing==''? 'Add new member':'Edit member'}}
        </h2>
@@ -255,11 +255,11 @@ export default {
     },
     EditMember(id){
       this.newMember = JSON.parse(JSON.stringify(this.team[id]))
-      document.getElementById('member-form').classList.add("prefilled-form")
-      document.getElementById('password-fields-cont').classList.replace('flex','hidden')
+      // document.getElementById('member-form').classList.add("prefilled-form")
+      // document.getElementById('password-fields-cont').classList.replace('flex','hidden')
       this.editing = id
-      document.getElementById('email').disabled=true
-      document.getElementById('username').disabled=true
+      // document.getElementById('email').disabled=true
+      // document.getElementById('username').disabled=true
     },
     async DeleteMember(email){
       if(await confirmAction({

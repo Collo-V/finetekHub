@@ -8,7 +8,8 @@
        </button>
      </div>
      <div class="flex flex-row h-full items-center pr-3 bg-grey-light gap-3">
-       <div v-html="time">
+       <div>
+         {{moment(time).format('L')}}
 
        </div>
        <div class="relative dropdown-cont">

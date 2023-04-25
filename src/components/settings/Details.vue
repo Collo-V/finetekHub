@@ -128,7 +128,7 @@ export default {
     },
   }),
   mounted(){
-    console.log(this.my)
+    this.my
   }
 }
 </script>
