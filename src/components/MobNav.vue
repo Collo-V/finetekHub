@@ -1,57 +1,40 @@
 <template>
-      <button class="z-5 fixed top-0 left-0 h-10 w-10 rounded-full focus:outline-none mt-4
-       border-1px bg-primary-purple text-white " id="nav-button"
-              @click="expanded=true" v-if="!expanded">
-        <i class="fa-solid fa-bars"></i>
-      </button>
-    <div class="fixed top-0 left-0 z-3" v-if="expanded" >
-<!--      <div class="w-screen-w h-screen-h bg-grey absolute top-0 w-0 opacity-50"></div>-->
+  <button class="z-5 fixed top-0 right-0 h-10 w-10 rounded-full focus:outline-none mt-4
+   border-1px bg-primary-purple text-white mr-4 " id="nav-button"
+          @click="expanded=true" v-if="!expanded">
+    <i class="fa-solid fa-bars"></i>
+  </button>
+  <div class="fixed top-0 right-0 z-10 mob-nav" v-if="expanded" >
+      <div class="w-screen-w h-screen-h bg-grey absolute top-0 w-0 opacity-50"></div>
       <div>
         <div class="h-screen-h w-screen-h min-w-screen-w min-h-screen-w rounded-full bg-primary-purple animate__animated animate__fadeInDown
-      -ml-screen-h-50 -mt-screen-h-50 relative z-2 mb-10">
-          <div class="absolute top-0 mt-screen-h left-1/2 h-10 w-screen-w flex justify-center p-18">
+          -mr-screen-h-50 -mt-screen-h-50 relative z-2 mb-10">
+          <div class="absolute top-full h-10 w-screen-w flex justify-center p-18 z-10">
             <button class="h-10 w-10 rounded-full focus:outline-none shadow-md bg-primary-purple text-white "
                     @click="expanded=false">
               <i class="fa-solid fa-xmark"></i>
             </button>
           </div>
-          <div class="nav-cont absolute top-1/2 left-1/2 w-10 pt-3 pl-3">
+          <div class="nav-cont absolute top-1/2 left-0 w-50% pt-3 pr-3">
             <router-link v-for="nav in GetNavs" :to="{name:nav.linkName}" @click="[currentTab = nav.title,expanded = false]"
-                         class="block h-10 flex items-center text-white pl-3 hover:pl-4">
+                         class="block h-10 flex items-center text-white pl-3 justify-end text-right">
               <span v-if="currentTab!=nav.title">{{nav.title}}</span>
               <span v-else class="text-primary-yellow">{{nav.title}}</span>
-              <div v-if="nav.linkName=='chats'" class="ml-3">
-                <div class="h-6 w-6 flex justify-center items-center bg-primary rounded-md"
-                     v-if="newChats>0">
-                  {{newChats}}
-                </div>
-              </div>
+<!--              <div v-if="nav.linkName=='chats'" class="ml-3">-->
+<!--&lt;!&ndash;                <div class="h-6 w-6 flex justify-center items-center bg-primary rounded-md"&ndash;&gt;-->
+<!--&lt;!&ndash;                     v-if="newChats>0">&ndash;&gt;-->
+<!--&lt;!&ndash;                  {{newChats}}&ndash;&gt;-->
+<!--&lt;!&ndash;                </div>&ndash;&gt;-->
+<!--              </div>-->
             </router-link>
           </div>
         </div>
-        <div class="absolute left-0 top-25% h-screen-h w-screen-h rounded-full bg-primary-purple
-       opacity-50  z-1 vh-center ">
+        <div class="absolute left-full top-25% h-screen-h w-screen-h rounded-full bg-primary-purple
+          opacity-50  z-1 vh-center">
         </div>
       </div>
-      </div>
-  <div class="h-screen-h fixed left-0 top-0 left-0 z-2 w-full hidden" id="admin-nav" v-show="expanded==true">
-<!--   <div class="fixed top-0 left-0 w-full h-16 shadow-md flex  bg-primary-purple flex-row-reverse items-center pr-3">-->
-<!--     <div class="relative dropdown-cont">-->
-<!--       <img :src="$store.getters.GetUser.image" class="h-12 w-12 rounded-full" v-if="$store.getters.GetUser">-->
-<!--       <div class="dropdown absolute top-full right-0 w-150px h-150px shadow-md z-4  tooltip">-->
-<!--         <button class="w-full focus:outline-none hover:bg-grey-light h-8">-->
-<!--               <span class="w-full pl-8 block text-left">-->
-<!--                 <i class="fa-solid fa-user"></i> Edit profile-->
-<!--               </span>-->
-<!--         </button>-->
-<!--         <button class="w-full focus:outline-none hover:bg-grey-light h-8" @click="Logout()">-->
-<!--               <span class="w-full pl-8 block text-left">-->
-<!--                 <i class="fa-solid fa-arrow-right-from-bracket"></i> Logout-->
-<!--               </span>-->
-<!--         </button>-->
-<!--       </div>-->
-<!--     </div>-->
-<!--   </div>-->
+  </div>
+  <div class="h-screen-h fixed left-0 top-0 left-0 z-10 w-full hidden" id="" v-show="expanded==true">
     <div class="sidenav full w-full bg-primary-purple h-full text-white">
       <div class="h-10 w-full bg-primary-purple flex items-center flex-row-reverse">
         <button class="h-full w-10 focus:outline-none border-1px bg-primary" @click="expanded= false">
@@ -74,10 +57,11 @@ export default {
     return{
       expanded:false,
       mainNavs:[
-        {title:"Blogs",linkName:'blogs'},
-        {title:"Chats",linkName:'chats'},
-        {title:"Tasks",linkName:'tasks'},
-        {title:"Settings",linkName:'settings'},
+        {title:"Blogs",linkName:'blogs',icon:'blog'},
+        {title:"Chats",linkName:'chats',icon:'comment-dots'},
+        {title:"Projects",linkName:'projects',icon:'folder'},
+        {title:"My Tasks",linkName:'my-tasks',icon:"clipboard-list"},
+        {title:"Settings",linkName:'settings',icon:'gear'},
       ],
       currentTab:'Blogs',
       user:'',

@@ -45,7 +45,7 @@
         </div>
       </Tooltip>
     </div>
-    <div class="h-10 flex items-center border-1px min-w-4 border-white items-center">
+    <div class="h-10 hidden lg:flex items-center border-1px min-w-4 border-white items-center">
       <Tooltip
           placement="bottom"
           overlayClassName="mr-2"

@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import {createRouter, createWebHashHistory, createWebHistory} from 'vue-router'
 
 
 import Team from "@/views/Team";
@@ -111,7 +111,8 @@ const routes = [
 
 
 const router = createRouter({
-    history: createWebHistory(process.env.BASE_URL),
+    // history: createWebHistory(process.env.BASE_URL),
+    history: process.env.IS_ELECTRON ? createWebHashHistory() : createWebHistory(),
     routes,
     mode:'history',
     // scrollBehavior (to, from, savedPosition) {

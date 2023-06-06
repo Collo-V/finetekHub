@@ -35,7 +35,7 @@
           class="link hover:text-primary-yellow block h-10 flex items-center text-white pl-3 hover:pl-4 rounded-sm mb-2" >
         <span class="icon mr-2"><i :class="'fa-solid fa-'+nav.icon"></i></span>
         <span class="title">{{nav.title}}</span>
-        <div class="w-6 h-6 rounded-full bg-white text-black flex items-center justify-center text-3"
+        <div class="ml-2 w-5 h-5 rounded-full bg-white text-black flex items-center justify-center text-3 new-chats"
              v-if="nav.title === 'Chats' && newChats>0"
         >
           <span v-if="newChats<100">{{ newChats }}</span>
@@ -66,7 +66,7 @@
   </div>
   <span class="hidden">{{clock}}</span>
   <div class="lg:hidden">
-<!--    <MobNav/>-->
+    <MobNav/>
   </div>
 
 
@@ -79,9 +79,11 @@ import {realDb} from "@/firebase";
 import {dateFormatter} from "@/commons";
 import {mapState} from "vuex";
 import moment from "moment";
+import MobNav from "@/components/MobNav";
 
 export default {
   name: "Nav",
+  components:{MobNav},
   props:['id'],
   data(){
     return{
@@ -95,7 +97,9 @@ export default {
       currentTab:'Blogs',
       user:'',
       minimized:false,
-      moment
+      moment,
+      clockInterval:undefined,
+      clockSet:false
     }
   },
   methods:{
@@ -135,6 +139,9 @@ export default {
 
     },
     clock(state) {
+      if(this.clockSet){
+        clearInterval(this.clockInterval)
+      }
       let date = new Date(state.time);
       try{
         const deg = 6;
@@ -147,12 +154,13 @@ export default {
         hr.style.transform = `rotateZ(${hh + (mm / 12)}deg)`;
         mn.style.transform = `rotateZ(${mm}deg)`;
         sc.style.transform = `rotateZ(${ss}deg)`;
+        this.clockSet = true
         return date
       }catch {}
     }
   }),
   mounted() {
-    this.clock
+    this.clockInterval = setInterval(this.clock,1000)
     // this.user = this.$router.getters.GetUser
   }
 }
@@ -254,6 +262,9 @@ a{
 }
 #admin-nav.minimized{
   @apply  min-w-fit
+}
+#admin-nav.minimized .new-chats{
+  @apply  hidden
 }
 #admin-nav.minimized .title,#admin-nav.minimized .clock-cont{
   @apply hidden

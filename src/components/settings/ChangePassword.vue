@@ -4,7 +4,7 @@
       <h1 class="font-bold text-5">Change password</h1>
       <p>Please enter your current password to change you password</p>
     </div>
-    <div class="border-b-1px py-4 flex items-center gap-4">
+    <div class="border-b-1px py-4 grid lg:flex items-center gap-4">
       <label class="shrink-0 w-full lg:w-200px"> Current password</label>
       <div class="w-full">
         <InputPassword
@@ -16,7 +16,7 @@
 
       </div>
     </div>
-    <div class="border-b-1px py-4 flex items-center gap-4">
+    <div class="border-b-1px py-4 grid lg:flex items-center gap-4">
       <label class="shrink-0 w-full lg:w-200px"> New password</label>
       <div class="w-full">
         <InputPassword

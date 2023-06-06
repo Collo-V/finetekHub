@@ -1,10 +1,16 @@
 <template>
-  <div class="h-full w-full bg-slate-100 flex">
+  <div class="flex overflow-y-auto h-full custom-scroll bg-slate-100 flex relative pb-8">
+    <div class="absolute top-0 left-0 z-2 bg-primary">
+      <button class="focus:outline-none text-18px mx-5 lg:hidden" @click="minView = false">
+        <i class="fas fa-long-arrow-left"></i>
+      </button>
+    </div>
+
     <div class="absolute lg:relative top-0 bottom-0 z-3
         projects-cont w-full lg:min-w-250px lg:w-250px shadow-md bg-white
          overflow-x-hidden overflow-y-auto custom-scroll"
          id="settings-cont">
-      <button class="py-2 w-full text-left pl-4 border-b-1px grid" @click="view = 'info'">
+      <button class="py-2 w-full text-left pl-4 border-b-1px grid" @click="[view = 'info',minView = true]">
         <span class="font-semibold">
           Account settings
         </span>
@@ -12,7 +18,7 @@
           Personal information
         </span>
       </button>
-      <button class="py-2 w-full text-left pl-4 border-b-1px grid"  @click="view = 'password'">
+      <button class="py-2 w-full text-left pl-4 border-b-1px grid"  @click="[view = 'password',minView = true]">
         <span class="font-semibold">
           Security
         </span>
@@ -21,7 +27,7 @@
         </span>
       </button>
     </div>
-    <div class="w-full">
+    <div class="w-full overflow-auto h-screen-50">
       <Profile/>
       <div class="px-8">
         <ChangePassword v-if="view === 'password'"/>
@@ -51,10 +57,19 @@ export default {
   },
   data(){
     return{
-      view:'info'
+      view:'info',
+      minView:false
     }
   },
-  methods:{
+  watch:{
+    minView(val){
+      let cont  = document.getElementById('settings-cont')
+      if(val){
+        cont.classList.add('w-0')
+      } else {
+        cont.classList.remove('w-0')
+      }
+    }
 
   },
   computed:mapState({
